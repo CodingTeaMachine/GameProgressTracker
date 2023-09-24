@@ -2,13 +2,39 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { Icon } from '$types/types';
 
+	/**
+	 * The text displayed above the input
+	 */
 	export let label: string;
+
+	/**
+	 * The errors associated with the input, displayed under the input
+	 */
 	export let errors: string[] | undefined = undefined;
+
+	/**
+	 * The type of the input
+	 */
 	export let type: 'text' | 'password' | 'email' = 'text';
+
+	/**
+	 * If we want an icon before the input, it can be provided here
+	 */
 	export let prefixIcon: Icon | null = null;
+
+	/**
+	 * The name of the input (used in forms)
+	 */
 	export let name: string;
+
+	/**
+	 * The placeholder text displayed in the input
+	 */
 	export let placeholder: string = '';
 
+	/**
+	 * The value of the input
+	 */
 	export let value = '';
 
 	function typeAction(node: HTMLInputElement) {

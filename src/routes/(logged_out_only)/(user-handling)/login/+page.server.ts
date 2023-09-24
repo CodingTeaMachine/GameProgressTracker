@@ -1,7 +1,7 @@
 import type { Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
-import { loginSchema } from '$lib/validators/schemas/loginSchema';
+import { loginSchema } from '$lib/validators/schemas/login.schema';
 import { ActionFailure, fail, redirect } from '@sveltejs/kit';
 import { ClientStatusCode, RedirectStatusCode, ServerStatusCode } from '$types/enums/HTTP';
 import { auth } from '$lib/server/lucia';
