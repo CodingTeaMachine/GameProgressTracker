@@ -10,6 +10,8 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+// User related things
+
 model User {
     id String @id @unique
 
@@ -37,4 +39,181 @@ model Key {
     user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
     @@index([user_id])
+}
+
+// Game related things
+// TODO: If you add soft deletes to a table, you need to also add them to the list of softdelete models in prisma.ts
+
+model Game {
+    id           Int      @id @unique @default(autoincrement())
+    title        String
+    cover        String?
+    description  String
+    is_dlc       Boolean  @default(false)
+    release_date DateTime @db.Date
+
+    deleted    Boolean   @default(false)
+    deleted_at DateTime?
+
+    parent_id Int?
+    parent    Game?  @relation("GameDLC", fields: [parent_id], references: [id])
+    dlcs      Game[] @relation("GameDLC")
+
+    franchise_id Int?
+    franchise    Franchise? @relation(fields: [franchise_id], references: [id])
+
+    genres       GameGenres[]
+    publishers   GamePublishers[]
+    developers   GameDevelopers[]
+    platforms    GamePlatforms[]
+    achievements Achievement[]
+    collectibles Collectible[]
+}
+
+model Franchise {
+    id    Int    @id @unique @default(autoincrement())
+    title String @unique
+    games Game[]
+
+    deleted    Boolean   @default(false)
+    deleted_at DateTime?
+}
+
+model Genre {
+    id    Int    @id @unique @default(autoincrement())
+    label String @unique
+
+    deleted    Boolean   @default(false)
+    deleted_at DateTime?
+
+    games GameGenres[]
+}
+
+model Publisher {
+    id    Int    @id @unique @default(autoincrement())
+    label String @unique
+
+    deleted    Boolean   @default(false)
+    deleted_at DateTime?
+
+    games GamePublishers[]
+}
+
+model Developer {
+    id    Int    @id @unique @default(autoincrement())
+    label String @unique
+
+    deleted    Boolean   @default(false)
+    deleted_at DateTime?
+
+    games GameDevelopers[]
+}
+
+model Platform {
+    id   Int    @id @unique @default(autoincrement())
+    name String @unique
+
+    deleted    Boolean   @default(false)
+    deleted_at DateTime?
+
+    games        GamePlatforms[]
+    achievements AchievementPlatform[]
+}
+
+model Collectible {
+    id            Int     @id @unique @default(autoincrement())
+    title         String  @unique
+    icon          String?
+    description   String?
+    amount        Int     @default(1)
+    is_standalone Boolean @default(true)
+
+    deleted    Boolean   @default(false)
+    deleted_at DateTime?
+
+    parent_id Int?
+    parent    Collectible?  @relation("CollectibleGroup", fields: [parent_id], references: [id])
+    children  Collectible[] @relation("CollectibleGroup")
+
+    game_id Int
+    game    Game @relation(fields: [game_id], references: [id])
+}
+
+model Achievement {
+    id          Int     @id @unique @default(autoincrement())
+    title       String  @unique
+    icon        String?
+    description String?
+
+    deleted    Boolean   @default(false)
+    deleted_at DateTime?
+
+    game_id Int
+    game    Game @relation(fields: [game_id], references: [id])
+
+    platforms AchievementPlatform[]
+}
+
+model AchievementGrade {
+    id    Int     @id @unique @default(autoincrement())
+    label String  @unique
+    icon  String?
+
+    deleted    Boolean   @default(false)
+    deleted_at DateTime?
+
+    achievements AchievementPlatform[]
+}
+
+model GamePublishers {
+    game_id Int
+    game    Game @relation(fields: [game_id], references: [id])
+
+    publisher_id Int
+    publisher    Publisher @relation(fields: [publisher_id], references: [id])
+
+    @@id([game_id, publisher_id])
+}
+
+model GameDevelopers {
+    game_id Int
+    game    Game @relation(fields: [game_id], references: [id])
+
+    developer_id Int
+    developer    Developer @relation(fields: [developer_id], references: [id])
+
+    @@id([game_id, developer_id])
+}
+
+model GameGenres {
+    game_id Int
+    game    Game @relation(fields: [game_id], references: [id])
+
+    genre_id Int
+    genre    Genre @relation(fields: [genre_id], references: [id])
+
+    @@id([game_id, genre_id])
+}
+
+model GamePlatforms {
+    game_id Int
+    game    Game @relation(fields: [game_id], references: [id])
+
+    platform_id Int
+    platform    Platform @relation(fields: [platform_id], references: [id])
+
+    @@id([game_id])
+}
+
+model AchievementPlatform {
+    achievement_id Int
+    achievement    Achievement @relation(fields: [achievement_id], references: [id])
+
+    platform_id Int
+    platfrom    Platform @relation(fields: [platform_id], references: [id])
+
+    achievement_grade_id Int
+    achievement_grade    AchievementGrade @relation(fields: [achievement_grade_id], references: [id])
+
+    @@id([achievement_id, platform_id, achievement_grade_id])
 }

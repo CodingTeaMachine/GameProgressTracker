@@ -1,5 +1,5 @@
 import type {RequestHandler} from "@sveltejs/kit";
-import {  userHandlingStore } from '$lib/stores/user';
+import { withUserStore } from '$lib/stores/user';
 import {redirect} from "@sveltejs/kit";
 import {RedirectStatusCode} from "$types/enums/HTTP";
 import {Pages} from "$types/enums/pages";
@@ -10,7 +10,8 @@ export const POST: RequestHandler = async ({locals, cookies}) => {
 
     if(session) {
         await userHandling.logoutUser(session, locals, cookies);
-        userHandlingStore.logoutUser();
+        const { loggedInUser } = withUserStore();
+		loggedInUser.logout();
     }
 
     throw redirect(RedirectStatusCode.FOUND, Pages.HOME);

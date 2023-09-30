@@ -46,7 +46,7 @@ module.exports = {
 			},
 		},
 	},
-	ignorePatterns: ["tailwind.config.ts", "svelte.config.js"],
+	ignorePatterns: ['tailwind.config.ts', 'svelte.config.js', 'prisma/**/*.ts'],
 	rules: {
 		"semi": [ 2, "always" ],
 		"import/extensions": [ "off" ],

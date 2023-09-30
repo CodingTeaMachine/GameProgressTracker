@@ -16,7 +16,8 @@ export default defineConfig({
 		alias: {
 			$: resolve('./src'),
 			$types: resolve('src/lib/types'),
-			$assets: resolve('src/lib/assets')
+			$assets: resolve('src/lib/assets'),
+			$seedData: resolve('src/lib/data/seedData')
 		}
 	}
 });

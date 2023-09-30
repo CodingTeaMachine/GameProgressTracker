@@ -45,11 +45,11 @@
 		error: !!errors
 	};
 
-	const dispatch = createEventDispatcher();
 	function inputEventHandler(event: InputEvent) {
 		showing.error = false;
 
 		value = (event.target as HTMLInputElement).value;
+		const dispatch = createEventDispatcher();
 		dispatch('input', value);
 	}
 
@@ -68,10 +68,10 @@
 		{/if}
 		<input
 			use:typeAction
+			bind:value
 			aria-invalid={errors ? 'true' : undefined}
 			class:input-error={showing.error}
 			{placeholder}
-			bind:value
 			{name}
 			on:input={inputEventHandler}
 		/>

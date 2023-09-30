@@ -1,58 +1,4 @@
-<script lang="ts">
-	import '../app.pcss';
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
-	import FaviconBlack from '$assets/icons/favicon-black.svg';
-	import FaviconWhite from '$assets/icons/favicon-white.svg';
-	import { AppShell } from '@skeletonlabs/skeleton';
-	import Header from '$lib/components/Header.svelte';
-	import Navbar from '$lib/components/navbar/Navigation.svelte';
-	import Footer from '$lib/components/Footer.svelte';
-	import AppTitle from '$lib/components/navbar/AppTitle.svelte';
-	import UserBar from '$lib/components/navbar/UserBar.svelte';
-	import { pageTitle, pageIcon } from '$lib/stores/page';
-	import { pages } from '$lib/data/pages';
-	import type { Link } from '$types/page.ts';
-	import { CircleDotDashed } from 'lucide-svelte';
-	import { initializeStores } from '@skeletonlabs/skeleton';
-	import { Toast } from '@skeletonlabs/skeleton';
-
-	import type { PageData } from './$types';
-	import {userHandlingStore} from "$lib/stores/user";
-	export let data: PageData;
-
-	initializeStores();
-
-	let favicon = FaviconBlack;
-	if (browser) {
-		if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-			favicon = FaviconWhite;
-		}
-
-		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-			favicon = event.matches ? FaviconWhite : FaviconBlack;
-		});
-	}
-
-	$: {
-		const paths = $page.url.pathname.split('/');
-		const mainRoute = '/' + paths[1];
-
-		const currentRoute = pages.find((link: Link) => link.destination === mainRoute);
-
-		$pageTitle = currentRoute?.title ?? 'GameProgressTracker';
-		$pageIcon = currentRoute?.icon ?? CircleDotDashed;
-	}
-
-	$: {
-		if(data.user) {
-			userHandlingStore.loginUser(data.user);
-		} else {
-			userHandlingStore.logoutUser();
-		}
-	}
-
-</script>
+<script lang="ts" ✂prettier:content✂="CglpbXBvcnQgJy4uL2FwcC5wY3NzJzsKCWltcG9ydCB7IHBhZ2UgfSBmcm9tICckYXBwL3N0b3Jlcyc7CglpbXBvcnQgeyBicm93c2VyIH0gZnJvbSAnJGFwcC9lbnZpcm9ubWVudCc7CglpbXBvcnQgRmF2aWNvbkJsYWNrIGZyb20gJyRhc3NldHMvaWNvbnMvZmF2aWNvbi1ibGFjay5zdmcnOwoJaW1wb3J0IEZhdmljb25XaGl0ZSBmcm9tICckYXNzZXRzL2ljb25zL2Zhdmljb24td2hpdGUuc3ZnJzsKCWltcG9ydCB7IEFwcFNoZWxsIH0gZnJvbSAnQHNrZWxldG9ubGFicy9za2VsZXRvbic7CglpbXBvcnQgSGVhZGVyIGZyb20gJyRsaWIvY29tcG9uZW50cy9IZWFkZXIuc3ZlbHRlJzsKCWltcG9ydCBOYXZiYXIgZnJvbSAnJGxpYi9jb21wb25lbnRzL25hdmJhci9OYXZpZ2F0aW9uLnN2ZWx0ZSc7CglpbXBvcnQgRm9vdGVyIGZyb20gJyRsaWIvY29tcG9uZW50cy9Gb290ZXIuc3ZlbHRlJzsKCWltcG9ydCBBcHBUaXRsZSBmcm9tICckbGliL2NvbXBvbmVudHMvbmF2YmFyL0FwcFRpdGxlLnN2ZWx0ZSc7CglpbXBvcnQgVXNlckJhciBmcm9tICckbGliL2NvbXBvbmVudHMvbmF2YmFyL1VzZXJCYXIuc3ZlbHRlJzsKCWltcG9ydCB7IHBhZ2VUaXRsZSwgcGFnZUljb24gfSBmcm9tICckbGliL3N0b3Jlcy9wYWdlJzsKCWltcG9ydCB7IHBhZ2VzIH0gZnJvbSAnJGxpYi9kYXRhL3BhZ2VzJzsKCWltcG9ydCB0eXBlIHsgTGluayB9IGZyb20gJyR0eXBlcy9wYWdlLnRzJzsKCWltcG9ydCB7IENpcmNsZURvdERhc2hlZCB9IGZyb20gJ2x1Y2lkZS1zdmVsdGUnOwoJaW1wb3J0IHsgaW5pdGlhbGl6ZVN0b3JlcyB9IGZyb20gJ0Bza2VsZXRvbmxhYnMvc2tlbGV0b24nOwoJaW1wb3J0IHsgVG9hc3QgfSBmcm9tICdAc2tlbGV0b25sYWJzL3NrZWxldG9uJzsKCglpbXBvcnQgdHlwZSB7IFBhZ2VEYXRhIH0gZnJvbSAnLi8kdHlwZXMnOwogICAgaW1wb3J0IHsgd2l0aFVzZXJTdG9yZSB9IGZyb20gJyRsaWIvc3RvcmVzL3VzZXInOwoJZXhwb3J0IGxldCBkYXRhOiBQYWdlRGF0YTsKCglpbml0aWFsaXplU3RvcmVzKCk7CgogICAgY29uc3QgeyBsb2dnZWRJblVzZXIgfSA9IHdpdGhVc2VyU3RvcmUoKTsKCglsZXQgZmF2aWNvbiA9IEZhdmljb25CbGFjazsKCWlmIChicm93c2VyKSB7CgkJaWYgKHdpbmRvdy5tYXRjaE1lZGlhICYmIHdpbmRvdy5tYXRjaE1lZGlhKCcocHJlZmVycy1jb2xvci1zY2hlbWU6IGRhcmspJykubWF0Y2hlcykgewoJCQlmYXZpY29uID0gRmF2aWNvbldoaXRlOwoJCX0KCgkJd2luZG93Lm1hdGNoTWVkaWEoJyhwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyayknKS5hZGRFdmVudExpc3RlbmVyKCdjaGFuZ2UnLCBldmVudCA9PiB7CgkJCWZhdmljb24gPSBldmVudC5tYXRjaGVzID8gRmF2aWNvbldoaXRlIDogRmF2aWNvbkJsYWNrOwoJCX0pOwoJfQoKCSQ6IHsKCQljb25zdCBwYXRocyA9ICRwYWdlLnVybC5wYXRobmFtZS5zcGxpdCgnLycpOwoJCWNvbnN0IG1haW5Sb3V0ZSA9ICcvJyArIHBhdGhzWzFdOwoKCQljb25zdCBjdXJyZW50Um91dGUgPSBwYWdlcy5maW5kKChsaW5rOiBMaW5rKSA9PiBsaW5rLmRlc3RpbmF0aW9uID09PSBtYWluUm91dGUpOwoKCQkkcGFnZVRpdGxlID0gY3VycmVudFJvdXRlPy50aXRsZSA/PyAnR2FtZVByb2dyZXNzVHJhY2tlcic7CgkJJHBhZ2VJY29uID0gY3VycmVudFJvdXRlPy5pY29uID8/IENpcmNsZURvdERhc2hlZDsKCX0KCgkkOiB7CgkJaWYoZGF0YS51c2VyKSB7CiAgICAgICAgICAgICRsb2dnZWRJblVzZXIgPSBkYXRhLnVzZXI7CgkJfSBlbHNlIHsKICAgICAgICAgICAgbG9nZ2VkSW5Vc2VyLmxvZ291dCgpOwoJCX0KCX0KCg==">{}</script>
 
 <svelte:head>
 	<title>GameProgressTracker</title>
@@ -66,7 +12,7 @@
 		<Header />
 	</svelte:fragment>
 	<svelte:fragment slot="sidebarLeft">
-		<div class="mr-4 flex h-full flex-col justify-between border-r border-surface-50/10 bg-surface-900">
+        <div class='mr-4 flex h-full flex-col justify-between border-r border-surface-50/10 bg-surface-900 '>
 			<AppTitle />
 			<Navbar />
 			<UserBar />

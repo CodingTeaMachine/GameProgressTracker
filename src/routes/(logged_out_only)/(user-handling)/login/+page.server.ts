@@ -6,7 +6,7 @@ import { ActionFailure, fail, redirect } from '@sveltejs/kit';
 import { ClientStatusCode, RedirectStatusCode, ServerStatusCode } from '$types/enums/HTTP';
 import { auth } from '$lib/server/lucia';
 import { USERNAME_AUTH_PROVIDER } from '$lib/data/constants';
-import { userHandlingStore } from '$lib/stores/user';
+import { withUserStore } from '$lib/stores/user';
 import { Pages } from '$types/enums/pages';
 import { LuciaError } from 'lucia';
 import { errorMessages, luciaErrors } from '$lib/validators/schemas/errorMesages';
@@ -34,7 +34,10 @@ export const actions = {
 		try {
 			const user = await auth.useKey(USERNAME_AUTH_PROVIDER, form.data.username.toLowerCase(), form.data.password);
 			await userHandling.loginUser(user, locals, cookies);
-			userHandlingStore.loginUser(user);
+
+            const { loggedInUser } = withUserStore();
+			loggedInUser.set(user);
+
 		} catch (e) {
 			console.log(e);
 			form.data.password = '';

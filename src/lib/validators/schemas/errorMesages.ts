@@ -27,7 +27,7 @@ export const errorMessages = {
 		not_matching_password: "The provided passwords don't match"
 	},
 	login: {
-		invalid_username_or_password: 'Invalid username or password',
+		invalid_username_or_password: 'Invalid username or password'
 	},
 	unknown: 'An unexpected error occurred'
 };
