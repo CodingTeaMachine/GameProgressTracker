@@ -17,7 +17,8 @@ export default defineConfig({
 			$: resolve('./src'),
 			$types: resolve('src/lib/types'),
 			$assets: resolve('src/lib/assets'),
-			$seedData: resolve('src/lib/data/seedData')
+			$seedData: resolve('src/lib/data/seedData'),
+			$generated: resolve('src/generated')
 		}
 	}
 });

@@ -1,29 +1,38 @@
-import prisma from '../src/lib/server/prisma';
+import prisma from '$lib/server/prisma';
 import * as process from 'process';
 import {
 	setDebugMode,
+	setClearMode,
 	genericSeeder,
 	logResultToConsole,
 	setSeeders,
 	runAllSeeders,
-	runSpecificSeeders
-} from './genericSeeder';
+	runSpecificSeeders,
+	storefrontSeeder
+} from './seedHelper';
 
 const debugTag = 'seed:debug';
-const seederFileBasePath = '../src/lib/data/seedData';
-
+const clearTableTag = 'seed:clean';
 async function seed(...args: string[]) {
 	if (args.includes(debugTag)) {
 		setDebugMode(true);
 		args = args.filter(arg => arg !== debugTag);
 	}
 
+	if (args.includes(clearTableTag)) {
+		setClearMode(true);
+		args = args.filter(arg => arg !== clearTableTag);
+	}
+
 	setSeeders({
 		genres: () => genericSeeder('genre', () => import('$seedData/genres')),
 		publishers: () => genericSeeder('publisher', () => import('$seedData/publishers')),
 		developers: () => genericSeeder('developer', () => import('$seedData/developers')),
-		platforms: () => genericSeeder('platform', () => import('$seedData/platforms'), 'name'),
-		achievementGrade: () => genericSeeder('achievementGrade', () => import('$seedData/achievementGrade'))
+		platforms: () => genericSeeder('platform', () => import('$seedData/platforms')),
+		achievementGrades: () =>
+			genericSeeder('achievementGrade', () => import('../src/lib/data/seedData/achievementGrade')),
+		storefrontTypes: () => genericSeeder('storefrontType', () => import('$seedData/storefrontTypes')),
+		storefronts: () => storefrontSeeder()
 	});
 
 	if (args.length === 0) {

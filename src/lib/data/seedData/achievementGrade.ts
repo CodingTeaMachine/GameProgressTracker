@@ -1,17 +1,23 @@
-const achievementLevels = [
-	{ name: '5G' },
-	{ name: '10G' },
-	{ name: '15G' },
-	{ name: '20G' },
-	{ name: '25G' },
-	{ name: '30G' },
-	{ name: '50G' },
-	{ name: '100G' },
-	{ name: 'Bronze Trophy' },
-	{ name: 'Silver Trophy' },
-	{ name: 'Gold Trophy' },
-	{ name: 'Platinum Trophy' },
-	{ name: 'Regular' }
+export const xboxAchievementGrades = [
+	{ label: '5G' },
+	{ label: '10G' },
+	{ label: '15G' },
+	{ label: '20G' },
+	{ label: '25G' },
+	{ label: '30G' },
+	{ label: '50G' },
+	{ label: '100G' }
 ];
 
-export default achievementLevels;
+export const playstationAchievementGrades = [
+	{ label: 'Bronze Trophy' },
+	{ label: 'Silver Trophy' },
+	{ label: 'Gold Trophy' },
+	{ label: 'Platinum Trophy' }
+];
+
+export const regularAchievementGrades = [{ label: 'Regular' }];
+
+const achievementGrades = [...xboxAchievementGrades, ...playstationAchievementGrades, ...regularAchievementGrades];
+
+export default achievementGrades;

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '$generated/prismaClient';
 
 const prisma = new PrismaClient();
 
@@ -12,7 +12,8 @@ prisma.$use(async (params, next) => {
 		'Platform',
 		'Collectible',
 		'Achievement',
-		'AchievementGrade'
+		'AchievementGrade',
+		'Storefront'
 	];
 
 	if (softDeleteModels.includes(params.model)) {

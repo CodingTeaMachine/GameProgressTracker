@@ -1,5 +1,4 @@
-import type { SeedDataCollection } from '../src/lib/types/types';
-import prisma from '../src/lib/server/prisma';
+import prisma from '$lib/server/prisma';
 
 interface SeederList {
 	[key: string]: () => Promise<void>;
@@ -8,9 +7,14 @@ interface SeederList {
 const seedResults: { [key: string]: number }[] = [];
 let seeders: SeederList = {};
 let is_debug = false;
+let is_clear_mode = false;
 
 export function setDebugMode(isDebugMode: boolean) {
 	is_debug = isDebugMode;
+}
+
+export function setClearMode(isClearMode: boolean) {
+	is_clear_mode = isClearMode;
 }
 
 export function setSeeders(seederList: SeederList) {
@@ -19,29 +23,39 @@ export function setSeeders(seederList: SeederList) {
 
 export async function genericSeeder(
 	model: string,
-	collectionImportFunction: any,
-	modelAttribute = 'label'
+	collectionImportFunction: () => Promise<{ default: object[] }>
 ): Promise<void> {
-	return collectionImportFunction().then(async ({ default: seedData }: { default: SeedDataCollection }) => {
+	return collectionImportFunction().then(async ({ default: seedData }) => {
 		let effectedRecords = 0;
+
+		if (is_clear_mode) {
+			console.log('Cleaning table: ' + model);
+			try {
+				// @ts-ignore
+				await prisma[model].deleteMany({});
+				console.log('Cleaned table: ' + model);
+			} catch (error) {
+				console.log('Error dropping table: ' + model, { error });
+			}
+		}
+
 		for (const item of seedData) {
-			const recordToInsert = { [modelAttribute]: item.name };
+			const recordToInsert = { ...item };
 			// @ts-ignore
 			await prisma[model]
 				.upsert({
 					where: recordToInsert,
-					update: recordToInsert,
+					update: { ...recordToInsert, deleted: false },
 					create: recordToInsert
 				})
-				// @ts-ignore
-				.then(createdRecord => {
+				.then((createdRecord: object) => {
 					if (is_debug) {
 						console.log(`Created ${model}:`, createdRecord);
 					}
 
 					effectedRecords++;
 				})
-				.catch((error: any) => {
+				.catch((error: Error) => {
 					console.log(`😭 Error creating ${model}: `, { item, error });
 				});
 		}
@@ -77,4 +91,44 @@ export function runSpecificSeeders(seedersToRun: string[]) {
 	const seederKeys = Object.keys(seeders);
 	const filteredSeedersToRun = seedersToRun.filter(arg => seederKeys.includes(arg)).map(arg => seeders[arg]);
 	return Promise.all(filteredSeedersToRun.map(seeder => seeder()));
+}
+
+export async function storefrontSeeder() {
+	let effectedRecords = 0;
+	const { default: storeFronts } = await import('$seedData/storefronts');
+
+	if (is_clear_mode) {
+		console.log('Cleaning table: storefront');
+		try {
+			// @ts-ignore
+			await prisma.storefront.deleteMany({});
+			console.log('Cleaned table: storefront');
+		} catch (error) {
+			console.log('Error dropping table: storefront', { error });
+		}
+	}
+
+	for (const storeFront of storeFronts) {
+		await prisma.storefront
+			.upsert({
+				where: {
+					name: storeFront.name
+				},
+				update: { ...storeFront, deleted: false },
+				create: storeFront
+			})
+			.then(createdRecord => {
+				if (is_debug) {
+					console.log(`Created storefront:`, createdRecord);
+				}
+
+				effectedRecords++;
+			})
+			.catch((error: Error) => {
+				console.log(`😭 Error creating storefront: `, { item: storeFront, error });
+			});
+	}
+
+	console.log(`✨ Finished seeding table: storefront ✨`);
+	seedResults.push({ storefront: effectedRecords });
 }

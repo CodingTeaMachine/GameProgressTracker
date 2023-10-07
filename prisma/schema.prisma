@@ -2,218 +2,187 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
+  output   = "../src/generated/prismaClient"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // User related things
 
 model User {
-    id String @id @unique
+  id String @id @unique
 
-    username String @unique
-    email    String @unique
+  username String @unique
+  email    String @unique
 
-    auth_session Session[]
-    key          Key[]
+  auth_session Session[]
+  key          Key[]
 }
 
 model Session {
-    id             String @id @unique
-    user_id        String
-    active_expires BigInt
-    idle_expires   BigInt
-    user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  id             String @id @unique
+  user_id        String
+  active_expires BigInt
+  idle_expires   BigInt
+  user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
-    @@index([user_id])
+  @@index([user_id])
 }
 
 model Key {
-    id              String  @id @unique
-    hashed_password String?
-    user_id         String
-    user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  id              String  @id @unique
+  hashed_password String?
+  user_id         String
+  user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
-    @@index([user_id])
+  @@index([user_id])
 }
 
 // Game related things
 // TODO: If you add soft deletes to a table, you need to also add them to the list of softdelete models in prisma.ts
 
 model Game {
-    id           Int      @id @unique @default(autoincrement())
-    title        String
-    cover        String?
-    description  String
-    is_dlc       Boolean  @default(false)
-    release_date DateTime @db.Date
+  id           Int      @id @unique @default(autoincrement())
+  title        String
+  cover        String?
+  description  String
+  is_dlc       Boolean  @default(false)
+  release_date DateTime @db.Date
 
-    deleted    Boolean   @default(false)
-    deleted_at DateTime?
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    parent_id Int?
-    parent    Game?  @relation("GameDLC", fields: [parent_id], references: [id])
-    dlcs      Game[] @relation("GameDLC")
+  parent_id Int?
+  parent    Game?  @relation("GameDLC", fields: [parent_id], references: [id])
+  dlcs      Game[] @relation("GameDLC")
 
-    franchise_id Int?
-    franchise    Franchise? @relation(fields: [franchise_id], references: [id])
+  franchise_id Int?
+  franchise    Franchise? @relation(fields: [franchise_id], references: [id])
 
-    genres       GameGenres[]
-    publishers   GamePublishers[]
-    developers   GameDevelopers[]
-    platforms    GamePlatforms[]
-    achievements Achievement[]
-    collectibles Collectible[]
+  genres       Genre[]
+  publishers   Publisher[]
+  developers   Developer[]
+  platforms    Platform[]
+  achievements Achievement[]
+  collectibles Collectible[]
 }
 
 model Franchise {
-    id    Int    @id @unique @default(autoincrement())
-    title String @unique
-    games Game[]
+  id    Int    @id @unique @default(autoincrement())
+  title String @unique
+  games Game[]
 
-    deleted    Boolean   @default(false)
-    deleted_at DateTime?
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 }
 
 model Genre {
-    id    Int    @id @unique @default(autoincrement())
-    label String @unique
+  id    Int    @id @unique @default(autoincrement())
+  label String @unique
 
-    deleted    Boolean   @default(false)
-    deleted_at DateTime?
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    games GameGenres[]
+  games Game[]
 }
 
 model Publisher {
-    id    Int    @id @unique @default(autoincrement())
-    label String @unique
+  id    Int    @id @unique @default(autoincrement())
+  label String @unique
 
-    deleted    Boolean   @default(false)
-    deleted_at DateTime?
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    games GamePublishers[]
+  games Game[]
 }
 
 model Developer {
-    id    Int    @id @unique @default(autoincrement())
-    label String @unique
+  id    Int    @id @unique @default(autoincrement())
+  label String @unique
 
-    deleted    Boolean   @default(false)
-    deleted_at DateTime?
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    games GameDevelopers[]
+  games Game[]
 }
 
 model Platform {
-    id   Int    @id @unique @default(autoincrement())
-    name String @unique
+  id   Int    @id @unique @default(autoincrement())
+  name String @unique
 
-    deleted    Boolean   @default(false)
-    deleted_at DateTime?
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    games        GamePlatforms[]
-    achievements AchievementPlatform[]
+  games Game[] @relation()
 }
 
 model Collectible {
-    id            Int     @id @unique @default(autoincrement())
-    title         String  @unique
-    icon          String?
-    description   String?
-    amount        Int     @default(1)
-    is_standalone Boolean @default(true)
+  id            Int     @id @unique @default(autoincrement())
+  title         String  @unique
+  icon          String?
+  description   String?
+  amount        Int     @default(1)
+  is_standalone Boolean @default(true)
 
-    deleted    Boolean   @default(false)
-    deleted_at DateTime?
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    parent_id Int?
-    parent    Collectible?  @relation("CollectibleGroup", fields: [parent_id], references: [id])
-    children  Collectible[] @relation("CollectibleGroup")
+  parent_id Int?
+  parent    Collectible?  @relation("CollectibleGroup", fields: [parent_id], references: [id])
+  children  Collectible[] @relation("CollectibleGroup")
 
-    game_id Int
-    game    Game @relation(fields: [game_id], references: [id])
+  game_id Int
+  game    Game @relation(fields: [game_id], references: [id])
 }
 
 model Achievement {
-    id          Int     @id @unique @default(autoincrement())
-    title       String  @unique
-    icon        String?
-    description String?
+  id          Int     @id @unique @default(autoincrement())
+  title       String  @unique
+  icon        String?
+  description String?
 
-    deleted    Boolean   @default(false)
-    deleted_at DateTime?
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    game_id Int
-    game    Game @relation(fields: [game_id], references: [id])
-
-    platforms AchievementPlatform[]
+  game_id Int
+  game    Game @relation(fields: [game_id], references: [id])
 }
 
 model AchievementGrade {
-    id    Int     @id @unique @default(autoincrement())
-    label String  @unique
-    icon  String?
+  id    Int     @id @unique @default(autoincrement())
+  label String  @unique
+  icon  String?
 
-    deleted    Boolean   @default(false)
-    deleted_at DateTime?
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    achievements AchievementPlatform[]
+  storefronts Storefront[]
 }
 
-model GamePublishers {
-    game_id Int
-    game    Game @relation(fields: [game_id], references: [id])
+model Storefront {
+  id              Int     @id @unique @default(autoincrement())
+  name            String  @unique
+  hasAchievements Boolean @default(false)
 
-    publisher_id Int
-    publisher    Publisher @relation(fields: [publisher_id], references: [id])
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    @@id([game_id, publisher_id])
+  type_id Int
+  type    StorefrontType @relation(fields: [type_id], references: [id])
+
+  achievement_grades AchievementGrade[]
 }
 
-model GameDevelopers {
-    game_id Int
-    game    Game @relation(fields: [game_id], references: [id])
+model StorefrontType {
+  id   Int    @id @unique @default(autoincrement())
+  name String @unique
 
-    developer_id Int
-    developer    Developer @relation(fields: [developer_id], references: [id])
+  deleted    Boolean   @default(false)
+  deleted_at DateTime?
 
-    @@id([game_id, developer_id])
-}
-
-model GameGenres {
-    game_id Int
-    game    Game @relation(fields: [game_id], references: [id])
-
-    genre_id Int
-    genre    Genre @relation(fields: [genre_id], references: [id])
-
-    @@id([game_id, genre_id])
-}
-
-model GamePlatforms {
-    game_id Int
-    game    Game @relation(fields: [game_id], references: [id])
-
-    platform_id Int
-    platform    Platform @relation(fields: [platform_id], references: [id])
-
-    @@id([game_id])
-}
-
-model AchievementPlatform {
-    achievement_id Int
-    achievement    Achievement @relation(fields: [achievement_id], references: [id])
-
-    platform_id Int
-    platfrom    Platform @relation(fields: [platform_id], references: [id])
-
-    achievement_grade_id Int
-    achievement_grade    AchievementGrade @relation(fields: [achievement_grade_id], references: [id])
-
-    @@id([achievement_id, platform_id, achievement_grade_id])
+  storeFronts Storefront[]
 }
