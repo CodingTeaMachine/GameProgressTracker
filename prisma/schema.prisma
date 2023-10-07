@@ -87,7 +87,7 @@ model Genre {
   deleted    Boolean   @default(false)
   deleted_at DateTime?
 
-  games Game[]
+  Games Game[]
 }
 
 model Publisher {
@@ -97,7 +97,7 @@ model Publisher {
   deleted    Boolean   @default(false)
   deleted_at DateTime?
 
-  games Game[]
+  Games Game[]
 }
 
 model Developer {
@@ -107,7 +107,7 @@ model Developer {
   deleted    Boolean   @default(false)
   deleted_at DateTime?
 
-  games Game[]
+  Games Game[]
 }
 
 model Platform {
@@ -117,7 +117,7 @@ model Platform {
   deleted    Boolean   @default(false)
   deleted_at DateTime?
 
-  games Game[] @relation()
+  Games Game[] @relation()
 }
 
 model Collectible {
@@ -132,11 +132,11 @@ model Collectible {
   deleted_at DateTime?
 
   parent_id Int?
-  parent    Collectible?  @relation("CollectibleGroup", fields: [parent_id], references: [id])
-  children  Collectible[] @relation("CollectibleGroup")
+  Palent    Collectible?  @relation("CollectibleGroup", fields: [parent_id], references: [id])
+  Children  Collectible[] @relation("CollectibleGroup")
 
   game_id Int
-  game    Game @relation(fields: [game_id], references: [id])
+  Game    Game @relation(fields: [game_id], references: [id])
 }
 
 model Achievement {
@@ -148,8 +148,9 @@ model Achievement {
   deleted    Boolean   @default(false)
   deleted_at DateTime?
 
-  game_id Int
-  game    Game @relation(fields: [game_id], references: [id])
+  game_id           Int
+  Game              Game                                       @relation(fields: [game_id], references: [id])
+  AchievementGrades AchievementGradeOnStorefrontOnAchievement[]
 }
 
 model AchievementGrade {
@@ -160,21 +161,23 @@ model AchievementGrade {
   deleted    Boolean   @default(false)
   deleted_at DateTime?
 
-  storefronts Storefront[]
+  Storefronts                  Storefront[]
+  AchievementGradeOnStorefront AchievementGradeOnStorefrontOnAchievement[]
 }
 
 model Storefront {
-  id              Int     @id @unique @default(autoincrement())
-  name            String  @unique
-  hasAchievements Boolean @default(false)
+  id               Int     @id @unique @default(autoincrement())
+  name             String  @unique
+  has_achievements Boolean @default(false)
 
   deleted    Boolean   @default(false)
   deleted_at DateTime?
 
   type_id Int
-  type    StorefrontType @relation(fields: [type_id], references: [id])
+  Type    StorefrontType @relation(fields: [type_id], references: [id])
 
-  achievement_grades AchievementGrade[]
+  AchievementGrades            AchievementGrade[]
+  AchievementGradeOnStorefront AchievementGradeOnStorefrontOnAchievement[]
 }
 
 model StorefrontType {
@@ -184,5 +187,18 @@ model StorefrontType {
   deleted    Boolean   @default(false)
   deleted_at DateTime?
 
-  storeFronts Storefront[]
+  StoreFronts Storefront[]
+}
+
+model AchievementGradeOnStorefrontOnAchievement {
+  id Int @id @unique @default(autoincrement())
+
+  storefront_id Int
+  Storefront    Storefront @relation(fields: [storefront_id], references: [id])
+
+  achievement_grade_id Int
+  AchievementGrade     AchievementGrade @relation(fields: [achievement_grade_id], references: [id])
+
+  achievement_id Int?
+  Achievement    Achievement? @relation(fields: [achievement_id], references: [id])
 }

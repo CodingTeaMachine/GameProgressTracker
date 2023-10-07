@@ -1,19 +1,19 @@
 import { xboxAchievementGrades, playstationAchievementGrades, regularAchievementGrades } from './achievementGrade';
 
 const xboxAchievementGradeConnection = {
-	achievement_grades: {
+	AchievementGrades: {
 		connect: [...xboxAchievementGrades]
 	}
 };
 
 const playstationAchievementGradeConnection = {
-	achievement_grades: {
+	AchievementGrades: {
 		connect: [...playstationAchievementGrades]
 	}
 };
 
 const regularAchievementGradeConnection = {
-	achievement_grades: {
+	AchievementGrades: {
 		connect: [...regularAchievementGrades]
 	}
 };
@@ -23,16 +23,16 @@ export const digitalStorefronts = [
 	{ name: 'Amazon Luna' },
 	{ name: 'Apple App Store' },
 	{ name: 'Arc' },
-	{ name: 'Battle.net', hasAchievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Battle.net', has_achievements: true, ...regularAchievementGradeConnection },
 	{ name: 'Bethesda' },
 	{ name: 'Direct Download' },
 	{ name: 'Discord' },
-	{ name: 'Epic Games', hasAchievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Epic Games', has_achievements: true, ...regularAchievementGradeConnection },
 	{ name: 'GameCenter' },
 	{ name: 'Game Jolt' },
 	{ name: 'GOG' },
 	{ name: 'Google Play' },
-	{ name: 'Google Stadia', hasAchievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Google Stadia', has_achievements: true, ...regularAchievementGradeConnection },
 	{ name: 'Humble Bundle' },
 	{ name: 'IndieGala' },
 	{ name: 'itch.io' },
@@ -42,38 +42,38 @@ export const digitalStorefronts = [
 	{ name: 'Microsoft Store' },
 	{ name: 'Nintendo eShop' },
 	{ name: 'Oculus' },
-	{ name: 'Origin', hasAchievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Origin', has_achievements: true, ...regularAchievementGradeConnection },
 	{ name: 'Paradox Games' },
-	{ name: 'PlayStation Store', hasAchievements: true, ...playstationAchievementGradeConnection },
+	{ name: 'PlayStation Store', has_achievements: true, ...playstationAchievementGradeConnection },
 	{ name: 'Robot Cache' },
-	{ name: 'Rockstar Games', hasAchievements: true, ...regularAchievementGradeConnection },
-	{ name: 'Steam', hasAchievements: true, ...regularAchievementGradeConnection },
-	{ name: 'Ubisoft Connect', hasAchievements: true, ...regularAchievementGradeConnection },
-	{ name: 'Xbox Store', hasAchievements: true, ...xboxAchievementGradeConnection }
-].map(digitalStoreFront => ({ ...digitalStoreFront, type: { connect: { name: 'Digital' } } }));
+	{ name: 'Rockstar Games', has_achievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Steam', has_achievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Ubisoft Connect', has_achievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Xbox Store', has_achievements: true, ...xboxAchievementGradeConnection }
+].map(digitalStoreFront => ({ ...digitalStoreFront, Type: { connect: { name: 'Digital' } } }));
 
 export const physicalStorefronts = [{ name: 'Borrowed' }, { name: 'Physical' }, { name: 'Rented' }].map(
 	digitalStoreFront => {
-		return { ...digitalStoreFront, type: { connect: { name: 'Physical' } } };
+		return { ...digitalStoreFront, Type: { connect: { name: 'Physical' } } };
 	}
 );
 
 export const subscriptionStorefronts = [
 	{ name: 'Antstream Arcade' },
-	{ name: 'Apple Arcade', hasAchievements: true, ...regularAchievementGradeConnection },
-	{ name: 'EA Play', hasAchievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Apple Arcade', has_achievements: true, ...regularAchievementGradeConnection },
+	{ name: 'EA Play', has_achievements: true, ...regularAchievementGradeConnection },
 	{ name: 'Google Play Pass' },
-	{ name: 'Google Stadia Pro', hasAchievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Google Stadia Pro', has_achievements: true, ...regularAchievementGradeConnection },
 	{ name: 'Netflix' },
-	{ name: 'Nintendo Online', hasAchievements: true, ...regularAchievementGradeConnection },
-	{ name: 'PlayStation Now', hasAchievements: true, ...playstationAchievementGradeConnection },
-	{ name: 'PlayStation Plus', hasAchievements: true, ...regularAchievementGradeConnection },
-	{ name: 'Ubisoft+', hasAchievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Nintendo Online', has_achievements: true, ...regularAchievementGradeConnection },
+	{ name: 'PlayStation Now', has_achievements: true, ...playstationAchievementGradeConnection },
+	{ name: 'PlayStation Plus', has_achievements: true, ...regularAchievementGradeConnection },
+	{ name: 'Ubisoft+', has_achievements: true, ...regularAchievementGradeConnection },
 	{ name: 'Viveport' },
-	{ name: 'Xbox Game Pass', hasAchievements: true, ...xboxAchievementGradeConnection },
-	{ name: 'Xbox Games w/ Gold', hasAchievements: true, ...xboxAchievementGradeConnection }
+	{ name: 'Xbox Game Pass', has_achievements: true, ...xboxAchievementGradeConnection },
+	{ name: 'Xbox Games w/ Gold', has_achievements: true, ...xboxAchievementGradeConnection }
 ].map(digitalStoreFront => {
-	return { ...digitalStoreFront, type: { connect: { name: 'Subscription' } } };
+	return { ...digitalStoreFront, Type: { connect: { name: 'Subscription' } } };
 });
 
 const storefronts = [...digitalStorefronts, ...physicalStorefronts, ...subscriptionStorefronts];
