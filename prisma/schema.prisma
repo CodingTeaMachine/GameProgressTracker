@@ -149,7 +149,7 @@ model Achievement {
   deleted_at DateTime?
 
   game_id           Int
-  Game              Game                                       @relation(fields: [game_id], references: [id])
+  Game              Game @relation(fields: [game_id], references: [id])
   AchievementGrades AchievementGradeOnStorefrontOnAchievement[]
 }
 
