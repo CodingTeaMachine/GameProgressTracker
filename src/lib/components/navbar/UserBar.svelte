@@ -1,4 +1,13 @@
-<script lang="ts" ✂prettier:content✂="CglpbXBvcnQgeyBBdmF0YXIgfSBmcm9tICdAc2tlbGV0b25sYWJzL3NrZWxldG9uJzsKCWltcG9ydCBwbGFjZWhvbGRlckF2YXRhckltYWdlIGZyb20gJyRhc3NldHMvaW1hZ2VzL2F2YXRhcl9wbGFjZWhvbGRlcl9jcm9wcGVkLmpwZyc7CglpbXBvcnQgeyB1c2VyU3RvcmUgfSBmcm9tICckbGliL3N0b3Jlcy91c2VyJzsKCWltcG9ydCB7IExvZ0luLCBMb2dPdXQgfSBmcm9tICdsdWNpZGUtc3ZlbHRlJzsKCWltcG9ydCB7IFBhZ2VzLCBFbmRwb2ludHMgfSBmcm9tICckdHlwZXMvZW51bXMvcGFnZXMnOwoKCWNvbnN0IHsgaXNMb2dnZWRJbiwgdXNlciB9ID0gdXNlclN0b3JlOwoJJDogYXZhdGFyTGlua0Rlc3RpbmF0aW9uID0gJGlzTG9nZ2VkSW4gPyBQYWdlcy5QUk9GSUxFIDogUGFnZXMuTE9HSU47Cg==">{}</script>
+<script lang="ts">
+	import { Avatar } from '@skeletonlabs/skeleton';
+	import placeholderAvatarImage from '$assets/images/avatar_placeholder_cropped.jpg';
+	import { userStore } from '$lib/stores/user';
+	import { LogIn, LogOut } from 'lucide-svelte';
+	import { Pages, Endpoints } from '$types/enums/pages';
+
+	const {isLoggedIn, user} = userStore;
+	$: avatarLinkDestination = $isLoggedIn ? Pages.PROFILE : Pages.LOGIN;
+</script>
 
 <div class="flex items-center justify-between border-t border-surface-50/10 p-5">
 	<a href={avatarLinkDestination}>
