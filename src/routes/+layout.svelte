@@ -1,4 +1,56 @@
-<script lang="ts" ✂prettier:content✂="CglpbXBvcnQgJy4uL2FwcC5wY3NzJzsKCWltcG9ydCB7IHBhZ2UgfSBmcm9tICckYXBwL3N0b3Jlcyc7CglpbXBvcnQgeyBicm93c2VyIH0gZnJvbSAnJGFwcC9lbnZpcm9ubWVudCc7CglpbXBvcnQgRmF2aWNvbkJsYWNrIGZyb20gJyRhc3NldHMvaWNvbnMvZmF2aWNvbi1ibGFjay5zdmcnOwoJaW1wb3J0IEZhdmljb25XaGl0ZSBmcm9tICckYXNzZXRzL2ljb25zL2Zhdmljb24td2hpdGUuc3ZnJzsKCWltcG9ydCB7IEFwcFNoZWxsIH0gZnJvbSAnQHNrZWxldG9ubGFicy9za2VsZXRvbic7CglpbXBvcnQgSGVhZGVyIGZyb20gJyRsaWIvY29tcG9uZW50cy9IZWFkZXIuc3ZlbHRlJzsKCWltcG9ydCBOYXZiYXIgZnJvbSAnJGxpYi9jb21wb25lbnRzL25hdmJhci9OYXZpZ2F0aW9uLnN2ZWx0ZSc7CglpbXBvcnQgRm9vdGVyIGZyb20gJyRsaWIvY29tcG9uZW50cy9Gb290ZXIuc3ZlbHRlJzsKCWltcG9ydCBBcHBUaXRsZSBmcm9tICckbGliL2NvbXBvbmVudHMvbmF2YmFyL0FwcFRpdGxlLnN2ZWx0ZSc7CglpbXBvcnQgVXNlckJhciBmcm9tICckbGliL2NvbXBvbmVudHMvbmF2YmFyL1VzZXJCYXIuc3ZlbHRlJzsKCWltcG9ydCB7IHBhZ2VUaXRsZSwgcGFnZUljb24gfSBmcm9tICckbGliL3N0b3Jlcy9wYWdlJzsKCWltcG9ydCB7IHBhZ2VzIH0gZnJvbSAnJGxpYi9kYXRhL3BhZ2VzJzsKCWltcG9ydCB0eXBlIHsgTGluayB9IGZyb20gJyR0eXBlcy9wYWdlLnRzJzsKCWltcG9ydCB7IENpcmNsZURvdERhc2hlZCB9IGZyb20gJ2x1Y2lkZS1zdmVsdGUnOwoJaW1wb3J0IHsgaW5pdGlhbGl6ZVN0b3JlcyB9IGZyb20gJ0Bza2VsZXRvbmxhYnMvc2tlbGV0b24nOwoJaW1wb3J0IHsgVG9hc3QgfSBmcm9tICdAc2tlbGV0b25sYWJzL3NrZWxldG9uJzsKCglpbXBvcnQgdHlwZSB7IFBhZ2VEYXRhIH0gZnJvbSAnLi8kdHlwZXMnOwoJaW1wb3J0IHsgdXNlclN0b3JlIH0gZnJvbSAnJGxpYi9zdG9yZXMvdXNlcic7CgoJZXhwb3J0IGxldCBkYXRhOiBQYWdlRGF0YTsKCgljb25zdCB7IHVzZXIgfSA9IHVzZXJTdG9yZTsKCglpbml0aWFsaXplU3RvcmVzKCk7CgoJbGV0IGZhdmljb24gPSBGYXZpY29uQmxhY2s7CglpZiAoYnJvd3NlcikgewoJCWlmICh3aW5kb3cubWF0Y2hNZWRpYSAmJiB3aW5kb3cubWF0Y2hNZWRpYSgnKHByZWZlcnMtY29sb3Itc2NoZW1lOiBkYXJrKScpLm1hdGNoZXMpIHsKCQkJZmF2aWNvbiA9IEZhdmljb25XaGl0ZTsKCQl9CgoJCXdpbmRvdy5tYXRjaE1lZGlhKCcocHJlZmVycy1jb2xvci1zY2hlbWU6IGRhcmspJykuYWRkRXZlbnRMaXN0ZW5lcignY2hhbmdlJywgZXZlbnQgPT4gewoJCQlmYXZpY29uID0gZXZlbnQubWF0Y2hlcyA/IEZhdmljb25XaGl0ZSA6IEZhdmljb25CbGFjazsKCQl9KTsKCX0KCgkkOiB7CgkJY29uc3QgcGF0aHMgPSAkcGFnZS51cmwucGF0aG5hbWUuc3BsaXQoJy8nKTsKCQljb25zdCBtYWluUm91dGUgPSAnLycgKyBwYXRoc1sxXTsKCgkJY29uc3QgY3VycmVudFJvdXRlID0gcGFnZXMuZmluZCgobGluazogTGluaykgPT4gbGluay5kZXN0aW5hdGlvbiA9PT0gbWFpblJvdXRlKTsKCgkJJHBhZ2VUaXRsZSA9IGN1cnJlbnRSb3V0ZT8udGl0bGUgPz8gJ0dhbWVQcm9ncmVzc1RyYWNrZXInOwoJCSRwYWdlSWNvbiA9IGN1cnJlbnRSb3V0ZT8uaWNvbiA/PyBDaXJjbGVEb3REYXNoZWQ7Cgl9CgoJJDogewoJCWRhdGEudXNlciAhPT0gbnVsbAoJCQk/IHVzZXIubG9naW4oZGF0YS51c2VyKQoJCQk6IHVzZXIubG9nb3V0KCk7Cgl9Cg==">{}</script>
+<script lang="ts">
+	import '../app.pcss';
+	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
+	import FaviconBlack from '$assets/icons/favicon-black.svg';
+	import FaviconWhite from '$assets/icons/favicon-white.svg';
+	import { AppShell } from '@skeletonlabs/skeleton';
+	import Header from '$lib/components/Header.svelte';
+	import Navbar from '$lib/components/navbar/Navigation.svelte';
+	import Footer from '$lib/components/Footer.svelte';
+	import AppTitle from '$lib/components/navbar/AppTitle.svelte';
+	import UserBar from '$lib/components/navbar/UserBar.svelte';
+	import { pageTitle, pageIcon } from '$lib/stores/page';
+	import { pages } from '$lib/data/pages';
+	import type { Link } from '$types/page.ts';
+	import { CircleDotDashed } from 'lucide-svelte';
+	import { initializeStores } from '@skeletonlabs/skeleton';
+	import { Toast } from '@skeletonlabs/skeleton';
+
+	import type { PageData } from './$types';
+	import { userStore } from '$lib/stores/user';
+
+	export let data: PageData;
+
+	const { user } = userStore;
+
+	initializeStores();
+
+	let favicon = FaviconBlack;
+	if (browser) {
+		if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			favicon = FaviconWhite;
+		}
+
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+			favicon = event.matches ? FaviconWhite : FaviconBlack;
+		});
+	}
+
+	$: {
+		const paths = $page.url.pathname.split('/');
+		const mainRoute = '/' + paths[1];
+
+		const currentRoute = pages.find((link: Link) => link.destination === mainRoute);
+
+		$pageTitle = currentRoute?.title ?? 'GameProgressTracker';
+		$pageIcon = currentRoute?.icon ?? CircleDotDashed;
+	}
+
+	$: {
+		data.user !== null ? user.login(data.user) : user.logout();
+	}
+</script>
 
 <svelte:head>
 	<title>GameProgressTracker</title>
