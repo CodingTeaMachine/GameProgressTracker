@@ -55,21 +55,13 @@ export const actions = {
 			form.data.confirmPassword = '';
 
 			if (e instanceof PrismaClientKnownRequestError && e.message.includes(PrismaErrors.UNIQUE_KEY_VIOLATION)) {
-				/**
-				 * The type of target is unknown, but according to the documentation it has that field
-				 * https://www.prisma.io/docs/reference/api-reference/error-reference#prismaclientknownrequesterror
-				 */
-				// @ts-ignore
-				if (e.meta?.target.includes('email')) {
+				const target = e.meta?.target as string[];
+
+				if (target.includes('email')) {
 					form.errors.email = [errorMessages.email.taken];
 				}
 
-				/**
-				 * The type of target is unknown, but according to the documentation it has that field
-				 * https://www.prisma.io/docs/reference/api-reference/error-reference#prismaclientknownrequesterror
-				 */
-				// @ts-ignore
-				if (e.meta?.target.includes('username')) {
+				if (target.includes('username')) {
 					form.errors.username = [errorMessages.username.taken];
 				}
 
