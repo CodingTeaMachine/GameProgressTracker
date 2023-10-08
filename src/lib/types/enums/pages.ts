@@ -5,7 +5,7 @@ export enum Pages {
 	EXPLORE = '/explore',
 	WISH_LIST = '/wish-list',
 	PERSONAL_STATS = '/personal-stats',
-	SUBMIT = '/submit',
+	SUBMIT = '/submit-new-game',
 	LOGIN = '/login',
 	REGISTER = '/register',
 	PROFILE = '/profile'

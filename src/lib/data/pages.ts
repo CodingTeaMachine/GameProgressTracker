@@ -18,34 +18,34 @@ export const navbarLinks: NavbarLink[] = [
 		title: 'Progress',
 		icon: ListTodo,
 		destination: Pages.PROGRESS,
-		protected: true,
+		protected: true
 	},
 	{
 		title: 'Library',
 		icon: Library,
 		destination: Pages.LIBRARY,
-		protected: true,
+		protected: true
 	},
 	{
 		title: 'Explore',
 		icon: Search,
 		destination: Pages.EXPLORE,
-		protected: false,
+		protected: false
 	},
 	{
 		title: 'Wish List',
 		icon: Heart,
 		destination: Pages.WISH_LIST,
-		protected: true,
+		protected: true
 	},
 	{
 		title: 'Personal Stats',
 		icon: BarChart2,
 		destination: Pages.PERSONAL_STATS,
-		protected: true,
+		protected: true
 	},
 	{
-		title: 'Submit',
+		title: 'Submit New Game',
 		icon: Plus,
 		destination: Pages.SUBMIT,
 		protected: true

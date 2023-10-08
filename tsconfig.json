@@ -35,7 +35,10 @@
 				"name": "typescript-svelte-plugin"
 			}
 		],
-		"baseUrl": "."
+		"baseUrl": ".",
+		"types": [
+			"@prisma/client"
+		]
 	},
 	"includes": [
 		".svelte-kit/ambient.d.ts",
