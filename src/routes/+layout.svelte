@@ -7,7 +7,6 @@
 	import { AppShell } from '@skeletonlabs/skeleton';
 	import Header from '$lib/components/Header.svelte';
 	import Navbar from '$lib/components/navbar/Navigation.svelte';
-	import Footer from '$lib/components/Footer.svelte';
 	import AppTitle from '$lib/components/navbar/AppTitle.svelte';
 	import UserBar from '$lib/components/navbar/UserBar.svelte';
 	import { pageTitle, pageIcon } from '$lib/stores/page';
@@ -72,8 +71,4 @@
 	</svelte:fragment>
 
 	<slot />
-
-	<svelte:fragment slot="pageFooter">
-		<Footer />
-	</svelte:fragment>
 </AppShell>

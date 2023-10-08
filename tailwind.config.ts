@@ -10,7 +10,11 @@ const config = {
 		join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
 	],
 	theme: {
-		extend: {}
+		extend: {
+			aspectRatio: {
+				'cover': '9 / 16'
+			}
+		}
 	},
 
 	plugins: [
