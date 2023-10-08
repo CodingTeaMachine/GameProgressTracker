@@ -45,9 +45,9 @@ export const navbarLinks: NavbarLink[] = [
 		protected: true
 	},
 	{
-		title: 'Submit New Game',
+		title: 'New Game',
 		icon: Plus,
-		destination: Pages.SUBMIT,
+		destination: Pages.NEW_GAME,
 		protected: true
 	}
 ];
