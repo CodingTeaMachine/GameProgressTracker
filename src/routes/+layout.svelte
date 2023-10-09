@@ -4,7 +4,8 @@
 	import { browser } from '$app/environment';
 	import FaviconBlack from '$assets/icons/favicon-black.svg';
 	import FaviconWhite from '$assets/icons/favicon-white.svg';
-	import { AppShell } from '@skeletonlabs/skeleton';
+	import { Modals } from "$lib/helpers/modals";
+	import { AppShell, getModalStore, Modal, Toast } from '@skeletonlabs/skeleton';
 	import Header from '$lib/components/Header.svelte';
 	import Navbar from '$lib/components/navbar/Navigation.svelte';
 	import AppTitle from '$lib/components/navbar/AppTitle.svelte';
@@ -14,7 +15,6 @@
 	import type { Link } from '$types/page.ts';
 	import { CircleDotDashed } from 'lucide-svelte';
 	import { initializeStores } from '@skeletonlabs/skeleton';
-	import { Toast } from '@skeletonlabs/skeleton';
 
 	import type { PageData } from './$types';
 	import { userStore } from '$lib/stores/user';
@@ -24,6 +24,9 @@
 	const { user } = userStore;
 
 	initializeStores();
+	const modalStore = getModalStore();
+	
+	Modals.setModalStore(modalStore);
 
 	let favicon = FaviconBlack;
 	if (browser) {
@@ -57,6 +60,7 @@
 </svelte:head>
 
 <Toast position="tr" />
+<Modal />
 
 <AppShell>
 	<svelte:fragment slot="pageHeader">

@@ -13,7 +13,7 @@
 <div class="simple-card" class:double>
 	<h2 class="text-lg mb-1">{title}</h2>
 	<div class="h-[90%]">
-		<slot></slot>
+		<slot/>
 	</div>
 </div>
 
