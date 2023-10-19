@@ -1,8 +1,8 @@
 import { join } from 'path';
-import type { Config } from 'tailwindcss';
 import { skeleton } from '@skeletonlabs/tw-plugin';
 import forms from '@tailwindcss/forms';
 
+/** @type {import('tailwindcss').Config} */
 const config = {
 	darkMode: 'class',
 	content: [
@@ -23,6 +23,6 @@ const config = {
 			themes: { preset: [{ name: 'wintry', enhancements: true }] }
 		})
 	]
-} satisfies Config;
+};
 
 export default config;

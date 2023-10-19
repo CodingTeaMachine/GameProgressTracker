@@ -30,12 +30,17 @@
 	/**
 	 * The placeholder text displayed in the input
 	 */
-	export let placeholder: string = '';
+	export let placeholder: string = label + '...';
 
 	/**
 	 * The value of the input
 	 */
 	export let value = '';
+
+	/**
+	 * Is the title bold
+	 */
+	export let boldTitle: boolean = false;
 
 	function typeAction(node: HTMLInputElement) {
 		node.type = type;
@@ -57,24 +62,39 @@
 </script>
 
 <label class="label">
-	<span>{label}</span>
-	<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
-		{#if hasPrefix}
-			<div class="input-group-shim">
-				<slot name="icon">
-					<svelte:component this={prefixIcon} />
-				</slot>
-			</div>
-		{/if}
+	<span class:font-bold={boldTitle}>{label}</span>
+	{#if hasPrefix}
+		<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
+			{#if hasPrefix}
+				<div class="input-group-shim">
+					<slot name="icon">
+						<svelte:component this={prefixIcon} />
+					</slot>
+				</div>
+			{/if}
+
+			<input
+				use:typeAction
+				bind:value
+				aria-invalid={errors ? 'true' : undefined}
+				class:input-error={showing.error}
+				{placeholder}
+				{name}
+				on:input={inputEventHandler}
+			/>
+		</div>
+	{:else}
 		<input
 			use:typeAction
 			bind:value
 			aria-invalid={errors ? 'true' : undefined}
 			class:input-error={showing.error}
+			class="input"
 			{placeholder}
 			{name}
 			on:input={inputEventHandler}
 		/>
-	</div>
+	{/if}
+
 	{#if errors}<div class="mt-2 text-red-500">{errors[0]}</div>{/if}
 </label>

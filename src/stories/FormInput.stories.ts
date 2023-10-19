@@ -1,4 +1,4 @@
-import FormInput from "$lib/components/input/FormInput.svelte";
+import FormInput from "$/lib/components/input/FormTextInput.svelte";
 import type { Meta, StoryObj } from "@storybook/svelte";
 import { User2 } from "lucide-svelte";
 

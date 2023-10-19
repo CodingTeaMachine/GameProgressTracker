@@ -1,0 +1,20 @@
+.flatpickr-calendar {
+	@apply border-surface-500 !bg-surface-700;
+
+	.flatpickr-month,
+	.flatpickr-weekday,
+	.flatpickr-monthDropdown-months {
+		@apply !bg-surface-700;
+	}
+
+	.flatpickr-prev-month,
+	.flatpickr-next-month {
+		&:hover svg {
+			@apply !fill-secondary-500;
+		}
+	}
+
+	.flatpickr-day.selected {
+		@apply border-secondary-500 bg-secondary-500;
+	}
+}

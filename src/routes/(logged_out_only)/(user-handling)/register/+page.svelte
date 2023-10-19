@@ -4,7 +4,7 @@
 	import { enhance } from '$app/forms';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 
-	import FormInput from '$lib/components/input/FormInput.svelte';
+	import FormInput from '$/lib/components/input/FormTextInput.svelte';
 	import login_image from '$assets/images/login_image.png';
 
 	import type { ActionData, PageData } from './$types';

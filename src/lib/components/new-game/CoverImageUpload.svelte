@@ -25,7 +25,6 @@
 	accept=".png, .jpg, .jpeg"
 	on:change={onCoverImageUpload}
 >
-	<!--<svelte:fragment slot="lead"><Camera class="mx-auto"/></svelte:fragment>-->
 	<svelte:fragment slot="message">
 		<div class="flex items-center gap-2 align-middle">
 			<Camera />

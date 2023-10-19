@@ -1,0 +1,65 @@
+<script lang="ts">
+	import { createEventDispatcher } from 'svelte';
+
+	/**
+	 * The text displayed above the input
+	 */
+	export let label: string;
+
+	/**
+	 * The errors associated with the input, displayed under the input
+	 */
+	export let errors: string[] | undefined = undefined;
+
+	/**
+	 * The name of the input (used in forms)
+	 */
+	export let name: string;
+
+	/**
+	 * The placeholder text displayed in the input
+	 */
+	export let placeholder: string = label + '...';
+
+	/**
+	 * The value of the input
+	 */
+	export let value = '';
+
+	/**
+	 * Is the title bold
+	 */
+	export let boldTitle: boolean = false;
+
+	/**
+	 * The amunt of rows a textarea has
+	 */
+	export let textareaRows: number = 1;
+
+	$: showing = {
+		error: !!errors
+	};
+
+	function inputEventHandler(event: InputEvent) {
+		showing.error = false;
+
+		value = (event.target as HTMLInputElement).value;
+		const dispatch = createEventDispatcher();
+		dispatch('input', value);
+	}
+</script>
+
+<label class="label">
+	<span class:font-bold={boldTitle}>{label}</span>
+	<textarea
+		bind:value
+		class="textarea"
+		class:input-error={showing.error}
+		aria-invalid={errors ? 'true' : undefined}
+		rows={textareaRows}
+		{placeholder}
+		{name}
+		on:input={inputEventHandler}
+	/>
+	{#if errors}<div class="mt-2 text-red-500">{errors[0]}</div>{/if}
+</label>
