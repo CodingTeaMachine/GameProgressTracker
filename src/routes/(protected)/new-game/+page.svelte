@@ -6,6 +6,7 @@
 	import Card from '$lib/components/new-game/Card.svelte';
 	import CoverImageUploadWithPreview from '$lib/components/new-game/CoverImageUploadWithPreview.svelte';
 	import FormDatepicker from '$/lib/components/input/FormDatepicker.svelte';
+	import AddRow from '$/lib/components/new-game/AddRow.svelte';
 
 	let uploadedImages: FileList | undefined = undefined;
 	let isDLC = false;
@@ -214,7 +215,9 @@
 	</section>
 
 	<section class="card-row">
-		<Card title="Areas / Levels" double />
+		<Card title="Areas / Levels" double >
+			<AddRow/>
+		</Card>
 		<Card title="Achievements" double />
 	</section>
 
