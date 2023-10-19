@@ -34,7 +34,7 @@
 	/**
 	 * The amunt of rows a textarea has
 	 */
-	export let textareaRows: number = 1;
+	export let rows: number = 1;
 
 	$: showing = {
 		error: !!errors
@@ -56,7 +56,7 @@
 		class="textarea"
 		class:input-error={showing.error}
 		aria-invalid={errors ? 'true' : undefined}
-		rows={textareaRows}
+		{rows}
 		{placeholder}
 		{name}
 		on:input={inputEventHandler}

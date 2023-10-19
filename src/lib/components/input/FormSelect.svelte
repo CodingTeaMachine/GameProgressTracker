@@ -96,11 +96,13 @@
 	}
 </script>
 
-<div>
+<!-- The Select component has a control inside of it -->
+<!-- svelte-ignore a11y-label-has-associated-control -->
+<label class="label max-h-[70px]">
 	<span class:font-bold={boldTitle}>{label}</span>
 	<Select
 		bind:value
-		class="select-element"
+		class="select-element !mt-1"
 		itemId={valueKey}
 		label={valueLabel}
 		showChevron={showArrow}
@@ -112,22 +114,22 @@
 		{multiple}
 		on:change={onChangeHandler}
 	/>
+</label>
 
-	{#if fakeMultiselect}
-		<div class="mt-2 flex flex-wrap justify-items-stretch gap-2">
-			{#each fakeMultiselectValues as fakeMultiselectValue, index}
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div
-					class="chip select-none border border-dashed border-secondary-500 hover:border-error-500"
-					on:click={() => removeToken(index)}
-				>
-					{fakeMultiselectValue[valueLabel]}
-				</div>
-			{/each}
-		</div>
-	{/if}
-</div>
+{#if fakeMultiselect && fakeMultiselectValues.length !== 0}
+	<div class="flex flex-wrap justify-items-stretch gap-2">
+		{#each fakeMultiselectValues as fakeMultiselectValue, index}
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
+			<div
+				class="chip select-none border border-dashed border-secondary-500 hover:border-error-500"
+				on:click={() => removeToken(index)}
+			>
+				{fakeMultiselectValue[valueLabel]}
+			</div>
+		{/each}
+	</div>
+{/if}
 
 <style lang="postcss">
 	:global(.select-element) {

@@ -152,7 +152,7 @@
 		<Card title="General">
 			<div class="flex flex-col gap-2">
 				<FormInput label="Title" name="title" boldTitle />
-				<FormTextarea label="Description" name="description" boldTitle />
+				<FormTextarea label="Description" name="description" rows={3} boldTitle />
 				<FormSelect label="Franchise" name="franchise" boldTitle items={franchisees} />
 				<FormCheckbox label="Is DLC?" name="isDLC" bind:checked={isDLC} />
 				{#if isDLC}
@@ -161,50 +161,55 @@
 			</div>
 		</Card>
 		<Card title="Miscellaneous">
-			<FormSelect
-				bind:fakeMultiselectValues={selectedGenres}
-				items={genres}
-				label="Genres"
-				name="genres"
-				boldTitle
-				fakeMultiselect
-			/>
-			<FormDatepicker bind:value={releaseDate} label="Release Date" boldTitle />
+			<div class="flex flex-col gap-2">
+				<FormSelect
+					bind:fakeMultiselectValues={selectedGenres}
+					items={genres}
+					label="Genres"
+					name="genres"
+					boldTitle
+					fakeMultiselect
+				/>
 
-			<FormSelect
-				bind:fakeMultiselectValues={selectedPublishers}
-				items={publishers}
-				label="Publishers"
-				name="publishers"
-				fakeMultiselect
-				boldTitle
-			/>
+				<FormDatepicker bind:value={releaseDate} label="Release Date" boldTitle />
+
+				<FormSelect
+					bind:fakeMultiselectValues={selectedPublishers}
+					items={publishers}
+					label="Publishers"
+					name="publishers"
+					fakeMultiselect
+					boldTitle
+				/>
+			</div>
 		</Card>
 		<Card title="Developers">
-			<FormSelect
-				bind:fakeMultiselectValues={selectedDevelopers}
-				items={developers}
-				label="Developers"
-				name="developers"
-				fakeMultiselect
-				boldTitle
-			/>
-			<FormSelect
-				bind:fakeMultiselectValues={selectedPlatforms}
-				items={platforms}
-				label="Platforms"
-				name="platforms"
-				fakeMultiselect
-				boldTitle
-			/>
-			<FormSelect
-				bind:fakeMultiselectValues={selectedStorefronts}
-				items={storefronts}
-				label="Storefronts"
-				name="storefronts"
-				fakeMultiselect
-				boldTitle
-			/>
+			<div class="flex flex-col gap-2">
+				<FormSelect
+					bind:fakeMultiselectValues={selectedDevelopers}
+					items={developers}
+					label="Developers"
+					name="developers"
+					fakeMultiselect
+					boldTitle
+				/>
+				<FormSelect
+					bind:fakeMultiselectValues={selectedPlatforms}
+					items={platforms}
+					label="Platforms"
+					name="platforms"
+					fakeMultiselect
+					boldTitle
+				/>
+				<FormSelect
+					bind:fakeMultiselectValues={selectedStorefronts}
+					items={storefronts}
+					label="Storefronts"
+					name="storefronts"
+					fakeMultiselect
+					boldTitle
+				/>
+			</div>
 		</Card>
 	</section>
 
