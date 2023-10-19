@@ -50,7 +50,7 @@
 		error: !!errors
 	};
 
-	function inputEventHandler(event: InputEvent) {
+	function inputEventHandler(event: Event) {
 		showing.error = false;
 
 		value = (event.target as HTMLInputElement).value;
