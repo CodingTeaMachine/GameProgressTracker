@@ -27,8 +27,8 @@
 		"sourceMap": true,
 		"strict": true,
 		"allowImportingTsExtensions": false,
-		"target": "ES6",
-		"module": "CommonJS",
+		"target": "ESNext",
+		"module": "ESNext",
 		"moduleResolution": "node",
 		"plugins": [
 			{

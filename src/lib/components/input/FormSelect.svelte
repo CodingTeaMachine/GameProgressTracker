@@ -52,6 +52,10 @@
 	 * Wether to show the arrow at the and of the dropdown
 	 */
 	export let showArrow: boolean = true;
+  
+  	export let floatingConfig: object = {
+      strategy: 'fixed',
+	};
 
 	/**
 	 * Can the items be filtered
@@ -125,6 +129,7 @@
 		label={valueLabel}
 		showChevron={showArrow}
 		items={displayItems}
+		{floatingConfig}
 		{name}
 		{searchable}
 		{placeholder}

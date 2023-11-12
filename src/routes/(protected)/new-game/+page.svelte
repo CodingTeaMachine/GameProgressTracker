@@ -10,115 +10,21 @@
 	import CollectibleTypeCard from '$/lib/components/new-game/CollectibleTypes/CollectibleTypeCard.svelte';
 	import type { GeneralDropdownData } from '$/lib/types/types';
 	import CollectiblesCard from '$/lib/components/new-game/Collectibles/CollectiblesCard.svelte';
-	
+    import type { PageData } from './$types';
+  	export let data: PageData;
+  
 	let uploadedImages: FileList | undefined = undefined;
 	let isDLC = false;
+    let releaseDate: Date | null = null;
+    
+    const publishers = data.publishers;
+    const developers = data.developers;
+    const genres = data.genres;
+	const platforms = data.platforms;
 
-	const parentTitles = [
-		{
-			label: "Assassin's Creed Mirage",
-			value: 1
-		},
-		{
-			label: 'Prince of Persia The Sands of Time',
-			value: 2
-		}
-	];
-
-	const franchisees = [
-		{
-			label: "Assassin's Creed",
-			value: 1
-		},
-		{
-			label: 'Prince of Persia',
-			value: 2
-		}
-	];
-
-	const genres = [
-		{
-			label: 'Action',
-			value: 1
-		},
-		{
-			label: 'RPG',
-			value: 2
-		},
-		{
-			label: 'MMO',
-			value: 3
-		},
-		{
-			label: 'Adventure',
-			value: 4
-		},
-		{
-			label: 'Puzzle',
-			value: 5
-		},
-		{
-			label: 'Fighter',
-			value: 6
-		}
-	];
-
-	const publishers = [
-		{
-			label: 'Activision',
-			value: 1
-		},
-		{
-			label: 'Ubisoft',
-			value: 2
-		},
-		{
-			label: 'Valve',
-			value: 3
-		},
-		{
-			label: 'Blizard',
-			value: 4
-		}
-	];
-
-	const developers = [
-		{
-			label: 'Activision',
-			value: 1
-		},
-		{
-			label: 'Ubisoft',
-			value: 2
-		},
-		{
-			label: 'Valve',
-			value: 3
-		},
-		{
-			label: 'Blizard',
-			value: 4
-		}
-	];
-
-	const platforms = [
-		{
-			label: 'PC',
-			value: 1
-		},
-		{
-			label: 'Playstation 3',
-			value: 2
-		},
-		{
-			label: 'Xbox One',
-			value: 3
-		},
-		{
-			label: 'Nintendo Wii',
-			value: 4
-		}
-	];
+    const parentTitles: GeneralDropdownData[] = [];
+	const franchisees: GeneralDropdownData[] = [];
+	
 
 	const storefronts = [
 		{
@@ -145,7 +51,6 @@
 	let selectedPlatforms: GeneralDropdownData[] = [];
 	let selectedStorefronts: GeneralDropdownData[] = [];
 
-	let releaseDate: Date | null = null;
 </script>
 
 <form class="mx-4 mb-10 grid grid-rows-4 gap-4 pr-4">
@@ -169,6 +74,7 @@
 				<FormSelect
 					bind:fakeMultiselectValues={selectedGenres}
 					items={genres}
+					valueKey="id"
 					label="Genres"
 					name="genres"
 					boldTitle
@@ -182,6 +88,7 @@
 					items={publishers}
 					label="Publishers"
 					name="publishers"
+					valueKey="id"
 					fakeMultiselect
 					boldTitle
 				/>
@@ -192,6 +99,7 @@
 				<FormSelect
 					bind:fakeMultiselectValues={selectedDevelopers}
 					items={developers}
+					valueKey="id"
 					label="Developers"
 					name="developers"
 					fakeMultiselect
@@ -200,6 +108,8 @@
 				<FormSelect
 					bind:fakeMultiselectValues={selectedPlatforms}
 					items={platforms}
+					valueKey="id"
+					valueLabel="name"
 					label="Platforms"
 					name="platforms"
 					fakeMultiselect
