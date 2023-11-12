@@ -14,7 +14,7 @@
 				{
 					"url": "http://gpt.local/src",
 					"path": "${workspaceFolder}/src"
-				},
+				}
 			]
 		}
 	]

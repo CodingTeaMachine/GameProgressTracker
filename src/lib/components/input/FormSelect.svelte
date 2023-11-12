@@ -112,6 +112,7 @@
 	}
 </script>
 
+<!--svelte-ignore a11y-label-has-associated-control -->
 <label class="label">
 	{#if label !== ''}
 		<span class:font-bold={boldTitle}>{label}</span>
@@ -136,6 +137,7 @@
 {#if fakeMultiselect && fakeMultiselectValues.length !== 0}
 	<div class="flex flex-wrap justify-items-stretch gap-2">
 		{#each fakeMultiselectValues as fakeMultiselectValue, index}
+			<!--svelte-ignore a11y-no-static-element-interactions a11y-click-events-have-key-events-->
 			<div
 				class="chip select-none border border-dashed border-secondary-500 hover:border-error-500"
 				on:click={() => removeToken(index)}

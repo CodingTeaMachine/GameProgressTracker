@@ -49,6 +49,7 @@ module.exports = {
 	rules: {
 		"semi": [ 2, "always" ],
 		"import/extensions": [ "off" ],
-		"@typescript-eslint/ban-ts-comment": [ "warn" ]
+		"@typescript-eslint/ban-ts-comment": [ "warn" ],
+		"@typescript-eslint/no-explicit-any": ["off"]
 	},
 };

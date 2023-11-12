@@ -55,6 +55,7 @@
 	<CoverImageUpload bind:uploadedImages on:upload={onCoverImageUpload} {hasText} />
 {:else}
 	<div class="group relative flex h-full cursor-pointer items-center justify-center">
+		<!--svelte-ignore a11y-img-redundant-alt-->
 		<img bind:this={imagePreview} src="" alt="cover image" class="h-full rounded-md" />
 		<div
 			aria-hidden="true"

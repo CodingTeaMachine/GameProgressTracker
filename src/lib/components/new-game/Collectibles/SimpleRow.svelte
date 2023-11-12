@@ -11,6 +11,7 @@
 	<div class="flex h-10 w-full items-center gap-4">
 		<div class="flex h-full w-16 items-center justify-center">
 			{#if data.imageSrc}
+				<!--svelte-ignore a11y-img-redundant-alt-->
 				<img src={data.imageSrc} alt="cover image" class="h-full rounded-md" />
 			{:else}
 				<Map />

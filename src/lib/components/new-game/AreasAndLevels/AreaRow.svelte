@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+  	import { writable } from 'svelte/store';
+  
 	export let editedId = writable<number | null>(null);
 	export let editedValue = writable<AreaInput | null>();
 </script>
@@ -7,7 +9,6 @@
 	import { Save, Trash, Map, X, CornerDownRight } from 'lucide-svelte';
 	import type { AreaInput } from '$/lib/types/types';
 	import { createEventDispatcher } from 'svelte';
-	import { writable } from 'svelte/store';
 	import CoverImageUploadWithPreview from '../CoverImageUploadWithPreview.svelte';
 	import FormTextInput from '../../input/FormTextInput.svelte';
 	import { Modals } from '$lib/helpers/modals.js';
@@ -89,6 +90,7 @@
 <div
 	class="flex cursor-pointer items-center justify-between gap-4 rounded-md px-3 py-2 duration-75 hover:bg-surface-700"
 >
+	<!--svelte-ignore a11y-no-static-element-interactions a11y-click-events-have-key-events-->
 	<div
 		class="flex w-full items-center gap-4"
 		class:h-20={editingInProgress}
@@ -107,6 +109,7 @@
 					/>
 				</div>
 			{:else if area.imageSrc}
+				<!--svelte-ignore a11y-img-redundant-alt-->
 				<img src={area.imageSrc} alt="cover image" class="h-full rounded-md" />
 			{:else}
 				<Map />

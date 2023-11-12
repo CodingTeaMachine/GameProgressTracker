@@ -19,6 +19,7 @@
 	export let boldTitle: boolean = false;
 </script>
 
+<!--svelte-ignore a11y-label-has-associated-control -->
 <label class="label">
 	<span class:font-bold={boldTitle}>{label}</span>
 	<div class="input-group input-group-divider cursor-pointer grid-cols-[auto_1fr_auto]">
