@@ -5,7 +5,7 @@
 	/**
 	 * The text displayed above the input
 	 */
-	export let label: string;
+	export let label: string = '';
 
 	/**
 	 * The errors associated with the input, displayed under the input
@@ -15,7 +15,7 @@
 	/**
 	 * The type of the input
 	 */
-	export let type: 'text' | 'password' | 'email' = 'text';
+	export let type: 'text' | 'password' | 'email' | 'number' = 'text';
 
 	/**
 	 * If we want an icon before the input, it can be provided here
@@ -35,12 +35,14 @@
 	/**
 	 * The value of the input
 	 */
-	export let value = '';
+	export let value: string | number | null = '';
 
 	/**
 	 * Is the title bold
 	 */
 	export let boldTitle: boolean = false;
+
+	export let inputRef: HTMLInputElement | null = null;
 
 	function typeAction(node: HTMLInputElement) {
 		node.type = type;
@@ -50,11 +52,16 @@
 		error: !!errors
 	};
 
+	type Events = {
+		input: string;
+	};
+
+	const dispatch = createEventDispatcher<Events>();
+
 	function inputEventHandler(event: Event) {
 		showing.error = false;
 
 		value = (event.target as HTMLInputElement).value;
-		const dispatch = createEventDispatcher();
 		dispatch('input', value);
 	}
 
@@ -62,7 +69,9 @@
 </script>
 
 <label class="label">
-	<span class:font-bold={boldTitle}>{label}</span>
+	{#if label}
+		<span class:font-bold={boldTitle}>{label}</span>
+	{/if}
 	{#if hasPrefix}
 		<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
 			{#if hasPrefix}
@@ -76,6 +85,7 @@
 			<input
 				use:typeAction
 				bind:value
+				bind:this={inputRef}
 				aria-invalid={errors ? 'true' : undefined}
 				class:input-error={showing.error}
 				{placeholder}
@@ -87,6 +97,7 @@
 		<input
 			use:typeAction
 			bind:value
+			bind:this={inputRef}
 			aria-invalid={errors ? 'true' : undefined}
 			class:input-error={showing.error}
 			class="input"

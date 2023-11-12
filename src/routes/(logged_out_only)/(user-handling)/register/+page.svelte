@@ -28,55 +28,66 @@
 	}
 </script>
 
-<img src={login_image} alt="login_image" class="rounded-l-[8px] border border-r-0 border-surface-50/10" />
-<div class="card flex w-1/4 items-center justify-center rounded-l-none border border-l-0 border-surface-50/10 px-10">
-	<div class="-mt-10 w-full">
-		<div class="w-100 mb-5 text-center text-xl font-bold uppercase">Register</div>
-		<form method="POST" class="mx-auto my-auto" use:enhance>
-			<div class="flex flex-col gap-5">
-				<FormInput
-					bind:value={$registerForm.username}
-					label="Username"
-					type="text"
-					name="username"
-					placeholder="John Doe"
-					prefixIcon={User2}
-					errors={$errors.username}
-				/>
-				<FormInput
-					bind:value={$registerForm.email}
-					label="E-Mail"
-					type="text"
-					name="email"
-					placeholder="John@doe.com"
-					prefixIcon={AtSign}
-					errors={$errors.email}
-				/>
-				<FormInput
-					bind:value={$registerForm.password}
-					label="Password"
-					type="password"
-					name="password"
-					placeholder="Password..."
-					prefixIcon={SquareAsterisk}
-					errors={$errors.password}
-				/>
-				<FormInput
-					bind:value={$registerForm.confirmPassword}
-					label="Confirm Password"
-					type="password"
-					name="confirmPassword"
-					placeholder="Password..."
-					prefixIcon={SquareAsterisk}
-					errors={$errors.confirmPassword}
-				/>
-			</div>
-			<button type="submit" class="btn !text-surface-50 font-bold variant-filled-secondary mt-5 inline-block w-full"> Register </button>
-		</form>
+<div class="flex h-[95%] flex-row justify-center">
+	<img src={login_image} alt="login_image" class="rounded-l-[8px] border border-r-0 border-surface-50/10" />
+	<div
+		class="card flex w-1/4 items-center justify-center rounded-l-none border border-l-0 border-surface-50/10 px-10"
+	>
+		<div class="-mt-10 w-full">
+			<div class="w-100 mb-5 text-center text-xl font-bold uppercase">Register</div>
+			<form method="POST" class="mx-auto my-auto" use:enhance>
+				<div class="flex flex-col gap-5">
+					<FormInput
+						bind:value={$registerForm.username}
+						label="Username"
+						type="text"
+						name="username"
+						placeholder="John Doe"
+						prefixIcon={User2}
+						errors={$errors.username}
+					/>
+					<FormInput
+						bind:value={$registerForm.email}
+						label="E-Mail"
+						type="text"
+						name="email"
+						placeholder="John@doe.com"
+						prefixIcon={AtSign}
+						errors={$errors.email}
+					/>
+					<FormInput
+						bind:value={$registerForm.password}
+						label="Password"
+						type="password"
+						name="password"
+						placeholder="Password..."
+						prefixIcon={SquareAsterisk}
+						errors={$errors.password}
+					/>
+					<FormInput
+						bind:value={$registerForm.confirmPassword}
+						label="Confirm Password"
+						type="password"
+						name="confirmPassword"
+						placeholder="Password..."
+						prefixIcon={SquareAsterisk}
+						errors={$errors.confirmPassword}
+					/>
+				</div>
+				<button
+					type="submit"
+					class="variant-filled-secondary btn mt-5 inline-block w-full font-bold !text-surface-50"
+				>
+					Register
+				</button>
+			</form>
 
-		<div class="mt-5 text-center text-sm">
-			<div class="capitalize-first">Already have an account?</div>
-			<a href={Pages.LOGIN} class="capitalize-first inline-block text-primary-500 hover:underline"> Log in! </a>
+			<div class="mt-5 text-center text-sm">
+				<div class="capitalize-first">Already have an account?</div>
+				<a href={Pages.LOGIN} class="capitalize-first inline-block text-primary-500 hover:underline">
+					Log in!
+				</a>
+			</div>
 		</div>
 	</div>
 </div>

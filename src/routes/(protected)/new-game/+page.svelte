@@ -6,8 +6,11 @@
 	import Card from '$lib/components/new-game/Card.svelte';
 	import CoverImageUploadWithPreview from '$lib/components/new-game/CoverImageUploadWithPreview.svelte';
 	import FormDatepicker from '$/lib/components/input/FormDatepicker.svelte';
-	import AddRow from '$/lib/components/new-game/AddRow.svelte';
-
+	import AreasAndLevelsCard from '$/lib/components/new-game/AreasAndLevels/AreasAndLevelsCard.svelte';
+	import CollectibleTypeCard from '$/lib/components/new-game/CollectibleTypes/CollectibleTypeCard.svelte';
+	import type { GeneralDropdownData } from '$/lib/types/types';
+	import CollectiblesCard from '$/lib/components/new-game/Collectibles/CollectiblesCard.svelte';
+	
 	let uploadedImages: FileList | undefined = undefined;
 	let isDLC = false;
 
@@ -136,17 +139,17 @@
 		}
 	];
 
-	let selectedGenres: any[] = [];
-	let selectedDevelopers: any[] = [];
-	let selectedPublishers: any[] = [];
-	let selectedPlatforms: any[] = [];
-	let selectedStorefronts: any[] = [];
+	let selectedGenres: GeneralDropdownData[] = [];
+	let selectedDevelopers: GeneralDropdownData[] = [];
+	let selectedPublishers: GeneralDropdownData[] = [];
+	let selectedPlatforms: GeneralDropdownData[] = [];
+	let selectedStorefronts: GeneralDropdownData[] = [];
 
 	let releaseDate: Date | null = null;
 </script>
 
-<form class="mx-4 mb-10 flex h-[150%] flex-col gap-4 pr-4">
-	<section class="card-row row-span-2">
+<form class="mx-4 mb-10 grid grid-rows-4 gap-4 pr-4">
+	<section class="card-row">
 		<Card title="Cover Image">
 			<CoverImageUploadWithPreview bind:uploadedImages />
 		</Card>
@@ -215,20 +218,18 @@
 	</section>
 
 	<section class="card-row">
-		<Card title="Areas / Levels" double >
-			<AddRow/>
-		</Card>
-		<Card title="Achievements" double />
+		<AreasAndLevelsCard />
+		<CollectibleTypeCard />
 	</section>
 
-	<section class="card-row">
-		<Card title="Collectible Types" double />
-		<Card title="Collectibles" double />
+	<section class="card-row row-span-2 !h-full">
+		<Card title="Achievements" double />
+		<CollectiblesCard />
 	</section>
 </form>
 
 <style lang="postcss">
 	.card-row {
-		@apply grid h-full grid-cols-4 gap-4;
+		@apply grid h-96 grid-cols-4 gap-4;
 	}
 </style>

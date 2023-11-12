@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { createEventDispatcher, onMount } from 'svelte';
 	import Select from 'svelte-select';
 
 	/**
 	 * The text displayed above the input
 	 */
-	export let label: string;
+	export let label: string = '';
 
 	/**
 	 * Is the title bold
@@ -40,6 +41,10 @@
 	 * The selected value
 	 */
 	export let value: any = null;
+	
+	export let justValue: any = null;
+
+	export let initialValue: any = null;
 
 	export let fakeMultiselectValues: any[] = [];
 
@@ -68,12 +73,23 @@
 	 */
 	export let multiple: boolean = false;
 
+	onMount(() => {
+		if (initialValue !== null) {
+			value = displayItems.find(item => item[valueKey] === initialValue);
+		}
+	});
+
 	let displayItems = [...items];
+
+	const dispatch = createEventDispatcher<{change: any}>();
 
 	function onChangeHandler(newValue: { detail: (typeof items)[0] }) {
 		if (fakeMultiselect) {
 			value = null;
 			fakeMultiselectValues = [...fakeMultiselectValues, newValue.detail];
+			dispatch('change', fakeMultiselectValues);
+		} else {
+			dispatch('change', value);
 		}
 	}
 
@@ -96,11 +112,14 @@
 	}
 </script>
 
-<label class="label max-h-[70px]">
-	<span class:font-bold={boldTitle}>{label}</span>
+<label class="label">
+	{#if label !== ''}
+		<span class:font-bold={boldTitle}>{label}</span>
+	{/if}
 	<Select
 		bind:value
-		class="select-element !mt-1"
+		bind:justValue
+		class={label !== '' ? 'select-element !mt-1' : 'select-element'}
 		itemId={valueKey}
 		label={valueLabel}
 		showChevron={showArrow}

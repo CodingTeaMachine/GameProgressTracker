@@ -8,22 +8,20 @@
 	 * The title of the card
 	 */
 	export let title: string;
+
 </script>
 
-<div class="simple-card" class:double>
-	<h2 class="text-lg mb-1">{title}</h2>
+<div class="card h-full max-w-full overflow-hidden p-4" class:double>
+	<h2 class="mb-1 text-lg before:mr-2 before:rounded-sm before:bg-secondary-500 before:content-['\00a0']">
+		{title}
+	</h2>
 	<div class="h-[90%]">
-		<slot/>
+		<slot />
 	</div>
 </div>
 
 <style>
-	.simple-card {
-        @apply card p-4 h-full max-w-full;
-	}
-	
 	.double {
 		@apply col-span-2;
 	}
-	
 </style>

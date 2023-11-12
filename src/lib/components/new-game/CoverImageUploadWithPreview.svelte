@@ -2,13 +2,21 @@
 	import CoverImageUpload from '$lib/components/new-game/CoverImageUpload.svelte';
 	import { Trash } from 'lucide-svelte';
 	import { Modals } from '$lib/helpers/modals.js';
+	import { createEventDispatcher } from 'svelte';
 
 	export let uploadedImages: FileList | undefined;
+	export let hasText: boolean = true;
 
 	let coverImageUploaded = false;
 	let imagePreview: HTMLImageElement;
 
 	let coverImageWidth = 0;
+
+	interface Events {
+		upload: string;
+	}
+
+	const dispatch = createEventDispatcher<Events>();
 
 	function onCoverImageUpload(uploadedImage: CustomEvent<Blob>) {
 		coverImageUploaded = true;
@@ -17,7 +25,8 @@
 		reader.addEventListener('load', function () {
 			if (typeof reader.result === 'string') {
 				imagePreview.setAttribute('src', reader.result);
-				
+				dispatch('upload', reader.result);
+
 				// This must have a better solution
 				// When we set the imagePreview src, sometimes it takes about 10ms to actually load it
 				// So if we set before that, the imagePreview might not have a width yet
@@ -43,7 +52,7 @@
 </script>
 
 {#if !coverImageUploaded}
-	<CoverImageUpload bind:uploadedImages on:upload={onCoverImageUpload} />
+	<CoverImageUpload bind:uploadedImages on:upload={onCoverImageUpload} {hasText} />
 {:else}
 	<div class="group relative flex h-full cursor-pointer items-center justify-center">
 		<img bind:this={imagePreview} src="" alt="cover image" class="h-full rounded-md" />
