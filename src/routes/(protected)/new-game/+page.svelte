@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { superForm } from 'sveltekit-superforms/client';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+	// import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	import CoverImageUploadWithPreview from '$lib/components/new-game/CoverImageUploadWithPreview.svelte';
 	import FormCheckbox from '$/lib/components/input/FormCheckbox.svelte';
@@ -15,7 +15,7 @@
 	import CollectibleTypesCard from '$/lib/components/new-game/CollectibleTypes/CollectibleTypesCard.svelte';
 	import CollectiblesCard from '$/lib/components/new-game/Collectibles/CollectiblesCard.svelte';
 
-	import { NewGameStore } from '$lib/stores/new-game/newGameStore';
+	// import { NewGameStore } from '$lib/stores/new-game/newGameStore';
 
 	import type { GeneralDropdownData } from '$/lib/types/types';
 	import type { ActionData, PageData } from './$types';
@@ -53,133 +53,140 @@
 	const franchisees: GeneralDropdownData[] = [];
 </script>
 
-<SuperDebug data={$newGameForm}/>
+<!--<SuperDebug data={$newGameForm}/>-->
 
-<form class="mx-4 mb-10 grid grid-cols-4 gap-4 pr-4" method="POST" use:enhance>
-	<!--First row-->
-	<Card title="Cover Image">
-		<CoverImageUploadWithPreview
-			bind:uploadedImages
-			on:upload={event => ($newGameForm.coverImage = event.detail)}
-			on:delete={() => ($newGameForm.coverImage = undefined)}
-		/>
-	</Card>
-
-	<Card title="General">
-		<div class="flex flex-col gap-2">
-			<FormInput bind:value={$newGameForm.title} errors={$errors.title} label="Title" name="title" boldTitle />
-			<FormTextarea
-				bind:value={$newGameForm.description}
-				errors={$errors.description}
-				label="Description"
-				name="description"
-				rows={3}
-				boldTitle
+<form class="mx-4 mb-10 pr-4" method="POST" use:enhance>
+	<div class="grid grid-cols-4 gap-4">
+		<!--First row-->
+		<Card title="Cover Image">
+			<CoverImageUploadWithPreview
+				bind:uploadedImages
+				on:upload={event => ($newGameForm.coverImage = event.detail)}
+				on:delete={() => ($newGameForm.coverImage = undefined)}
 			/>
-			<FormSelectWithCreate
-				bind:value={$newGameForm.franchise}
-				items={franchisees}
-				addNewText="Create new franchise: "
-				label="Franchise"
-				name="franchise"
-				boldTitle
-			/>
-			<FormCheckbox bind:checked={$newGameForm.isDLC} label="Is DLC?" name="isDLC" />
+		</Card>
 
-			{#if $newGameForm.isDLC}
-				<FormSelect
-					bind:value={$newGameForm.parentTitle}
-					items={parentTitles}
-					label="Parent title"
-					name="parentTitle"
+		<Card title="General">
+			<div class="flex flex-col gap-2">
+				<FormInput
+					bind:value={$newGameForm.title}
+					errors={$errors.title}
+					label="Title"
+					name="title"
 					boldTitle
 				/>
-			{/if}
-		</div>
-	</Card>
+				<FormTextarea
+					bind:value={$newGameForm.description}
+					errors={$errors.description}
+					label="Description"
+					name="description"
+					rows={3}
+					boldTitle
+				/>
+				<FormSelectWithCreate
+					bind:value={$newGameForm.franchise}
+					items={franchisees}
+					addNewText="Create new franchise: "
+					label="Franchise"
+					name="franchise"
+					boldTitle
+				/>
+				<FormCheckbox bind:checked={$newGameForm.isDLC} label="Is DLC?" name="isDLC" />
 
-	<Card title="Developers">
-		<div class="flex flex-col gap-2">
-			<FormSelect
-				bind:fakeMultiselectValues={$newGameForm.developers}
-				items={developers}
-				valueKey="id"
-				label="Developers"
-				name="developers"
-				fakeMultiselect
-				boldTitle
-			/>
+				{#if $newGameForm.isDLC}
+					<FormSelect
+						bind:value={$newGameForm.parentTitle}
+						items={parentTitles}
+						label="Parent title"
+						name="parentTitle"
+						boldTitle
+					/>
+				{/if}
+			</div>
+		</Card>
 
-			<FormDatepicker bind:value={$newGameForm.releaseDate} label="Release Date" name="releaseDate" boldTitle />
+		<Card title="Developers">
+			<div class="flex flex-col gap-2">
+				<FormSelect
+					bind:fakeMultiselectValues={$newGameForm.developers}
+					items={developers}
+					valueKey="id"
+					label="Developers"
+					name="developers"
+					fakeMultiselect
+					boldTitle
+				/>
 
-			<FormSelect
-				bind:fakeMultiselectValues={$newGameForm.publishers}
-				items={publishers}
-				label="Publishers"
-				name="publishers"
-				valueKey="id"
-				fakeMultiselect
-				boldTitle
-			/>
-		</div>
-	</Card>
+				<FormDatepicker
+					bind:value={$newGameForm.releaseDate}
+					label="Release Date"
+					name="releaseDate"
+					boldTitle
+				/>
 
-	<Card title="Miscellaneous">
-		<div class="flex flex-col gap-2">
-			<FormSelect
-				bind:fakeMultiselectValues={$newGameForm.genres}
-				items={genres}
-				valueKey="id"
-				label="Genres"
-				name="genres"
-				boldTitle
-				fakeMultiselect
-			/>
+				<FormSelect
+					bind:fakeMultiselectValues={$newGameForm.publishers}
+					items={publishers}
+					label="Publishers"
+					name="publishers"
+					valueKey="id"
+					fakeMultiselect
+					boldTitle
+				/>
+			</div>
+		</Card>
 
-			<FormSelect
-				bind:fakeMultiselectValues={$newGameForm.platforms}
-				items={platforms}
-				valueKey="id"
-				valueLabel="name"
-				label="Platforms"
-				name="platforms"
-				fakeMultiselect
-				boldTitle
-			/>
-			<FormSelect
-				bind:fakeMultiselectValues={$newGameForm.storefronts}
-				items={storefronts}
-				valueKey="id"
-				valueLabel="name"
-				label="Storefronts"
-				name="storefronts"
-				groupBy={storefront => storefront.Type.name}
-				fakeMultiselect
-				boldTitle
-			/>
-		</div>
-	</Card>
+		<Card title="Miscellaneous">
+			<div class="flex flex-col gap-2">
+				<FormSelect
+					bind:fakeMultiselectValues={$newGameForm.genres}
+					items={genres}
+					valueKey="id"
+					label="Genres"
+					name="genres"
+					boldTitle
+					fakeMultiselect
+				/>
 
-	<!--Middle row-->
-	<AreasCard />
-	<CollectibleTypesCard />
+				<FormSelect
+					bind:fakeMultiselectValues={$newGameForm.platforms}
+					items={platforms}
+					valueKey="id"
+					valueLabel="name"
+					label="Platforms"
+					name="platforms"
+					fakeMultiselect
+					boldTitle
+				/>
+				<FormSelect
+					bind:fakeMultiselectValues={$newGameForm.storefronts}
+					items={storefronts}
+					valueKey="id"
+					valueLabel="name"
+					label="Storefronts"
+					name="storefronts"
+					groupBy={storefront => storefront.Type.name}
+					fakeMultiselect
+					boldTitle
+				/>
+			</div>
+		</Card>
 
-	<!--Bottom Row-->
-	<Card title="Achievements" double />
-	<CollectiblesCard />
+		<!--Middle row-->
+		<AreasCard />
+		<CollectibleTypesCard />
 
-	<!--<input type="hidden" name="areas" value={NewGameStore.areas} />-->
-	<!--<input type="hidden" name="collectibleTypes" value={NewGameStore.collectibleTypes} />-->
-	<!--<input type="hidden" name="collectibles" value={NewGameStore.collectibles} />-->
+		<!--Bottom Row-->
+		<Card title="Achievements" double />
+		<CollectiblesCard />
 
-	<div class="flex flex-row justify-end gap-4">
+		<!--<input type="hidden" name="areas" value={NewGameStore.areas} />-->
+		<!--<input type="hidden" name="collectibleTypes" value={NewGameStore.collectibleTypes} />-->
+		<!--<input type="hidden" name="collectibles" value={NewGameStore.collectibles} />-->
+	</div>
+	
+	<div class="w-100 flex flex-row justify-end gap-4 mt-3">
 		<a href={Pages.HOME} class="variant-filled-error btn w-40">Cancel</a>
-		<button type="submit" class="variant-filled-secondary btn w-40"> Save New Game </button>
+		<button type="submit" class="variant-filled-secondary btn w-40"> Save New Game</button>
 	</div>
 </form>
-
-<style lang="postcss">
-	.card-row {
-		@apply grid h-[29rem] grid-cols-4 gap-4;
-	}
-</style>
