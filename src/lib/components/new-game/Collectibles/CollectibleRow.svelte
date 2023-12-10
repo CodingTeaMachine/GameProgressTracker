@@ -5,8 +5,9 @@
 </script>
 
 <script lang="ts">
-	import { Save, Trash, Map, X } from 'lucide-svelte';
-	import type { Collectible, CollectibleType, CollectibleWithAreaId } from '$/lib/types/types';
+	import { Save, Trash, Box, X } from 'lucide-svelte';
+	import type { Collectible, CollectibleWithAreaId } from '$/lib/types/domain/collectible';
+	import type { CollectibleType } from '$/lib/types/domain/collectibleType';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import FormTextInput from '../../input/FormTextInput.svelte';
 	import FormSelect from '../../input/FormSelect.svelte';
@@ -79,7 +80,7 @@
 				<!--svelte-ignore a11y-img-redundant-alt-->
 				<img src={$collectibleType.imageSrc} alt="cover image" class="h-full rounded-md" />
 			{:else}
-				<Map />
+				<Box />
 			{/if}
 		</div>
 

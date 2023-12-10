@@ -1,4 +1,7 @@
-import type { ListTodo } from 'lucide-svelte';
+import type { ListTodo } from "lucide-svelte";
+import type { toZod } from "tozod";
+import { z } from "zod";
+
 
 export type Icon = typeof ListTodo;
 
@@ -7,30 +10,29 @@ export interface GeneralDropdownData {
 	value: number;
 }
 
+export const GeneralDropdownDataSchema: toZod<GeneralDropdownData> = z.object({
+	label: z.string(),
+	value: z.number(),
+});
 
-export interface Area {
-	id: number;
-	title: string;
-	description: string;
-	image: FileList | undefined;
-	imageSrc: string;
+export const GeneralDatabaseDropdownItemSchema = z.object({
+	id: z.number(),
+	label: z.string(),
+});
+
+export const GeneralDatabaseDropdownItemWithNameSchema = z.object({
+	id: z.number(),
+	name: z.string(),
+});
+
+export interface SuccessfulAction {
+	success: true;
 }
 
-export type ParentArea = Area & { children: Area[] };
-
-export type AreaInput = ParentArea | Area;
-
-export interface CollectibleType {
-	id: number;
-	title: string;
-	description: string;
-	image: FileList | undefined;
-	imageSrc: string;
+export type FailResponse = {
+	form: object;
+	errorMessage?: string;
+	severity?: ErrorSeverity;
 }
 
-export interface Collectible {
-	collectibleTypeId: number;
-	totalAmount: number;
-	localId: number;
-}
-export type CollectibleWithAreaId = Collectible & { areaId: number };
+export type ErrorSeverity = 'warning' | 'error';

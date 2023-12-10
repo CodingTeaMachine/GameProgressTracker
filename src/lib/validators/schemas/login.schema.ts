@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { errorMessages } from '$lib/validators/schemas/errorMesages';
+import { errorMessages } from '$lib/validators/errorMesages';
 
 export const loginSchema = z.object({
 	username: z.string({

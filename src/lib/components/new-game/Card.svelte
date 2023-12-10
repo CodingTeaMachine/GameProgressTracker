@@ -8,10 +8,9 @@
 	 * The title of the card
 	 */
 	export let title: string;
-
 </script>
 
-<div class="card h-full max-w-full overflow-hidden p-4" class:double>
+<div class="card max-h-[58rem] min-h-[29rem] overflow-y-scroll p-4" class:double>
 	<h2 class="mb-1 text-lg before:mr-2 before:rounded-sm before:bg-secondary-500 before:content-['\00a0']">
 		{title}
 	</h2>
@@ -20,7 +19,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="postcss">
 	.double {
 		@apply col-span-2;
 	}

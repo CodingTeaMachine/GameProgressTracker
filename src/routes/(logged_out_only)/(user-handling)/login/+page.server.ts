@@ -1,3 +1,4 @@
+import type { FailResponse } from "$types/types";
 import type { Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
@@ -9,13 +10,9 @@ import { USERNAME_AUTH_PROVIDER } from '$lib/data/constants';
 import { userStore } from '$lib/stores/user';
 import { Pages } from '$types/enums/pages';
 import { LuciaError } from 'lucia';
-import { errorMessages, luciaErrors } from '$lib/validators/schemas/errorMesages';
+import { errorMessages, luciaErrors } from '$lib/validators/errorMesages';
 import { userHandling } from '$lib/data/userHandling';
 
-type FailResponse = {
-	form: object;
-	errorMessage?: string;
-};
 
 export const load = (async () => {
 	const form = await superValidate(loginSchema);
@@ -36,7 +33,6 @@ export const actions = {
 			await userHandling.loginUser(user, locals, cookies);
 
 			userStore.user.login(user);
-
 		} catch (e) {
 			console.log(e);
 			form.data.password = '';

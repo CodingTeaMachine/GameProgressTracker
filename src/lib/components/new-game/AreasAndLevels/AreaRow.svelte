@@ -1,19 +1,19 @@
 <script lang="ts" context="module">
-  	import { writable } from 'svelte/store';
-  
+	import type { Area } from '$types/domain/area';
+	import { writable } from 'svelte/store';
+
 	export let editedId = writable<number | null>(null);
-	export let editedValue = writable<AreaInput | null>();
+	export let editedValue = writable<Area | null>();
 </script>
 
 <script lang="ts">
 	import { Save, Trash, Map, X, CornerDownRight } from 'lucide-svelte';
-	import type { AreaInput } from '$/lib/types/types';
 	import { createEventDispatcher } from 'svelte';
 	import CoverImageUploadWithPreview from '../CoverImageUploadWithPreview.svelte';
 	import FormTextInput from '../../input/FormTextInput.svelte';
 	import { Modals } from '$lib/helpers/modals.js';
 
-	export let area: AreaInput;
+	export let area: Area;
 	export let canHaveChildren: boolean = true;
 
 	$: editingInProgress = $editedId !== null && $editedId === area.id;
@@ -30,20 +30,20 @@
 
 	interface Events {
 		delete: number;
-		addChild: number;
-		update: AreaInput;
+		addChild: void;
+		update: Area;
 	}
 
 	const dispatch = createEventDispatcher<Events>();
 
 	let titleInputRef: HTMLInputElement;
 
-	function deleteRow() {
-		dispatch('delete', area.id);
+	function addChild() {
+		dispatch('addChild');
 	}
 
-	function addChild() {
-		dispatch('addChild', area.id);
+	function deleteRow() {
+		dispatch('delete', area.id);
 	}
 
 	function editRow() {
@@ -54,12 +54,11 @@
 	function saveEdit() {
 		if ($editedValue !== null) {
 			if ($editedValue.title === '' && $editedValue.description === '') {
-				dispatch('delete', $editedValue.id);
-				endEdit();
+				cancelEdit();
 			} else if ($editedValue.title === '') {
 				Modals.alert('Alert', 'The title cannot be empty');
 			} else {
-				dispatch('update', { ...$editedValue } as AreaInput);
+				dispatch('update', $editedValue);
 				endEdit();
 			}
 		}
@@ -69,7 +68,6 @@
 		if (area.title === '' && area.description === '') {
 			deleteRow();
 		}
-
 		endEdit();
 	}
 
@@ -88,13 +86,14 @@
 </script>
 
 <div
-	class="flex cursor-pointer items-center justify-between gap-4 rounded-md px-3 py-2 duration-75 hover:bg-surface-700"
+	class="flex cursor-pointer items-center justify-between gap-4 rounded-md px-3 duration-75 hover:bg-surface-700"
+	class:py-3={editingInProgress}
 >
 	<!--svelte-ignore a11y-no-static-element-interactions a11y-click-events-have-key-events-->
 	<div
 		class="flex w-full items-center gap-4"
 		class:h-20={editingInProgress}
-		class:h-16={!editingInProgress}
+		class:h-14={!editingInProgress}
 		on:click={() => {
 			editingInProgress || editRow();
 		}}
@@ -135,8 +134,10 @@
 					on:input={newValue => setEditedValue('description', newValue)}
 				/>
 			{:else}
-				<div class="text-lg font-bold">{area.title}</div>
-				<div class="opacity-50">{area.description}</div>
+				<p class="text-lg font-bold">{area.title}</p>
+				{#if area.description}
+					<p class="overflow-hidden text-ellipsis opacity-50">{area.description}</p>
+				{/if}
 			{/if}
 		</div>
 	</div>

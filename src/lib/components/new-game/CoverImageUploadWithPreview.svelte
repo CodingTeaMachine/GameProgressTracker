@@ -6,6 +6,8 @@
 
 	export let uploadedImages: FileList | undefined;
 	export let hasText: boolean = true;
+	
+	export let name: string = "coverImage";
 
 	let coverImageUploaded = false;
 	let imagePreview: HTMLImageElement;
@@ -14,6 +16,7 @@
 
 	interface Events {
 		upload: string;
+		delete: void;
 	}
 
 	const dispatch = createEventDispatcher<Events>();
@@ -34,7 +37,6 @@
 					coverImageWidth = imagePreview.width;
 				}, 10);
 			} else {
-				console.log('ez lett');
 				coverImageUploaded = false;
 				coverImageWidth = 0;
 			}
@@ -47,12 +49,13 @@
 		Modals.confirm('Confirm', 'Are you sure you want to delete the cover image?').then(() => {
 			uploadedImages = undefined;
 			coverImageUploaded = false;
+			dispatch('delete');
 		});
 	}
 </script>
 
 {#if !coverImageUploaded}
-	<CoverImageUpload bind:uploadedImages on:upload={onCoverImageUpload} {hasText} />
+	<CoverImageUpload bind:uploadedImages on:upload={onCoverImageUpload} {hasText} {name}/>
 {:else}
 	<div class="group relative flex h-full cursor-pointer items-center justify-center">
 		<!--svelte-ignore a11y-img-redundant-alt-->

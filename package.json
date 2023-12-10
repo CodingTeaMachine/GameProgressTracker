@@ -21,8 +21,8 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.38.0",
-		"@skeletonlabs/skeleton": "^2.3.0",
-		"@skeletonlabs/tw-plugin": "^0.2.0",
+		"@skeletonlabs/skeleton": "^2.5.0",
+		"@skeletonlabs/tw-plugin": "^0.2.4",
 		"@sveltejs/adapter-auto": "^2.1.0",
 		"@sveltejs/kit": "^1.25.0",
 		"@tailwindcss/forms": "^0.5.6",
@@ -41,14 +41,14 @@
 		"prettier": "^2.8.8",
 		"prettier-plugin-svelte": "^2.10.1",
 		"prettier-plugin-tailwindcss": "^0.4.1",
-		"prisma": "^5.3.1",
+		"prisma": "^5.7.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"svelte": "^4.2.0",
 		"svelte-check": "^3.5.1",
 		"svelte-select": "^5.7.0",
 		"sveltekit-superforms": "^1.7.0",
-		"tailwindcss": "^3.3.3",
+		"tailwindcss": "^3.3.5",
 		"ts-node": "^10.9.1",
 		"tslib": "^2.6.2",
 		"tsx": "^3.13.0",
@@ -60,11 +60,14 @@
 	},
 	"dependencies": {
 		"@lucia-auth/adapter-prisma": "^3.0.1",
-		"@prisma/client": "^5.3.1",
+		"@prisma/client": "^5.7.0",
 		"@sveltejs/vite-plugin-svelte": "^2.4.6",
 		"flatpickr": "^4.6.13",
+		"image-type": "^5.2.0",
 		"lucia": "^2.6.0",
 		"lucide-svelte": "^0.279.0",
-		"svelte-flatpickr": "^3.3.3"
+		"svelte-flatpickr": "^3.3.3",
+		"tozod": "^3.0.0",
+		"winston": "^3.11.0"
 	}
 }

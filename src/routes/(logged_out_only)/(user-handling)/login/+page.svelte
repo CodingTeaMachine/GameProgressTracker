@@ -22,10 +22,11 @@
 
 	const { form: registerForm, errors } = superForm(data.form);
 	const toastStore = getToastStore();
-
+	
 	function openErrorToast(message: string) {
 		toastStore.trigger({ message, timeout: 3000, background: 'variant-filled-error' });
 	}
+	
 </script>
 
 <div class="flex flex-row justify-center h-[95%]">

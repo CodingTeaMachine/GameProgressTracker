@@ -15,7 +15,7 @@
 	/**
 	 * The name of the input (used in forms)
 	 */
-	export let name: string;
+	export let name: string = '';
 
 	/**
 	 * Items of the dropdown
@@ -76,26 +76,43 @@
 	 * Can multiple values be selected
 	 */
 	export let multiple: boolean = false;
-  
-  	export let groupBy: (item: typeof items[0]) => any = () => null;
+ 
+	export let addNewText = 'Create new: ';
+	
+  	export  let groupBy: (item: typeof items[0]) => any = () => null;
+
+	const dispatch = createEventDispatcher<{change: any}>();
+
+	let displayItems = [...items];
+	let filterText = '';
+	let localId = -1;
 
 	onMount(() => {
 		if (initialValue !== null) {
 			value = displayItems.find(item => item[valueKey] === initialValue);
 		}
 	});
-
-	let displayItems = [...items];
-
-	const dispatch = createEventDispatcher<{change: any}>();
-
+	
 	function onChangeHandler(newValue: { detail: (typeof items)[0] }) {
+
+		items = items.map((item) => {
+			delete item.created;
+			return item;
+		});
+		
 		if (fakeMultiselect) {
 			value = null;
 			fakeMultiselectValues = [...fakeMultiselectValues, newValue.detail];
 			dispatch('change', fakeMultiselectValues);
 		} else {
 			dispatch('change', value);
+		}
+	}
+	
+	function onFilterHandler(e: {detail: any[]}) {
+		if (e.detail.length === 0 && filterText.length > 0) {
+			const prev = items.filter((i) => !i.created);
+			items = [...prev, {[valueKey]: localId--, [valueLabel]: filterText, created: true, }];
 		}
 	}
 
@@ -126,6 +143,7 @@
 	<Select
 		bind:value
 		bind:justValue
+		bind:filterText
 		class={label !== '' ? 'select-element !mt-1' : 'select-element'}
 		itemId={valueKey}
 		label={valueLabel}
@@ -139,7 +157,13 @@
 		{multiple}
 		{groupBy}
 		on:change={onChangeHandler}
-	/>
+		on:filter={onFilterHandler}
+	>
+		<div slot="item" let:item>
+			{item.created ? addNewText : ''}
+			{item[valueLabel]}
+		</div>
+	</Select>
 </label>
 
 {#if fakeMultiselect && fakeMultiselectValues.length !== 0}

@@ -8,7 +8,7 @@ import { USERNAME_AUTH_PROVIDER } from '$lib/data/constants';
 import type { User } from 'lucia';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaErrors } from '$types/enums/prismaErrors';
-import { errorMessages } from '$lib/validators/schemas/errorMesages';
+import { errorMessages } from '$lib/validators/errorMesages';
 import { Pages } from '$types/enums/pages';
 import { userStore } from '$/lib/stores/user';
 import { userHandling } from '$lib/data/userHandling';

@@ -57,6 +57,7 @@ const genres = [
 	{ label: 'Artillery' },
 	{ label: 'Battle Royale' },
 	{ label: 'Incremental/Idle' },
-	{ label: 'Mystery' }
+	{ label: 'Mystery' },
+	{ label: 'Stealth' }
 ];
 export default genres;

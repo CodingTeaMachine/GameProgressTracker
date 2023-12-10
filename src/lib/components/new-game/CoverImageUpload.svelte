@@ -4,6 +4,8 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let hasText: boolean = true;
+	
+	export let name: string = "coverImage";
 
 	interface Events {
 		upload: Blob;
@@ -22,7 +24,7 @@
 
 <FileDropzone
 	bind:files={uploadedImages}
-	name="coverImage"
+	{name}
 	class="mx-auto h-full !p-0"
 	accept=".png, .jpg, .jpeg"
 	on:change={onCoverImageUpload}

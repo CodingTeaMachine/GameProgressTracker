@@ -37,6 +37,7 @@ const platforms = [
 	{ name: 'iOS' },
 	{ name: 'Linux' },
 	{ name: 'Mac' },
+	{ name: 'Microsoft Windows' },
 	{ name: 'Mobile' },
 	{ name: 'MSX' },
 	{ name: 'N-Gage' },

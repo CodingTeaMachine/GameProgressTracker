@@ -33,9 +33,9 @@ export const navbarLinks: NavbarLink[] = [
 		protected: false
 	},
 	{
-		title: 'Wish List',
+		title: 'Backlog',
 		icon: Heart,
-		destination: Pages.WISH_LIST,
+		destination: Pages.BACKLOG,
 		protected: true
 	},
 	{

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	// import { createEventDispatcher } from 'svelte';
 
 	/**
 	 * The text displayed above the input
@@ -32,7 +32,7 @@
 	export let boldTitle: boolean = false;
 
 	/**
-	 * The amunt of rows a textarea has
+	 * The amount of rows a textarea has
 	 */
 	export let rows: number = 1;
 
@@ -40,13 +40,13 @@
 		error: !!errors
 	};
 
-	function inputEventHandler(event: InputEvent) {
-		showing.error = false;
-
-		value = (event.target as HTMLInputElement).value;
-		const dispatch = createEventDispatcher();
-		dispatch('input', value);
-	}
+	// const dispatch = createEventDispatcher<{input: string}>();
+	
+	// function inputEventHandler(event: InputEvent) {
+	// 	showing.error = false;
+	// 	value = (event.target as HTMLInputElement).value;
+	// 	dispatch('input', value);
+	// }
 </script>
 
 <label class="label">
@@ -59,7 +59,6 @@
 		{rows}
 		{placeholder}
 		{name}
-		on:input={inputEventHandler}
 	/>
 	{#if errors}<div class="mt-2 text-red-500">{errors[0]}</div>{/if}
 </label>

@@ -3,7 +3,8 @@
 </script>
 
 <script lang="ts">
-	import type { CollectibleType, Collectible } from '$/lib/types/types';
+	import type { CollectibleType } from '$/lib/types/domain/collectibleType';
+	import type { Collectible } from '$/lib/types/domain/collectible';
 	import { PlusSquare, Save, X } from 'lucide-svelte';
 	import FormSelect from '../../input/FormSelect.svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -46,7 +47,8 @@
 </script>
 
 <div
-	class="flex cursor-pointer items-center justify-between gap-4 rounded-md px-3 py-2 duration-75 hover:bg-surface-700"
+	class="flex cursor-pointer items-center justify-between gap-4 rounded-md px-3 duration-75 hover:bg-surface-700"
+	class:py-2={editingInProgress}
 >
 	<!--svelte-ignore a11y-no-static-element-interactions a11y-click-events-have-key-events-->
 	<div

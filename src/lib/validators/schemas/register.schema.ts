@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { errorMessages } from '$lib/validators/schemas/errorMesages';
+import { errorMessages } from '$lib/validators/errorMesages';
 import { MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH, MIN_EMAIL_LENGTH } from '$lib/data/constants';
 
 export const registerSchema = z

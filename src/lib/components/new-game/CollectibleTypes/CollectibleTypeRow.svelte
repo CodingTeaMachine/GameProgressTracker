@@ -1,14 +1,13 @@
 <script lang="ts" context="module">
- 
-	import { writable } from "svelte/store";
+	import { writable } from 'svelte/store';
 
-    export let editedId = writable<number | null>(null);
+	export let editedId = writable<number | null>(null);
 	export let editedValue = writable<CollectibleType | null>();
 </script>
 
 <script lang="ts">
 	import { Save, Trash, Map, X } from 'lucide-svelte';
-	import type { CollectibleType } from '$/lib/types/types';
+	import type { CollectibleType } from '$/lib/types/domain/collectibleType';
 	import { createEventDispatcher } from 'svelte';
 	import CoverImageUploadWithPreview from '../CoverImageUploadWithPreview.svelte';
 	import FormTextInput from '../../input/FormTextInput.svelte';
@@ -83,7 +82,8 @@
 </script>
 
 <div
-	class="flex cursor-pointer items-center justify-between gap-4 rounded-md px-3 py-2 duration-75 hover:bg-surface-700"
+	class="flex cursor-pointer items-center justify-between gap-4 rounded-md px-3 duration-75 hover:bg-surface-700"
+	class:py-3={editingInProgress}
 >
 	<!--svelte-ignore a11y-no-static-element-interactions a11y-click-events-have-key-events-->
 	<div
@@ -131,7 +131,9 @@
 				/>
 			{:else}
 				<div class="text-lg font-bold">{collectibleType.title}</div>
-				<div class="opacity-50">{collectibleType.description}</div>
+				{#if collectibleType.description}
+					<div class="opacity-50">{collectibleType.description}</div>
+				{/if}
 			{/if}
 		</div>
 	</div>

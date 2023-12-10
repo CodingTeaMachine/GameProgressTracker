@@ -17,12 +17,14 @@
 	 * Is the title bold
 	 */
 	export let boldTitle: boolean = false;
+	
+	export let name: string;
 </script>
 
 <!--svelte-ignore a11y-label-has-associated-control -->
 <label class="label">
 	<span class:font-bold={boldTitle}>{label}</span>
 	<div class="input-group input-group-divider cursor-pointer grid-cols-[auto_1fr_auto]">
-		<Flatpickr class="input w-full !cursor-pointer !bg-transparent" bind:value />
+		<Flatpickr bind:value class="input w-full !cursor-pointer !bg-transparent" {name}/>
 	</div>
 </label>
