@@ -42,7 +42,7 @@
 </script>
 
 <Card title="Collectible Types" double>
-	<button class="variant-filled-secondary btn btn-sm mb-4 mt-2" on:click={addCollectibleType} disabled={editingInProgress}>
+	<button class="variant-filled-secondary btn btn-sm mb-4 mt-2" on:click={addCollectibleType} disabled={editingInProgress} type="button">
 		<span><Plus /></span>
 		<span>Add new collectible type</span>
 	</button>

@@ -1,46 +1,19 @@
 import logger from "$lib/helpers/logger";
+import { FileErrors } from "$types/enums/errors";
 import { LogService } from "$types/enums/LogService";
 import fs from 'node:fs/promises';
 import imageType from 'image-type';
-import {randomUUID} from 'crypto';
-import path from 'path';
 
-export async function saveBase64StringToFile(base64String: string, filePath: string, fileName: string | null = null, fileExtension: string | null = null): Promise<string | null> {
-	// Remove the data URI prefix (e.g., "data:image/png;base64,")
-	const base64Data = base64String.replace(/^data:[a-zA-Z/]+;base64,/, '');
-
-	// Create a Buffer from the base64 data
-	const buffer = Buffer.from(base64Data, 'base64');
-
-	if(!fileExtension) {
-		fileExtension = await getFileExtensionFromBuffer(buffer);
-		logger.warn("No filename extension, read file extension from buffer: " + fileExtension, {service: LogService.FILE_HANDLER});
-	}
-
-	if(!fileName) {
-		fileName = randomUUID();
-		logger.warn("No filename provided, generated random UUID: " + fileName, {service: LogService.FILE_HANDLER});
-	}
-
-	fileName = fileName + '.' + fileExtension;
-
-	filePath = path.join(filePath, fileName);
-
-	// Write the buffer to a file
+export async function fileExists(file: string): Promise<boolean> {
 	try {
-		await fs.writeFile(filePath, buffer);
-		logger.info("Successfully wrote file to disk: " + fileName, {service: LogService.FILE_HANDLER});
-		return fileName;
+		await fs.stat(file);
+		return true;
 	} catch (error) {
-		if(error instanceof Error) {
-			logger.error("Error writing file to disk: " + fileName, {service: LogService.FILE_HANDLER, errors: error.message});
-		}
-
-		return null;
+		return false;
 	}
 }
 
-async function getFileExtensionFromBuffer(buffer: Buffer) {
+export async function getFileExtensionFromBuffer(buffer: Buffer) {
 	const type = await imageType(buffer);
 
 	if(type === undefined) {
@@ -48,4 +21,16 @@ async function getFileExtensionFromBuffer(buffer: Buffer) {
 	}
 
 	return type ? type.ext : null;
+}
+
+export async function createDirectoryIfItDoesntExist(directory: string) {
+	try {
+		await fs.stat(directory);
+	} catch (error) {
+		if(error instanceof Error && 'code' in error && error.code === FileErrors.DOESNT_EXITS) {
+			await fs.mkdir(directory, {recursive: true});
+		} else {
+			throw error;
+		}
+	}
 }

@@ -1,0 +1,41 @@
+
+#countdown {
+    --countdown-timer: 10s;
+    --size: 1.5rem;
+    --store-size: 68px;
+    --store-width: 3px;
+
+    position: relative;
+    margin: auto;
+    height: var(--size);
+    width: var(--size);
+    text-align: center;
+
+    svg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: var(--size);
+        height: var(--size);
+        transform: rotateY(-180deg) rotateZ(-90deg);
+
+        circle {
+            stroke-dasharray: var(--store-size);
+            stroke-dashoffset: 0;
+            stroke-linecap: round;
+            stroke-width: var(--store-width);
+            stroke: white;
+            fill: none;
+            animation: countdown var(--countdown-timer) linear forwards;
+        }
+    }
+}
+
+@keyframes countdown {
+    from {
+        stroke-dashoffset: 0;
+    }
+    to {
+        stroke-dashoffset: var(--store-size);
+    }
+}

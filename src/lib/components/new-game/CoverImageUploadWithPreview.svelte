@@ -4,7 +4,7 @@
 	import { Modals } from '$lib/helpers/modals.js';
 	import { createEventDispatcher } from 'svelte';
 
-	export let uploadedImages: FileList | undefined;
+	export let uploadedImages: FileList | undefined = undefined;
 	export let hasText: boolean = true;
 	
 	export let name: string = "coverImage";
@@ -14,7 +14,7 @@
 
 	let coverImageWidth = 0;
 
-	interface Events {
+	type Events = {
 		upload: string;
 		delete: void;
 	}

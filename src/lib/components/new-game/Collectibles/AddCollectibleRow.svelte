@@ -17,7 +17,7 @@
 	let selectedCollectibleTypeId: number | null = null;
 	let totalAmount: number = 0;
 
-	interface Events {
+	type Events = {
 		save: Collectible;
 	}
 

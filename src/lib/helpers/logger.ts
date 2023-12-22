@@ -7,42 +7,16 @@ const logger: Logger =  createLogger({
 			format: format.combine(
 				format.colorize(),
 				format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SS' }),
-				format.printf(({ timestamp, level, message, service, data = {}, errors = {} }) => {
-					let logMessage = `[${timestamp}] ${service} [${level}]: ${message}`;
-
-					if(data) {
-						logMessage += `
-						data: ${JSON.stringify(data)}`;
-					}
-
-					if(errors) {
-						logMessage += `
-						errors: ${typeof errors === 'object' ? JSON.stringify(errors) : errors}`;
-					}
-
-					return logMessage;
-				})
+				//@ts-expect-error The input is a destructured
+				format.printf(createLoggerFormat)
 			),
 		}),
 		new transports.File({
 			filename: `./logs/${DateTime.now().toFormat("yyyy-MM-dd-HH")}-log.log`,
 			format: format.combine(
 				format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SS' }),
-				format.printf(({ timestamp, level, message, service, data = {}, errors = {} }) => {
-					let logMessage = `[${timestamp}] ${service} [${level}]: ${message}`;
-
-					if(data) {
-						logMessage += `
-						data: ${JSON.stringify(data)}`;
-					}
-
-					if(errors) {
-						logMessage += `
-						errors: ${typeof errors === 'object' ? JSON.stringify(errors) : errors}`;
-					}
-
-					return logMessage;
-				})
+				//@ts-expect-error The input is a destructured
+				format.printf(createLoggerFormat)
 			)
 		}),
 	],
@@ -51,4 +25,27 @@ const logger: Logger =  createLogger({
 	}
 });
 
+function createLoggerFormat({ timestamp, level, message, service, data = null, errors = null }: LoggerFields) {
+	let logMessage = `[${timestamp}] ${service} [${level}]: ${message}`;
+
+	if(data) {
+		logMessage += `
+						data: ${typeof data === 'object' ? JSON.stringify(data) : data}`;
+	}
+
+	if(errors) {
+		logMessage += `
+						errors: ${typeof errors === 'object' ? JSON.stringify(errors) : errors}`;
+	}
+
+	return logMessage;
+}
+type LoggerFields = {
+	timestamp: string;
+	level: string;
+	message: string;
+	service: string;
+	data: any;
+	errors: any;
+}
 export default logger;

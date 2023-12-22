@@ -47,17 +47,17 @@ model Key {
 model Game {
     id           Int       @id @unique @default(autoincrement())
     title        String
-    cover        String?
     description  String
+	cover String?
     is_dlc       Boolean   @default(false)
     release_date DateTime? @db.Date
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     parent_id Int?
     Parent    Game?  @relation("GameDLC", fields: [parent_id], references: [id])
-    dlcs      Game[] @relation("GameDLC")
+	DLCs Game[] @relation("GameDLC")
 
     franchise_id Int?
     Franchise    Franchise? @relation(fields: [franchise_id], references: [id])
@@ -68,8 +68,10 @@ model Game {
     Platforms   Platform[]
     Storefronts Storefront[]
 
+	Areas            Area[]
     Achievements Achievement[]
     Collectibles Collectible[]
+	CollectibleTypes CollectibleType[]
 }
 
 model Franchise {
@@ -86,7 +88,7 @@ model Genre {
     id    Int    @id @unique @default(autoincrement())
     label String @unique
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     Games Game[]
@@ -96,7 +98,7 @@ model Publisher {
     id    Int    @id @unique @default(autoincrement())
     label String @unique
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     Games Game[]
@@ -106,7 +108,7 @@ model Developer {
     id    Int    @id @unique @default(autoincrement())
     label String @unique
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     Games Game[]
@@ -116,7 +118,7 @@ model Platform {
     id   Int    @id @unique @default(autoincrement())
     name String @unique
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     Games Game[] @relation()
@@ -130,7 +132,7 @@ model Collectible {
     amount        Int     @default(1)
     is_standalone Boolean @default(true)
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     parent_id Int?
@@ -141,26 +143,60 @@ model Collectible {
     Game    Game @relation(fields: [game_id], references: [id])
 }
 
+model CollectibleType {
+	id          Int     @id @unique @default(autoincrement())
+	title       String  @unique
+	description String?
+	image       String?
+
+	deleted    Boolean   @default(false)
+	deleted_at DateTime?
+
+	game_id Int
+	Game    Game @relation(fields: [game_id], references: [id])
+
+	@@unique([game_id, title])
+}
+
 model Achievement {
     id          Int     @id @unique @default(autoincrement())
     title       String  @unique
     icon        String?
     description String?
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     game_id           Int
-    Game              Game                                       @relation(fields: [game_id], references: [id])
+	Game Game @relation(fields: [game_id], references: [id])
     AchievementGrades AchievementGradeOnStorefrontOnAchievement[]
 }
 
+model Area {
+	id          Int     @id @unique @default(autoincrement())
+	title       String
+	description String?
+	image       String?
+
+	parent_id  Int?
+	ParentArea Area?  @relation("ParentArea", fields: [parent_id], references: [id])
+	ChildAreas Area[] @relation("ParentArea")
+
+	game_id Int?
+	Game    Game? @relation(fields: [game_id], references: [id])
+
+	deleted    Boolean   @default(false)
+	deleted_at DateTime?
+
+	@@unique([title, game_id])
+}
+
 model AchievementGrade {
-    id    Int    @id @unique @default(autoincrement())
-    label String @unique
+	id    Int    @id @unique @default(autoincrement())
+	label String @unique
     icon  String?
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     Storefronts                  Storefront[]
@@ -172,7 +208,7 @@ model Storefront {
     name             String  @unique
     has_achievements Boolean @default(false)
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     type_id Int
@@ -187,7 +223,7 @@ model StorefrontType {
     id   Int    @id @unique @default(autoincrement())
     name String @unique
 
-    deleted    Boolean  @default(false)
+	deleted Boolean @default(false)
     deleted_at DateTime?
 
     StoreFronts Storefront[]

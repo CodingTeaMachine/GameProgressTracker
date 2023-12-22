@@ -39,7 +39,7 @@
 			{/each}
 		</div>
 
-		{#each $areas.filter(ar => ar.parentId === 0) as area (area.id)}
+		{#each $areas.filter(ar => ar.parent_id === 0) as area (area.id)}
 			{#if area.title}
 				<div class="my-2">
 					<AreaRow bind:area />
@@ -62,7 +62,7 @@
 					{/each}
 				</div>
 
-				{#each $areas.filter(ar => ar.parentId === area.id) as childArea}
+				{#each $areas.filter(ar => ar.parent_id === area.id) as childArea}
 					<div class="ml-auto w-11/12">
 						{#if childArea.title}
 							<div class="ml-2 w-11/12">

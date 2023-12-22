@@ -12,4 +12,4 @@ vite.config.ts.timestamp-*
 .idea
 src/generated/*
 /logs
-/src/lib/data/gameCovers/*
+/src/lib/data/upload/*

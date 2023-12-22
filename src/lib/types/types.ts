@@ -1,11 +1,12 @@
 import type { ListTodo } from "lucide-svelte";
+import type { message } from "sveltekit-superforms/server";
 import type { toZod } from "tozod";
 import { z } from "zod";
 
 
 export type Icon = typeof ListTodo;
 
-export interface GeneralDropdownData {
+export type GeneralDropdownData = {
 	label: string;
 	value: number;
 }
@@ -25,7 +26,8 @@ export const GeneralDatabaseDropdownItemWithNameSchema = z.object({
 	name: z.string(),
 });
 
-export interface SuccessfulAction {
+export type SuccessfulAction = {
+	form: object;
 	success: true;
 }
 
@@ -34,5 +36,7 @@ export type FailResponse = {
 	errorMessage?: string;
 	severity?: ErrorSeverity;
 }
+
+export type FailResponseWithMessage = ReturnType<typeof message>;
 
 export type ErrorSeverity = 'warning' | 'error';

@@ -1,4 +1,4 @@
-export interface Collectible {
+export type Collectible = {
   collectibleTypeId: number;
   totalAmount: number;
   localId: number;

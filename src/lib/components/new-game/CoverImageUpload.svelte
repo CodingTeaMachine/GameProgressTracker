@@ -7,7 +7,7 @@
 	
 	export let name: string = "coverImage";
 
-	interface Events {
+	type Events = {
 		upload: Blob;
 	}
 

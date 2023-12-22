@@ -1,8 +1,13 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+	import { SuperValidateFormMessage } from "$types/enums/errors";
 	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { onMount } from "svelte";
 	import { superForm } from 'sveltekit-superforms/client';
-	// import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
+	import { openErrorToast, openSuccessToastWithTimer } from "$lib/helpers/toasts";
+	
 	import CoverImageUploadWithPreview from '$lib/components/new-game/CoverImageUploadWithPreview.svelte';
 	import FormCheckbox from '$/lib/components/input/FormCheckbox.svelte';
 	import FormDatepicker from '$/lib/components/input/FormDatepicker.svelte';
@@ -15,7 +20,7 @@
 	import CollectibleTypesCard from '$/lib/components/new-game/CollectibleTypes/CollectibleTypesCard.svelte';
 	import CollectiblesCard from '$/lib/components/new-game/Collectibles/CollectiblesCard.svelte';
 
-	// import { NewGameStore } from '$lib/stores/new-game/newGameStore';
+	import { NewGameStore } from '$lib/stores/new-game/newGameStore';
 
 	import type { GeneralDropdownData } from '$/lib/types/types';
 	import type { ActionData, PageData } from './$types';
@@ -24,45 +29,62 @@
 	export let data: PageData;
 	export let form: ActionData;
 
-	const { form: newGameForm, errors, enhance } = superForm(data.form, { dataType: 'json' });
 	const toastStore = getToastStore();
-
+	
+	const { form: newGameForm, errors, enhance} = superForm(
+		data.form,
+		{
+			dataType: 'json',
+			taintedMessage: null,
+			onUpdated({form: newGameForm}) {
+				if(newGameForm.message === SuperValidateFormMessage.SUCCESS) {
+					openSuccessToastWithTimer(toastStore, "Successfully created new game", 5000)
+						.then(() => {
+							NewGameStore.areas.set([]);
+							NewGameStore.collectibleTypes.set([]);
+							NewGameStore.collectibles.set([]);
+							goto(Pages.HOME);
+						});
+				}
+			}
+		}
+	);
+	
 	$: {
 		if (form?.errorMessage) {
-			openErrorToast(form.errorMessage);
+			openErrorToast(toastStore, form.errorMessage);
 		}
 	}
 
 	const errorFieldsWithToast: (keyof typeof $errors)[] = ['coverImage'];
 
 	$: {
-		//@ts-expect-error Idk man...
-		errorFieldsWithToast.forEach(field => $errors[field] !== undefined && openErrorToast($errors[field]));
-	}
-
-	function openErrorToast(message: string) {
-		toastStore.trigger({ message, timeout: 3000, background: 'variant-filled-error' });
+		errorFieldsWithToast.forEach(field => $errors[field] !== undefined && openErrorToast(toastStore, $errors[field] as string));
 	}
 
 	const { publishers, developers, genres, platforms, storefronts } = data;
 
-	//The file upload thing is wierd, should look into refactoring
-	let uploadedImages: FileList | undefined = undefined;
-
+	//TODO: load these from the server
 	const parentTitles: GeneralDropdownData[] = [];
 	const franchisees: GeneralDropdownData[] = [];
+	
+	onMount(() => {
+		//@ts-expect-error The areas in the form are not typed as Area[]
+		NewGameStore.areas.subscribe(areas => newGameForm.update(form => ({...form, areas}), {taint: false}));
+		//@ts-expect-error The collectibleTypes in the form are not typed as CollectibleType[]
+		NewGameStore.collectibleTypes.subscribe(collectibleTypes => newGameForm.update(form => ({...form, collectibleTypes}), {taint: false}));
+	});
 </script>
 
-<!--<SuperDebug data={$newGameForm}/>-->
+<SuperDebug data={$newGameForm}/>
 
 <form class="mx-4 mb-10 pr-4" method="POST" use:enhance>
 	<div class="grid grid-cols-4 gap-4">
 		<!--First row-->
 		<Card title="Cover Image">
 			<CoverImageUploadWithPreview
-				bind:uploadedImages
-				on:upload={event => ($newGameForm.coverImage = event.detail)}
-				on:delete={() => ($newGameForm.coverImage = undefined)}
+				on:upload={event => newGameForm.update(form => ({...form, coverImage: event.detail}))}
+				on:delete={() => newGameForm.update(form => ({...form, coverImage: undefined}))}
 			/>
 		</Card>
 
@@ -179,8 +201,6 @@
 		<!--Bottom Row-->
 		<Card title="Achievements" double />
 		<CollectiblesCard />
-
-		<!--<input type="hidden" name="areas" value={NewGameStore.areas} />-->
 		<!--<input type="hidden" name="collectibleTypes" value={NewGameStore.collectibleTypes} />-->
 		<!--<input type="hidden" name="collectibles" value={NewGameStore.collectibles} />-->
 	</div>

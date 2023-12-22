@@ -28,7 +28,7 @@
 		}
 	}
 
-	interface Events {
+	type Events = {
 		delete: number;
 		addChild: void;
 		update: Area;
@@ -143,19 +143,19 @@
 	</div>
 	<div class="flex flex-row gap-1">
 		{#if editingInProgress}
-			<button class="bg-initial btn-icon hover:text-success-500" on:click={saveEdit}>
+			<button class="bg-initial btn-icon hover:text-success-500" on:click={saveEdit} type="button">
 				<Save />
 			</button>
-			<button class="bg-initial btn-icon hover:text-error-500" on:click={cancelEdit}>
+			<button class="bg-initial btn-icon hover:text-error-500" on:click={cancelEdit} type="button">
 				<X />
 			</button>
 		{:else}
 			{#if canHaveChildren}
-				<button class="bg-initial btn-icon hover:text-secondary-500" on:click={addChild}>
+				<button class="bg-initial btn-icon hover:text-secondary-500" on:click={addChild} type="button">
 					<CornerDownRight />
 				</button>
 			{/if}
-			<button class="bg-initial btn-icon hover:text-error-500" on:click={deleteRow}>
+			<button class="bg-initial btn-icon hover:text-error-500" on:click={deleteRow} type="button">
 				<Trash />
 			</button>
 		{/if}

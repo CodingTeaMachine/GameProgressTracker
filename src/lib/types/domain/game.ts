@@ -1,3 +1,4 @@
+import type { GeneralDropdownData } from "$types/types";
 import type { z } from 'zod';
 import type { newGameSchema } from '$lib/validators/schemas/newGame.schema';
 
@@ -14,9 +15,12 @@ export interface CreateGame
 		| 'platforms'
 		| 'storefronts'
 		| 'coverImage'
+		| 'areas'
+		| 'collectibleTypes'
 	> {
-	franchise: string | null;
+	franchise: GeneralDropdownData | null;
 	parentTitle: number | null;
+	cover: string | undefined;
 	developers: { id: number }[];
 	publishers: { id: number }[];
 	genres: { id: number }[];

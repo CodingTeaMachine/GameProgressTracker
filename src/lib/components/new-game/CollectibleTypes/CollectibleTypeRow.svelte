@@ -27,7 +27,7 @@
 		}
 	}
 
-	interface Events {
+	type Events = {
 		delete: number;
 		update: CollectibleType;
 	}

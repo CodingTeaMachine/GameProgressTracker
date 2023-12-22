@@ -12,14 +12,14 @@
 
 	$: editingInProgress = $editedId !== null;
 
-	function addArea(parentAreaId: number) {
+	function addArea(parentAreaId: number | null) {
 		const newArea = {
 			id: localId++,
 			title: '',
 			description: '',
 			image: undefined,
 			imageSrc: '',
-			parentId: parentAreaId
+			parent_id: parentAreaId
 		};
 
 		$areas.push(newArea);
@@ -48,15 +48,16 @@
 <Card title="Areas / Levels" double>
 	<button
 		class="variant-filled-secondary btn btn-sm mb-4 mt-2"
-		on:click={() => addArea(0)}
+		on:click={() => addArea(null)}
 		disabled={editingInProgress}
+		type="button"
 	>
 		<span><Plus /></span>
 		<span>Add new area/level</span>
 	</button>
 
 	<div class="flex h-5/6 flex-col divide-y divide-surface-500/25 overflow-scroll">
-		{#each $areas.filter(ar => ar.parentId === 0) as area (area.id)}
+		{#each $areas.filter(ar => ar.parent_id === null) as area (area.id)}
 			<div class="py-2 first:pt-0 last:pb-0">
 				<AreaRow
 					bind:area
@@ -64,9 +65,9 @@
 					on:delete={deleteArea}
 					on:addChild={() => addArea(area.id)}
 				/>
-				{#if $areas.some(ar => ar.parentId === area.id)}
+				{#if $areas.some(ar => ar.parent_id === area.id)}
 					<div class="divide-y divide-surface-500/25">
-						{#each $areas.filter(ar => ar.parentId === area.id) as childArea (childArea.id)}
+						{#each $areas.filter(ar => ar.parent_id === area.id) as childArea (childArea.id)}
 							<div class="py-2 first:pt-0 last:pb-0 flex items-center justify-end">
 								<CornerDownRight/>
 								<div class="ml-2 w-11/12">
