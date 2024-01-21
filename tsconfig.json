@@ -8,15 +8,9 @@
 			"$app": ["./node_modules/@sveltejs/kit/types"],
 			"$app/*": ["./node_modules/@sveltejs/kit/types/index.d.ts"],
 			"$types/*": ["./src/lib/types/*"],
-			"$assets/*": [
-				"./src/lib/assets/*"
-			],
-			"$seedData/*": [
-				"./src/lib/data/seedData/*"
-			],
-			"$generated/*": [
-				"./src/generated/*"
-			]
+			"$assets/*": ["./src/lib/assets/*"],
+			"$seedData/*": ["./src/lib/data/seedData/*"],
+			"$generated/*": ["./src/generated/*"]
 		},
 		"allowJs": true,
 		"checkJs": true,

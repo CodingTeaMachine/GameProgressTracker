@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
+	import DescriptionCard from "$lib/components/new-game/DescriptionCard.svelte";
 	import { SuperValidateFormMessage } from "$types/enums/errors";
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from "svelte";
 	import { superForm } from 'sveltekit-superforms/client';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	import { openErrorToast, openSuccessToastWithTimer } from "$lib/helpers/toasts";
 	
@@ -12,7 +12,6 @@
 	import FormCheckbox from '$/lib/components/input/FormCheckbox.svelte';
 	import FormDatepicker from '$/lib/components/input/FormDatepicker.svelte';
 	import FormSelect from '$/lib/components/input/FormSelect.svelte';
-	import FormTextarea from '$/lib/components/input/FormTextarea.svelte';
 	import FormInput from '$/lib/components/input/FormTextInput.svelte';
 	import FormSelectWithCreate from '$lib/components/input/FormSelectWithCreate.svelte';
 	import Card from '$lib/components/new-game/Card.svelte';
@@ -22,10 +21,13 @@
 
 	import { NewGameStore } from '$lib/stores/new-game/newGameStore';
 
-	import type { GeneralDropdownData } from '$/lib/types/types';
+	import type { GeneralDropdownData } from '$/lib/types/clientTypes';
 	import type { ActionData, PageData } from './$types';
 	import { Pages } from '$types/enums/pages';
-
+	
+	
+	// This is only for testing
+	//skillFullReload();
 	export let data: PageData;
 	export let form: ActionData;
 
@@ -73,14 +75,16 @@
 		NewGameStore.areas.subscribe(areas => newGameForm.update(form => ({...form, areas}), {taint: false}));
 		//@ts-expect-error The collectibleTypes in the form are not typed as CollectibleType[]
 		NewGameStore.collectibleTypes.subscribe(collectibleTypes => newGameForm.update(form => ({...form, collectibleTypes}), {taint: false}));
+		NewGameStore.collectibles.subscribe(collectibles => newGameForm.update(form => ({...form, collectibles}), {taint: false}));
 	});
 </script>
 
-<SuperDebug data={$newGameForm}/>
+<!--<SuperDebug data={$newGameForm}/>-->
 
-<form class="mx-4 mb-10 pr-4" method="POST" use:enhance>
+<!--svelte-ignore a11y-no-noninteractive-element-interactions-->
+<form class="mx-4 mb-10 pr-4" method="POST" use:enhance on:keydown={(event) => event.key !== 'Enter'}>
 	<div class="grid grid-cols-4 gap-4">
-		<!--First row-->
+		<!--1st row-->
 		<Card title="Cover Image">
 			<CoverImageUploadWithPreview
 				on:upload={event => newGameForm.update(form => ({...form, coverImage: event.detail}))}
@@ -95,14 +99,6 @@
 					errors={$errors.title}
 					label="Title"
 					name="title"
-					boldTitle
-				/>
-				<FormTextarea
-					bind:value={$newGameForm.description}
-					errors={$errors.description}
-					label="Description"
-					name="description"
-					rows={3}
 					boldTitle
 				/>
 				<FormSelectWithCreate
@@ -124,6 +120,13 @@
 						boldTitle
 					/>
 				{/if}
+				
+				<FormDatepicker
+					bind:value={$newGameForm.releaseDate}
+					label="Release Date"
+					name="releaseDate"
+					boldTitle
+				/>
 			</div>
 		</Card>
 
@@ -136,13 +139,6 @@
 					label="Developers"
 					name="developers"
 					fakeMultiselect
-					boldTitle
-				/>
-
-				<FormDatepicker
-					bind:value={$newGameForm.releaseDate}
-					label="Release Date"
-					name="releaseDate"
 					boldTitle
 				/>
 
@@ -193,16 +189,17 @@
 				/>
 			</div>
 		</Card>
+		
+		<!--2nd row-->
+		<DescriptionCard bind:value={$newGameForm.description}/>
 
-		<!--Middle row-->
+		<!--3rd row-->
 		<AreasCard />
 		<CollectibleTypesCard />
 
-		<!--Bottom Row-->
-		<Card title="Achievements" double />
+		<!--4th Row-->
 		<CollectiblesCard />
-		<!--<input type="hidden" name="collectibleTypes" value={NewGameStore.collectibleTypes} />-->
-		<!--<input type="hidden" name="collectibles" value={NewGameStore.collectibles} />-->
+		<Card title="Achievements" double />
 	</div>
 	
 	<div class="w-100 flex flex-row justify-end gap-4 mt-3">

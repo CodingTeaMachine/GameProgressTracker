@@ -89,12 +89,12 @@
 	<div
 		class="flex w-full items-center gap-4"
 		class:h-20={editingInProgress}
-		class:h-16={!editingInProgress}
+		class:h-14={!editingInProgress}
 		on:click={() => {
 			editingInProgress || editRow();
 		}}
 	>
-		<div class="flex h-full w-16 items-center justify-center">
+		<div class="flex w-16 items-center justify-center">
 			{#if editingInProgress}
 				<div class="h-12 w-12">
 					<CoverImageUploadWithPreview

@@ -6,3 +6,8 @@ export enum SuperValidateFormMessage {
 	ERROR = 'error',
 	SUCCESS = 'success',
 }
+
+export enum ErrorSeverity {
+	ERROR = 'error',
+	WARNING = 'warning'
+}

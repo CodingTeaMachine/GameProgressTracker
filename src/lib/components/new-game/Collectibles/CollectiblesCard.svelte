@@ -12,7 +12,7 @@
 
 	let collectiblesPerArea = NewGameStore.collectibles;
 
-	function addCollectableToArea(areaId: number, collectibleEvent: CustomEvent<Collectible>) {
+	function addCollectableToArea(areaId: number | null, collectibleEvent: CustomEvent<Collectible>) {
 		const collectible = collectibleEvent.detail;
 
 		$collectiblesPerArea.push({ ...collectible, areaId });
@@ -29,17 +29,17 @@
 		<div class="my-2">
 			<AddCollectibleRow
 				collectibleTypes={$collectibleTypesStore}
-				on:save={newCollectible => addCollectableToArea(-1, newCollectible)}
+				on:save={newCollectible => addCollectableToArea(null, newCollectible)}
 			/>
 		</div>
 
 		<div class="divide-y divide-surface-500/25">
-			{#each $collectiblesPerArea.filter(collectible => collectible.areaId === -1) as collectible (collectible.localId)}
+			{#each $collectiblesPerArea.filter(collectible => collectible.areaId === null) as collectible (collectible.localId)}
 				<CollectibleRow bind:collectible on:delete={deleteCollectable} />
 			{/each}
 		</div>
 
-		{#each $areas.filter(ar => ar.parent_id === 0) as area (area.id)}
+		{#each $areas.filter(ar => ar.parent_id === null) as area (area.id)}
 			{#if area.title}
 				<div class="my-2">
 					<AreaRow bind:area />

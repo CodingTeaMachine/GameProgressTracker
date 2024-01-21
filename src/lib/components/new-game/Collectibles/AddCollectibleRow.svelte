@@ -52,7 +52,7 @@
 >
 	<!--svelte-ignore a11y-no-static-element-interactions a11y-click-events-have-key-events-->
 	<div
-		class="flex h-10 w-full items-center gap-4"
+		class="flex h-14 w-full items-center gap-4"
 		on:click={() => {
 			editingInProgress || editRow();
 		}}

@@ -1,4 +1,4 @@
-import type { FailResponse } from "$types/types";
+import type { FailResponse } from "$types/clientTypes";
 import type { Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';

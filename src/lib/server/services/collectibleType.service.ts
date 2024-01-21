@@ -1,28 +1,22 @@
-import { COLLECTIBLE_TYPE_IMAGE_PATH } from "$lib/data/constants";
 import logger from "$lib/helpers/logger";
-import { getSavedImageName } from "$lib/server/imageHandler";
+import CollectibleTypeToSaveFactory from "$lib/server/factories/CollectibleTypeToSaveFactory";
 import type { CollectibleType, CollectibleTypeToSave } from "$types/domain/collectibleType";
 import { LogService } from "$types/enums/LogService";
 import CollectibleTypeRepository from "$lib/server/repositories/collectibleType.repository";
+import type { Service } from "$types/serverTypes";
 
-export const saveCollectibleTypes = async (collectibleTypes: CollectibleType[], game_id: number) => {
-	const collectibleTypesToSave: CollectibleTypeToSave[] = collectibleTypes.map(collectibleType => ({
-		title: collectibleType.title,
-		description: collectibleType.description,
-		image: collectibleType.imageSrc,
-		game_id
-	}));
+export default class CollectibleTypeService implements Service{
+	readonly _service = LogService.COLLECTIBLE_TYPE_SERVICE;
 
-	for (const collectibleType of collectibleTypesToSave) {
-		if(collectibleType.image) {
-			collectibleType.image = await getSavedImageName(collectibleType.image, COLLECTIBLE_TYPE_IMAGE_PATH);
+	async save(collectibleTypes: CollectibleType[], gameId: number) {
+
+		const collectibleTypesToSave: CollectibleTypeToSave[] = [];
+
+		for (const colType of collectibleTypes) {
+			collectibleTypesToSave.push(await CollectibleTypeToSaveFactory.create(colType, gameId));
 		}
+
+		logger.info("Saving collectible type", {service: this._service, data: collectibleTypesToSave});
+		await new CollectibleTypeRepository().createMany(collectibleTypesToSave);
 	}
-
-	logger.info("Saving collectible type", {service: LogService.COLLECTIBLE_TYPE_SERVICE, data: collectibleTypesToSave});
-	await CollectibleTypeRepository.createMany(collectibleTypesToSave);
-};
-
-export default {
-	saveCollectibleTypes
-};
+}

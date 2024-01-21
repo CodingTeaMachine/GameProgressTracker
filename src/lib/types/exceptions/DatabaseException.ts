@@ -1,4 +1,4 @@
-import type { ErrorSeverity } from "$types/types";
+import type { ErrorSeverity } from "$types/clientTypes";
 
 export class DatabaseException extends Error {
 

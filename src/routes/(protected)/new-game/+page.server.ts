@@ -1,4 +1,5 @@
-import { SuperValidateFormMessage } from "$types/enums/errors";
+import { errorMessages } from "$lib/validators/errorMesages";
+import { ErrorSeverity, SuperValidateFormMessage } from "$types/enums/errors";
 import { DatabaseException } from "$types/exceptions/DatabaseException";
 import { fail } from "@sveltejs/kit";
 import { superValidate, message } from "sveltekit-superforms/server";
@@ -21,7 +22,7 @@ import { LogService } from "$types/enums/LogService";
 import type { ActionFailure } from "@sveltejs/kit";
 import type { Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import type { FailResponse, FailResponseWithMessage } from "$types/types";
+import type { FailResponse, FailResponseWithMessage } from "$types/clientTypes";
 
 export const load = (async () => {
 	return {
@@ -40,9 +41,7 @@ export const actions = {
 		const form = await superValidate(request, newGameSchema);
 
 		if (!form.valid) {
-			logger.error(
-				"New Game creation form validation error",
-				{
+			logger.error("New Game creation form validation error", {
 					service: LogService.NEW_GAME_FORM_ACTION,
 					data: form.data,
 					errors: form.errors
@@ -51,25 +50,24 @@ export const actions = {
 		}
 
 		try {
-			await GameService.create(form.data);
+			await new GameService().save(form.data);
 			logger.info("Successfully created game", { service: LogService.NEW_GAME_FORM_ACTION });
 			return message(form, SuperValidateFormMessage.SUCCESS);
 		} catch (error) {
 			if (error instanceof Error) {
 				logger.error("Error creating new game", {
 					service: LogService.NEW_GAME_FORM_ACTION,
-					errors: error.message as string
+					errors: error.message as string,
+					trace: error.stack
 				});
-				return fail(
-					ServerStatusCode.INTERNAL_SERVER_ERROR,
-					{
+				return fail(ServerStatusCode.INTERNAL_SERVER_ERROR, {
 						form,
 						errorMessage: error.message,
-						severity: error instanceof DatabaseException ? error.severity : "error"
+						severity: error instanceof DatabaseException ? error.severity : ErrorSeverity.ERROR
 					});
 			}
 		}
 
-		return fail(ServerStatusCode.INTERNAL_SERVER_ERROR, { form, errorMessage: "Unknown error", severity: "error" });
+		return fail(ServerStatusCode.INTERNAL_SERVER_ERROR, { form, errorMessage: errorMessages.unknown, severity: ErrorSeverity.ERROR });
 	}
 } satisfies Actions;

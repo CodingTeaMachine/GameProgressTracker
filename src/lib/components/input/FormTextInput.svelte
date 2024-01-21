@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import type { Icon } from '$types/types';
+	import type { Icon } from '$types/clientTypes';
 
 	/**
 	 * The text displayed above the input
@@ -53,7 +53,7 @@
 	};
 
 	type Events = {
-		input: string;
+		input: string | number;
 	};
 
 	const dispatch = createEventDispatcher<Events>();
@@ -62,7 +62,18 @@
 		showing.error = false;
 
 		value = (event.target as HTMLInputElement).value;
+
+		if(type === 'number') {
+			value = Number(value);
+		}
+		
 		dispatch('input', value);
+	}
+	
+	$: {
+		if(type === 'number') {
+			value = Number(value);
+		}
 	}
 
 	let hasPrefix = $$slots.icon || prefixIcon !== null;

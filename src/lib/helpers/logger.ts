@@ -25,7 +25,7 @@ const logger: Logger =  createLogger({
 	}
 });
 
-function createLoggerFormat({ timestamp, level, message, service, data = null, errors = null }: LoggerFields) {
+function createLoggerFormat({ timestamp, level, message, service, data = null, errors = null, trace = null }: LoggerFields) {
 	let logMessage = `[${timestamp}] ${service} [${level}]: ${message}`;
 
 	if(data) {
@@ -38,6 +38,11 @@ function createLoggerFormat({ timestamp, level, message, service, data = null, e
 						errors: ${typeof errors === 'object' ? JSON.stringify(errors) : errors}`;
 	}
 
+	if(trace) {
+		logMessage += `
+						errors: ${typeof trace === 'object' ? JSON.stringify(trace) : trace}`;
+	}
+
 	return logMessage;
 }
 type LoggerFields = {
@@ -47,5 +52,6 @@ type LoggerFields = {
 	service: string;
 	data: any;
 	errors: any;
+	trace: any;
 }
 export default logger;

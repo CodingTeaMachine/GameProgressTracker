@@ -1,4 +1,4 @@
-import type { Icon } from '$types/types';
+import type { Icon } from '$types/clientTypes';
 import type { Pages } from '$types/enums/pages';
 
 export type Link = {

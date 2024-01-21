@@ -69,13 +69,13 @@
 	<!--svelte-ignore a11y-no-static-element-interactions a11y-click-events-have-key-events-->
 	<div
 		class="flex w-full items-center gap-4"
-		class:h-10={!isCurrentCollectibleEdited}
-		class:h-14={isCurrentCollectibleEdited}
+		class:h-14={!isCurrentCollectibleEdited}
+		class:h-28={isCurrentCollectibleEdited}
 		on:click={() => {
 			isCurrentCollectibleEdited || startEditing();
 		}}
 	>
-		<div class="flex h-full w-16 items-center justify-center">
+		<div class="flex w-16 items-center justify-center">
 			{#if $collectibleType.imageSrc}
 				<!--svelte-ignore a11y-img-redundant-alt-->
 				<img src={$collectibleType.imageSrc} alt="cover image" class="h-full rounded-md" />
@@ -87,7 +87,7 @@
 		<div class="flex h-full w-full flex-row items-center gap-5 divide-x">
 			<!--the null check is for ts to know that $editedValue is not null, but technically it's useless-->
 			{#if isCurrentCollectibleEdited && $editedValue !== null}
-				<div class="w-1/2">
+					<div class="w-1/2">
 					<FormSelect
 						initialValue={$editedValue.collectibleTypeId}
 						items={$collectibleTypes}
@@ -98,15 +98,15 @@
 							$editedValue !== null && ($editedValue.collectibleTypeId = newValue.detail.id)}
 					/>
 				</div>
-				<div class="w-1/5 pl-5">
-					<!-- @ts-ignore -->
-					<FormTextInput
-						bind:value={$editedValue.totalAmount}
-						name="CollectibleCount"
-						type="number"
-						placeholder="Total Amount"
-					/>
-				</div>
+					<div class="w-1/5 pl-5">
+						<!-- @ts-ignore -->
+						<FormTextInput
+							bind:value={$editedValue.totalAmount}
+							name="CollectibleCount"
+							type="number"
+							placeholder="Total Amount"
+						/>
+					</div>
 			{:else}
 				<div class="text-lg font-bold">{$collectibleType.title}</div>
 				<div class="pl-5 text-lg font-bold">{collectible.totalAmount}</div>

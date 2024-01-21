@@ -48,16 +48,16 @@ model Game {
     id           Int       @id @unique @default(autoincrement())
     title        String
     description  String
-	cover String?
+    cover String?
     is_dlc       Boolean   @default(false)
     release_date DateTime? @db.Date
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
     parent_id Int?
     Parent    Game?  @relation("GameDLC", fields: [parent_id], references: [id])
-	DLCs Game[] @relation("GameDLC")
+    DLCs Game[] @relation("GameDLC")
 
     franchise_id Int?
     Franchise    Franchise? @relation(fields: [franchise_id], references: [id])
@@ -68,10 +68,10 @@ model Game {
     Platforms   Platform[]
     Storefronts Storefront[]
 
-	Areas            Area[]
-    Achievements Achievement[]
-    Collectibles Collectible[]
-	CollectibleTypes CollectibleType[]
+    Areas            Area[]
+    Achievements     Achievement[]
+    Collectibles     Collectible[]
+    CollectibleTypes CollectibleType[]
 }
 
 model Franchise {
@@ -88,7 +88,7 @@ model Genre {
     id    Int    @id @unique @default(autoincrement())
     label String @unique
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
     Games Game[]
@@ -98,7 +98,7 @@ model Publisher {
     id    Int    @id @unique @default(autoincrement())
     label String @unique
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
     Games Game[]
@@ -108,7 +108,7 @@ model Developer {
     id    Int    @id @unique @default(autoincrement())
     label String @unique
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
     Games Game[]
@@ -118,44 +118,49 @@ model Platform {
     id   Int    @id @unique @default(autoincrement())
     name String @unique
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
     Games Game[] @relation()
 }
 
+// TODO: These inputs still need to be implemented on the page
 model Collectible {
-    id            Int     @id @unique @default(autoincrement())
-    title         String  @unique
-    icon          String?
-    description   String?
-    amount        Int     @default(1)
-    is_standalone Boolean @default(true)
+    id          Int @id @unique @default(autoincrement())
+    // title         String?
+    // icon          String?
+    // description   String?
+    totalAmount Int @default(1)
+    // is_standalone Boolean @default(true)
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
-    parent_id Int?
-    Palent    Collectible?  @relation("CollectibleGroup", fields: [parent_id], references: [id])
-    Children  Collectible[] @relation("CollectibleGroup")
+    collectible_type_id Int
+    CollectibleType     CollectibleType @relation(fields: [collectible_type_id], references: [id])
+
+    area_id Int?
+    Area    Area? @relation(fields: [area_id], references: [id])
 
     game_id Int
     Game    Game @relation(fields: [game_id], references: [id])
 }
 
 model CollectibleType {
-	id          Int     @id @unique @default(autoincrement())
-	title       String  @unique
-	description String?
-	image       String?
+    id          Int     @id @unique @default(autoincrement())
+    title       String
+    description String?
+    image       String?
 
-	deleted    Boolean   @default(false)
-	deleted_at DateTime?
+    deleted    Boolean  @default(false)
+    deleted_at DateTime?
 
-	game_id Int
-	Game    Game @relation(fields: [game_id], references: [id])
+    game_id Int
+    Game    Game @relation(fields: [game_id], references: [id])
 
-	@@unique([game_id, title])
+    Collectibles Collectible[]
+
+    @@unique([title, game_id])
 }
 
 model Achievement {
@@ -164,39 +169,41 @@ model Achievement {
     icon        String?
     description String?
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
     game_id           Int
-	Game Game @relation(fields: [game_id], references: [id])
+    Game Game @relation(fields: [game_id], references: [id])
     AchievementGrades AchievementGradeOnStorefrontOnAchievement[]
 }
 
 model Area {
-	id          Int     @id @unique @default(autoincrement())
-	title       String
-	description String?
-	image       String?
+    id          Int     @id @unique @default(autoincrement())
+    title       String
+    description String?
+    image       String?
 
-	parent_id  Int?
-	ParentArea Area?  @relation("ParentArea", fields: [parent_id], references: [id])
-	ChildAreas Area[] @relation("ParentArea")
+    parent_id  Int?
+    ParentArea Area?  @relation("ParentArea", fields: [parent_id], references: [id])
+    ChildAreas Area[] @relation("ParentArea")
 
-	game_id Int?
-	Game    Game? @relation(fields: [game_id], references: [id])
+    game_id Int?
+    Game    Game? @relation(fields: [game_id], references: [id])
 
-	deleted    Boolean   @default(false)
-	deleted_at DateTime?
+    deleted    Boolean  @default(false)
+    deleted_at DateTime?
 
-	@@unique([title, game_id])
+    Collectibles Collectible[]
+
+    @@unique([title, game_id])
 }
 
 model AchievementGrade {
-	id    Int    @id @unique @default(autoincrement())
-	label String @unique
+    id    Int    @id @unique @default(autoincrement())
+    label String @unique
     icon  String?
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
     Storefronts                  Storefront[]
@@ -208,7 +215,7 @@ model Storefront {
     name             String  @unique
     has_achievements Boolean @default(false)
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
     type_id Int
@@ -223,7 +230,7 @@ model StorefrontType {
     id   Int    @id @unique @default(autoincrement())
     name String @unique
 
-	deleted Boolean @default(false)
+    deleted Boolean @default(false)
     deleted_at DateTime?
 
     StoreFronts Storefront[]

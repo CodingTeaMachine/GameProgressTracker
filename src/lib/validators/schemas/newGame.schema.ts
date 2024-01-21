@@ -1,12 +1,13 @@
 import { FIRST_VIDEO_GAME_RELEASE_DATE, MIN_GAME_DESCRIPTION_LENGTH } from "$lib/data/constants";
 import { errorMessages } from "$lib/validators/errorMesages";
 import { AreaInputListSchema } from "$types/domain/area";
+import { CollectibleSchema } from "$types/domain/collectible";
 import { CollectibleTypeSchema } from "$types/domain/collectibleType";
 import {
 	GeneralDatabaseDropdownItemSchema,
 	GeneralDatabaseDropdownItemWithNameSchema,
 	GeneralDropdownDataSchema
-} from "$types/types";
+} from "$types/clientTypes";
 import { z } from "zod";
 
 export const newGameSchema = z.object({
@@ -44,5 +45,5 @@ export const newGameSchema = z.object({
 	// Big lists
 	areas: AreaInputListSchema.array(),
 	collectibleTypes: CollectibleTypeSchema.array(),
-
+	collectibles: CollectibleSchema.array(),
 });
