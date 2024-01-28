@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RequiredStar from '$lib/components/ui/RequiredStar.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import type { Icon } from '$types/clientTypes';
 
@@ -42,7 +43,15 @@
 	 */
 	export let boldTitle: boolean = false;
 
+	/**
+	 * The input instance
+	 */
 	export let inputRef: HTMLInputElement | null = null;
+
+	/**
+	 * Is the input required
+	 */
+	export let required: boolean = false;
 
 	function typeAction(node: HTMLInputElement) {
 		node.type = type;
@@ -82,6 +91,9 @@
 <label class="label">
 	{#if label}
 		<span class:font-bold={boldTitle}>{label}</span>
+		{#if required}
+			<RequiredStar/>
+		{/if}
 	{/if}
 	{#if hasPrefix}
 		<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
@@ -101,6 +113,7 @@
 				class:input-error={showing.error}
 				{placeholder}
 				{name}
+				{required}
 				on:input={inputEventHandler}
 			/>
 		</div>

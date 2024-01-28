@@ -1,10 +1,12 @@
 import type { PublisherDropdownItem } from "$types/domain/publisher";
 import PublisherRepository from '$lib/server/repositories/publisher.repository';
+import { LogService } from '$types/enums/LogService';
+import type { Service } from '$types/serverTypes';
 
-export const getAllForDropdown = async (): Promise<PublisherDropdownItem[]> => {
-    return PublisherRepository.getAllForDropdown();
-};
+export default class PublisherService implements Service{
+    readonly _service = LogService.PUBLISHER_SERVICE;
 
-export default {
-  getAllForDropdown
-};
+    async getAllForDropdown(): Promise<PublisherDropdownItem[]> {
+        return await new PublisherRepository().getAllForDropdown();
+    };
+}

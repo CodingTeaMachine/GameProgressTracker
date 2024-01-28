@@ -1,6 +1,8 @@
 <script lang="ts">
 	// import { createEventDispatcher } from 'svelte';
 
+	import RequiredStar from '$lib/components/ui/RequiredStar.svelte';
+
 	/**
 	 * The text displayed above the input
 	 */
@@ -36,21 +38,28 @@
 	 */
 	export let rows: number = 1;
 
+
+	/**
+	 * Is the input required
+	 */
+	export let required: boolean = false;
+
+
 	$: showing = {
 		error: !!errors
 	};
-
-	// const dispatch = createEventDispatcher<{input: string}>();
 	
-	// function inputEventHandler(event: InputEvent) {
-	// 	showing.error = false;
-	// 	value = (event.target as HTMLInputElement).value;
-	// 	dispatch('input', value);
-	// }
 </script>
 
 <label class="label">
-	<span class:font-bold={boldTitle}>{label}</span>
+	
+	{#if label}
+		<span class:font-bold={boldTitle}>{label}</span>
+		{#if required}
+			<RequiredStar/>
+		{/if}
+	{/if}
+	
 	<textarea
 		bind:value
 		class="textarea"

@@ -19,7 +19,6 @@ export const createMany = async (collectibles: CollectibleToSave[]) => {
 			);
 		}
 
-
 		throw new DatabaseException(`Error creating collectibles`);
 	}
 };

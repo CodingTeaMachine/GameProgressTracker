@@ -1,11 +1,11 @@
-import type { GeneralDropdownData } from "$types/clientTypes";
 import type { z } from 'zod';
 import type { newGameSchema } from '$lib/validators/schemas/newGame.schema';
+import type Prisma from '@prisma/client';
 
 export type CreateGameWithDropdownData = z.infer<typeof newGameSchema>;
 
-export interface GameToSave
-	extends Omit<
+export type GameToSave =
+	Omit<
 		CreateGameWithDropdownData,
 		| 'franchise'
 		| 'parentTitle'
@@ -18,8 +18,9 @@ export interface GameToSave
 		| 'areas'
 		| 'collectibleTypes'
 		| 'collectibles'
-	> {
-	franchise: GeneralDropdownData | null;
+		| 'achievements'
+	> & {
+	franchise: number | null;
 	parentTitle: number | null;
 	cover: string | undefined;
 	developers: { id: number }[];
@@ -28,3 +29,5 @@ export interface GameToSave
 	platforms: { id: number }[];
 	storefronts: { id: number }[];
 }
+
+export type GameDropdownItem = Pick<Prisma.Game, "id" | "title">

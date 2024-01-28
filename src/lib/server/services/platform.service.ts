@@ -1,10 +1,12 @@
-import type { PlatformDropdownItem } from "$types/domain/platform";
+import type { PlatformDropdownItem } from '$types/domain/platform';
 import PlatformRepository from '$lib/server/repositories/platform.repository';
+import { LogService } from '$types/enums/LogService';
+import type { Service } from '$types/serverTypes';
 
-export const getAllForDropdown = async (): Promise<PlatformDropdownItem[]> => {
-    return PlatformRepository.getAllForDropdown();
-};
+export default class PlatformService implements Service {
+	readonly _service = LogService.PLATFORM_SERVICE;
 
-export default {
-  getAllForDropdown
-};
+	async getAllForDropdown(): Promise<PlatformDropdownItem[]> {
+		return await new PlatformRepository().getAllForDropdown();
+	}
+}

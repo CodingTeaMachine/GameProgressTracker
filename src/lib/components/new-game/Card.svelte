@@ -12,12 +12,12 @@
 	/**
 	 * The title of the card
 	 */
-	export let title: string;
+	export let title: string = '';
 </script>
 
 <div class="card max-h-[58rem] min-h-[29rem] overflow-y-scroll p-4" class:double class:quad>
 	<h2 class="mb-1 text-lg before:mr-2 before:rounded-sm before:bg-secondary-500 before:content-['\00a0']">
-		{title}
+		<slot name="title">{title}</slot>
 	</h2>
 	<div class="h-[90%]">
 		<slot />

@@ -1,9 +1,10 @@
 import GameToSaveFactory from "$lib/server/factories/GameToSaveFactory";
+import AchievementService from '$lib/server/services/achievement.service';
 import CollectibleService from "$lib/server/services/collectible.service";
 import CollectibleTypeService from "$lib/server/services/collectibleType.service";
 import type { Area } from "$types/domain/area";
 import type { CollectibleType } from "$types/domain/collectibleType";
-import type { GameToSave, CreateGameWithDropdownData } from '$types/domain/game';
+import type { GameToSave, CreateGameWithDropdownData, GameDropdownItem } from '$types/domain/game';
 import GameRepository from '$lib/server/repositories/game.repository';
 import { LogService } from "$types/enums/LogService";
 import type { Service } from "$types/serverTypes";
@@ -33,5 +34,10 @@ export default class GameService implements Service {
 			newGame.collectibleTypes as CollectibleType[],
 			savedGameId
 		);
+		await new AchievementService().save(newGame.achievements, savedGameId);
+	}
+
+	async getParentTitles(searchText: string): Promise<GameDropdownItem[]> {
+		return await new GameRepository().getParentTitlesForDropdownWithSearch(searchText);
 	}
 }

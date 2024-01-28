@@ -59,7 +59,7 @@
 	<link rel="icon" type="image/svg" href={favicon} />
 </svelte:head>
 
-<Toast position="tr" />
+<Toast position="tr" max="10"/>
 <Modal />
 
 <AppShell>

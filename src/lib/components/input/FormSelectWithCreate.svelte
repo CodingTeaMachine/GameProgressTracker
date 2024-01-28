@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RequiredStar from '$lib/components/ui/RequiredStar.svelte';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import Select from 'svelte-select';
 
@@ -81,6 +82,11 @@
 	
   	export  let groupBy: (item: typeof items[0]) => any = () => null;
 
+	/**
+	 * Is the input required
+	 */
+	export let required: boolean = false;
+
 	const dispatch = createEventDispatcher<{change: any}>();
 
 	let displayItems = [...items];
@@ -137,9 +143,14 @@
 
 <!--svelte-ignore a11y-label-has-associated-control -->
 <label class="label">
-	{#if label !== ''}
+	
+	{#if label}
 		<span class:font-bold={boldTitle}>{label}</span>
+		{#if required}
+			<RequiredStar/>
+		{/if}
 	{/if}
+	
 	<Select
 		bind:value
 		bind:justValue

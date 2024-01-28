@@ -21,8 +21,24 @@ const config = {
 		forms,
 		skeleton({
 			themes: { preset: [{ name: 'wintry', enhancements: true }] }
-		})
-	]
+		}),
+		require('daisyui')
+	],
+
+	daisyui: {
+		themes: [
+			{
+				wintry: {
+					primary: '#3B82F6',
+					secondary: '#0EA5E9',
+					accent: '#6366F1',
+					neutral: '#6B7280',
+				}
+			}
+		],
+		prefix: 'dai-',
+		logs: false,
+	}
 };
 
 export default config;

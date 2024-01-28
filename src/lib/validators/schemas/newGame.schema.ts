@@ -1,6 +1,8 @@
-import { FIRST_VIDEO_GAME_RELEASE_DATE, MIN_GAME_DESCRIPTION_LENGTH } from "$lib/data/constants";
+import { FIRST_VIDEO_GAME_RELEASE_DATE, MIN_GAME_DESCRIPTION_LENGTH } from '$lib/data/constants';
+import { newGameDescriptionValidator } from '$lib/validators';
 import { errorMessages } from "$lib/validators/errorMesages";
-import { AreaInputListSchema } from "$types/domain/area";
+import { AchievementSchema } from '$types/domain/achievement';
+import { AreaSchema } from "$types/domain/area";
 import { CollectibleSchema } from "$types/domain/collectible";
 import { CollectibleTypeSchema } from "$types/domain/collectibleType";
 import {
@@ -8,21 +10,26 @@ import {
 	GeneralDatabaseDropdownItemWithNameSchema,
 	GeneralDropdownDataSchema
 } from "$types/clientTypes";
+import { StorefrontSelectSchema } from '$types/domain/storefront';
 import { z } from "zod";
+
+/**
+ * Required fields with user input
+ * - Title
+ * - Description
+ * - Cover Image
+ */
 
 export const newGameSchema = z.object({
 	//Cover Image
-	coverImage: z.string().optional(), //base64 string
+	coverImage: z.string().min(1, errorMessages.newGame.coverImage.required), //base64 string
 
 	//General
 	title: z.string({
 		required_error: errorMessages.newGame.title.required,
 		invalid_type_error: errorMessages.newGame.title.invalid_type
-	}).min(1),
-	description: z.string({
-		required_error: errorMessages.newGame.description.required,
-		invalid_type_error: errorMessages.newGame.description.invalid_type
-	}).min(MIN_GAME_DESCRIPTION_LENGTH, errorMessages.newGame.description.min_length(MIN_GAME_DESCRIPTION_LENGTH)),
+	}).min(1, errorMessages.newGame.title.required),
+	description: z.custom<string>(newGameDescriptionValidator, errorMessages.newGame.description.min_length(MIN_GAME_DESCRIPTION_LENGTH)),
 	isDLC: z.boolean({
 		required_error: errorMessages.newGame.dlc.required,
 		invalid_type_error: errorMessages.newGame.dlc.invalid_type
@@ -40,10 +47,11 @@ export const newGameSchema = z.object({
 	//Miscellaneous
 	genres: GeneralDatabaseDropdownItemSchema.array(),
 	platforms: GeneralDatabaseDropdownItemWithNameSchema.array(),
-	storefronts: GeneralDatabaseDropdownItemWithNameSchema.array(),
+	storefronts: StorefrontSelectSchema.array(),
 
 	// Big lists
-	areas: AreaInputListSchema.array(),
+	areas: AreaSchema.array(),
 	collectibleTypes: CollectibleTypeSchema.array(),
 	collectibles: CollectibleSchema.array(),
+	achievements: AchievementSchema.array(),
 });

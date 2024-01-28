@@ -33,9 +33,13 @@ export const errorMessages = {
 		invalid_username_or_password: 'Invalid username or password'
 	},
 	newGame: {
+		coverImage: {
+			required: requiredMessage('Cover Image'),
+		},
 		title: {
 			required: requiredMessage('Title'),
 			invalid_type: textTypeRequired('Title'),
+			min_length: (length: number) => minLengthRequired('Title', length),
 		},
 		description: {
 			required: requiredMessage('Description'),

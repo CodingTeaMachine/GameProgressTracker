@@ -127,9 +127,8 @@ model Platform {
 // TODO: These inputs still need to be implemented on the page
 model Collectible {
     id          Int @id @unique @default(autoincrement())
-    // title         String?
-    // icon          String?
-    // description   String?
+    title       String @default("") // Technically optional, but we insert an empty string
+    description String @default("") // Technically optional, but we insert an empty string
     totalAmount Int @default(1)
     // is_standalone Boolean @default(true)
 

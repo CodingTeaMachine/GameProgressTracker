@@ -4,7 +4,8 @@
 
 <script lang="ts">
 	import type { CollectibleType } from '$/lib/types/domain/collectibleType';
-	import type { Collectible } from '$/lib/types/domain/collectible';
+	import FormCheckbox from '$lib/components/input/FormCheckbox.svelte';
+	import type { Collectible } from '$types/domain/collectible';
 	import { PlusSquare, Save, X } from 'lucide-svelte';
 	import FormSelect from '../../input/FormSelect.svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -16,6 +17,8 @@
 
 	let selectedCollectibleTypeId: number | null = null;
 	let totalAmount: number = 0;
+	let title: string = "";
+	let description: string = "";
 
 	type Events = {
 		save: Collectible;
@@ -25,7 +28,7 @@
 
 	function saveEdit() {
 		if (selectedCollectibleTypeId !== null) {
-			dispatch('save', { collectibleTypeId: selectedCollectibleTypeId, totalAmount, localId: localId++ });
+			dispatch('save', { collectibleTypeId: selectedCollectibleTypeId, totalAmount, title, description, localId: localId++ });
 		}
 
 		endEdit();
@@ -38,6 +41,8 @@
 	function endEdit() {
 		editingInProgress = false;
 		selectedCollectibleTypeId = null;
+		title = "";
+		description = "";
 		totalAmount = 0;
 	}
 
@@ -52,7 +57,8 @@
 >
 	<!--svelte-ignore a11y-no-static-element-interactions a11y-click-events-have-key-events-->
 	<div
-		class="flex h-14 w-full items-center gap-4"
+		class="flex h-fit w-full items-center gap-4"
+		class:py-3={!editingInProgress}
 		on:click={() => {
 			editingInProgress || editRow();
 		}}
@@ -61,7 +67,7 @@
 			<PlusSquare />
 		</div>
 
-		<div class="flex h-full w-full flex-row items-center gap-5">
+		<div class="flex h-full w-full flex-row flex-wrap items-center gap-5">
 			{#if editingInProgress}
 				<div class="w-1/2">
 					<FormSelect
@@ -80,6 +86,21 @@
 						placeholder="Total Amount"
 					/>
 				</div>
+				<div class="w-full">
+					<FormTextInput
+						bind:value={title}
+						name="Title"
+						placeholder="Title..."
+					/>
+				</div>
+				<div class="w-full">
+					<FormTextInput
+						bind:value={description}
+						name="Description"
+						placeholder="Description..."
+					/>
+				</div>
+				
 			{:else}
 				<div class="text-lg font-bold">Add new collectible</div>
 			{/if}

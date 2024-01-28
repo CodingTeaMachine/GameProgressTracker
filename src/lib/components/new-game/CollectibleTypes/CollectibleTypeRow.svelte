@@ -1,4 +1,5 @@
 <script lang="ts" context="module">
+	import type { CollectibleType } from '$types/domain/collectibleType';
 	import { writable } from 'svelte/store';
 
 	export let editedId = writable<number | null>(null);
@@ -6,7 +7,7 @@
 </script>
 
 <script lang="ts">
-	import { Save, Trash, Map, X } from 'lucide-svelte';
+	import { Save, Trash, X, Box } from 'lucide-svelte';
 	import type { CollectibleType } from '$/lib/types/domain/collectibleType';
 	import { createEventDispatcher } from 'svelte';
 	import CoverImageUploadWithPreview from '../CoverImageUploadWithPreview.svelte';
@@ -72,11 +73,11 @@
 		$editedValue = null;
 	}
 
-	function setEditedValue(field: 'title' | 'description' | 'imageSrc', newValue: CustomEvent<string>) {
+	function setEditedValue(field: 'title' | 'description' | 'imageSrc', newValue: CustomEvent<string | number>) {
 		if ($editedValue == null) {
 			$editedValue = { ...collectibleType };
 		}
-
+		
 		$editedValue[field] = newValue.detail;
 	}
 </script>
@@ -98,7 +99,6 @@
 			{#if editingInProgress}
 				<div class="h-12 w-12">
 					<CoverImageUploadWithPreview
-						uploadedImages={collectibleType.image}
 						hasText={false}
 						on:upload={image => setEditedValue('imageSrc', image)}
 					/>
@@ -107,7 +107,7 @@
 				<!--svelte-ignore a11y-img-redundant-alt-->
 				<img src={collectibleType.imageSrc} alt="cover image" class="h-full rounded-md" />
 			{:else}
-				<Map />
+				<Box />
 			{/if}
 		</div>
 

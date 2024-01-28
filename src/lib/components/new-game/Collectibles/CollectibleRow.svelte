@@ -6,14 +6,14 @@
 
 <script lang="ts">
 	import { Save, Trash, Box, X } from 'lucide-svelte';
-	import type { Collectible, CollectibleWithAreaId } from '$/lib/types/domain/collectible';
+	import type { Collectible } from '$/lib/types/domain/collectible';
 	import type { CollectibleType } from '$/lib/types/domain/collectibleType';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import FormTextInput from '../../input/FormTextInput.svelte';
 	import FormSelect from '../../input/FormSelect.svelte';
 	import { NewGameStore } from '$/lib/stores/new-game/newGameStore';
 
-	export let collectible: CollectibleWithAreaId;
+	export let collectible: Collectible;
 
 	$: isCurrentCollectibleEdited = $editingInProgress && $editedValue !== null;
 
@@ -36,11 +36,7 @@
 			return;
 		}
 		$editingInProgress = true;
-		$editedValue = {
-			localId: collectible.localId,
-			collectibleTypeId: collectible.collectibleTypeId,
-			totalAmount: collectible.totalAmount
-		};
+		editedValue.set(collectible);
 	}
 
 	function updateCollectible() {

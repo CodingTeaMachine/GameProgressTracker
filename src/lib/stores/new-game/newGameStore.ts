@@ -1,12 +1,14 @@
+import type { Achievement } from '$types/domain/achievement';
 import type { Area } from '$types/domain/area';
-import type {  CollectibleWithAreaId } from "$types/domain/collectible";
+import type { Collectible } from '$types/domain/collectible';
 import type { CollectibleType } from '$types/domain/collectibleType';
-import { get, writable } from 'svelte/store';
+import { get, type Writable, writable } from 'svelte/store';
 
 function useNewGameStore() {
 	const collectibleTypes = writable<CollectibleType[]>([]);
 	const areas = writable<Area[]>([]);
-	const collectibles = writable<CollectibleWithAreaId[]>([]);
+	const collectibles = writable<Collectible[]>([]);
+	const achievements = writable<Achievement[]>([]);
 
 	function getCollectibleTypeById(id: number): CollectibleType {
 		return get(collectibleTypes).find(collectibleType => collectibleType.id === id) as CollectibleType;
@@ -16,8 +18,10 @@ function useNewGameStore() {
 		collectibleTypes,
 		areas,
 		collectibles,
+		achievements,
 		getCollectibleTypeById
 	};
 }
 
 export const NewGameStore = useNewGameStore();
+export const currentAchievementLocalId: Writable<number> = writable(0);

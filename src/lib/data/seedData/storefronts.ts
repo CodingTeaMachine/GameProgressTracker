@@ -67,7 +67,7 @@ export const subscriptionStorefronts = [
 	{ name: 'Netflix' },
 	{ name: 'Nintendo Online', has_achievements: true, ...regularAchievementGradeConnection },
 	{ name: 'PlayStation Now', has_achievements: true, ...playstationAchievementGradeConnection },
-	{ name: 'PlayStation Plus', has_achievements: true, ...regularAchievementGradeConnection },
+	{ name: 'PlayStation Plus', has_achievements: true, ...playstationAchievementGradeConnection },
 	{ name: 'Ubisoft+', has_achievements: true, ...regularAchievementGradeConnection },
 	{ name: 'Viveport' },
 	{ name: 'Xbox Game Pass', has_achievements: true, ...xboxAchievementGradeConnection },
