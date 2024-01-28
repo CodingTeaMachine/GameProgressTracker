@@ -4,10 +4,12 @@
 	import { browser } from '$app/environment';
 	import FaviconBlack from '$assets/icons/favicon-black.svg';
 	import FaviconWhite from '$assets/icons/favicon-white.svg';
-	import { Modals } from "$lib/helpers/modals";
+	import ToggleNavbar from '$lib/components/navbar/ToggleNavbar.svelte';
+	import { Modals } from '$lib/helpers/modals';
+	import { navbarStore } from '$lib/stores/navbar';
 	import { AppShell, getModalStore, Modal, Toast } from '@skeletonlabs/skeleton';
 	import Header from '$lib/components/Header.svelte';
-	import Navbar from '$lib/components/navbar/Navigation.svelte';
+	import NavbarLinks from '$lib/components/navbar/NavbarLinks.svelte';
 	import AppTitle from '$lib/components/navbar/AppTitle.svelte';
 	import UserBar from '$lib/components/navbar/UserBar.svelte';
 	import { pageTitle, pageIcon } from '$lib/stores/page';
@@ -22,6 +24,8 @@
 	export let data: PageData;
 
 	const { user } = userStore;
+	const { isNavbarOpen } = navbarStore;
+
 
 	initializeStores();
 	const modalStore = getModalStore();
@@ -59,20 +63,25 @@
 	<link rel="icon" type="image/svg" href={favicon} />
 </svelte:head>
 
-<Toast position="tr" max="10"/>
+<Toast position="tr" max="10" />
 <Modal />
 
 <AppShell>
 	<svelte:fragment slot="pageHeader">
 		<Header />
 	</svelte:fragment>
+	
 	<svelte:fragment slot="sidebarLeft">
-		<div class="mr-4 flex h-full flex-col justify-between border-r border-surface-50/10 bg-surface-900">
+		<div
+			class="mr-4 flex h-full flex-col justify-between border-r border-surface-50/10 bg-surface-900 w-72 transition-width duration-200 ease-out"
+			class:!w-20={!$isNavbarOpen}
+		>
 			<AppTitle />
-			<Navbar />
+			<ToggleNavbar />
+			<NavbarLinks />
 			<UserBar />
 		</div>
 	</svelte:fragment>
-
+	
 	<slot />
 </AppShell>

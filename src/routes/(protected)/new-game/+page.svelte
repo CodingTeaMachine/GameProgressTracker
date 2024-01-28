@@ -3,7 +3,6 @@
 	import FormAsyncSelect from '$lib/components/input/FormAsyncSelect.svelte';
 	import AchievementsCard from '$lib/components/new-game/Achievements/AchievementsCard.svelte';
 	import RequiredStar from '$lib/components/ui/RequiredStar.svelte';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import { goto } from '$app/navigation';
 	import DescriptionCard from '$lib/components/new-game/DescriptionCard.svelte';
 	import { SuperValidateFormMessage } from '$types/enums/errors';
@@ -75,8 +74,6 @@
 		);
 	});
 </script>
-
-<SuperDebug data={$newGameForm} />
 
 <!--svelte-ignore a11y-no-noninteractive-element-interactions-->
 <form class="mx-4 mb-10 pr-4" method="POST" use:enhance on:keydown={event => event.key !== 'Enter'}>
