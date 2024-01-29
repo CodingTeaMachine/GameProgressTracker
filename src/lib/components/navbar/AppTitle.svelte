@@ -5,7 +5,7 @@
 	const { isNavbarOpen } = navbarStore;
 </script>
 
-<a href="/" class:w-fit={!$isNavbarOpen} class:mx-4={!$isNavbarOpen} class="transition-width duration-200 ease-out">
+<a href="/" class:w-fit={!$isNavbarOpen} class:mx-3={!$isNavbarOpen} class="transition-width duration-200 ease-out">
 	<div class="flex h-14 w-fit flex-row items-center justify-center px-5">
 		<CircleDotDashed />
 		<span class="pl-2 text-xl flex" class:hidden={!$isNavbarOpen}>

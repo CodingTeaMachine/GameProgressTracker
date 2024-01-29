@@ -1,8 +1,8 @@
+import { HttpStatusCode } from 'axios';
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { registerSchema } from '$lib/validators/schemas/register.schema';
 import { ActionFailure, fail, redirect } from '@sveltejs/kit';
-import { ClientStatusCode, RedirectStatusCode, ServerStatusCode } from '$types/enums/HTTP';
 import { auth } from '$lib/server/lucia';
 import { USERNAME_AUTH_PROVIDER } from '$lib/data/constants';
 import type { User } from 'lucia';
@@ -30,7 +30,7 @@ export const actions = {
 		if (!form.valid) {
 			form.data.password = '';
 			form.data.confirmPassword = '';
-			return fail(ClientStatusCode.BAD_REQUEST, { form });
+			return fail(HttpStatusCode.BadRequest, { form });
 		}
 
 		try {
@@ -65,12 +65,12 @@ export const actions = {
 					form.errors.username = [errorMessages.username.taken];
 				}
 
-				return fail(ClientStatusCode.BAD_REQUEST, { form });
+				return fail(HttpStatusCode.BadRequest, { form });
 			}
 
-			return fail(ServerStatusCode.INTERNAL_SERVER_ERROR, { form, errorMessage: errorMessages.unknown });
+			return fail(HttpStatusCode.InternalServerError, { form, errorMessage: errorMessages.unknown });
 		}
 
-		throw redirect(RedirectStatusCode.FOUND, Pages.HOME);
+		throw redirect(HttpStatusCode.Found, Pages.HOME);
 	}
 } satisfies Actions;

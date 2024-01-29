@@ -3,6 +3,7 @@ import { errorMessages } from '$lib/validators/errorMesages';
 import { ErrorSeverity, SuperValidateFormMessage } from '$types/enums/errors';
 import { DatabaseException } from '$types/exceptions/DatabaseException';
 import { fail } from '@sveltejs/kit';
+import { HttpStatusCode } from 'axios';
 import { superValidate, message } from 'sveltekit-superforms/server';
 
 import logger from '$lib/helpers/logger';
@@ -17,7 +18,6 @@ import PublisherService from '$lib/server/services/publisher.service';
 
 import { newGameSchema } from '$lib/validators/schemas/newGame.schema';
 
-import { ClientStatusCode, ServerStatusCode } from '$types/enums/HTTP';
 import { LogService } from '$types/enums/LogService';
 
 import type { Actions } from '@sveltejs/kit';
@@ -45,7 +45,7 @@ export const actions = {
 				data: form.data,
 				errors: form.errors
 			});
-			return fail(ClientStatusCode.BAD_REQUEST, { form });
+			return fail(HttpStatusCode.BadRequest, { form });
 		}
 
 		try {
@@ -59,7 +59,7 @@ export const actions = {
 					errors: error.message as string,
 					trace: error.stack
 				});
-				return fail(ServerStatusCode.INTERNAL_SERVER_ERROR, {
+				return fail(HttpStatusCode.InternalServerError, {
 					form,
 					errorMessage: error.message,
 					severity: error instanceof DatabaseException ? error.severity : ErrorSeverity.ERROR
@@ -67,7 +67,7 @@ export const actions = {
 			}
 		}
 
-		return fail(ServerStatusCode.INTERNAL_SERVER_ERROR, {
+		return fail(HttpStatusCode.InternalServerError, {
 			form,
 			errorMessage: errorMessages.unknown,
 			severity: ErrorSeverity.ERROR

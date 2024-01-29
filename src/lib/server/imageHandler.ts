@@ -4,14 +4,17 @@ import { LogService } from "$types/enums/LogService";
 import crypto, { randomUUID } from "crypto";
 import fs from "node:fs/promises";
 import path from "path";
+import sharp from 'sharp';
 //TODO: this should be stored in the database
 export const imageCache: Map<string, string> = new Map();
+
+type Dimensions = {height: number, width: number}
 
 /**
  *  If the image has already been saved (the base64 version of the image) it's file name is returned from cache
  *  Else it is saved to disk and cache and the created file's name is returned
  */
-export async function getSavedImageName(imageAsBase64: string, path: string) {
+export async function getSavedImageName(imageAsBase64: string, path: string, dimensions: Dimensions | null = null) {
 
 	const imageHash = getImageHash(imageAsBase64);
 
@@ -45,7 +48,7 @@ export async function getSavedImageName(imageAsBase64: string, path: string) {
 }
 
 
-export async function saveBase64StringToFile(base64String: string, directoryPath: string, fileName: string | null = null, fileExtension: string | null = null): Promise<string | null> {
+export async function saveBase64StringToFile(base64String: string, directoryPath: string, fileName: string | null = null, fileExtension: string | null = null, dimensions: Dimensions | null = null): Promise<string | null> {
 	// Remove the data URI prefix (e.g., "data:image/png;base64,")
 	const base64Data = base64String.replace(/^data:[a-zA-Z/]+;base64,/, '');
 
@@ -62,14 +65,20 @@ export async function saveBase64StringToFile(base64String: string, directoryPath
 		logger.warn("No filename provided, generated random UUID: " + fileName, {service: LogService.FILE_HANDLER});
 	}
 
-
 	fileName = fileName + '.' + fileExtension;
 	const filePath = path.join(directoryPath, fileName);
 
 	// Write the buffer to a file
 	try {
 		await createDirectoryIfItDoesntExist(directoryPath);
-		await fs.writeFile(filePath, buffer);
+
+		const sharpSaver = sharp(buffer);
+
+		if(dimensions !== null) {
+			sharpSaver.resize(dimensions);
+		}
+
+		await sharpSaver.toFile(filePath);
 		logger.info("Successfully wrote file to disk: " + fileName, {service: LogService.FILE_HANDLER});
 		return fileName;
 	} catch (error) {

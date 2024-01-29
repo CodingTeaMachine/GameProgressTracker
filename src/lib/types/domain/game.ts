@@ -31,3 +31,5 @@ export type GameToSave =
 }
 
 export type GameDropdownItem = Pick<Prisma.Game, "id" | "title">
+
+export type ExplorePageGame = Pick<Prisma.Game, "id" | "title" | "cover"> & {platforms: string[]}

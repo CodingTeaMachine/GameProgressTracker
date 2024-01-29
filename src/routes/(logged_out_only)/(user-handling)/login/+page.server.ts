@@ -1,10 +1,10 @@
 import type { FailResponse } from "$types/clientTypes";
 import type { Actions } from '@sveltejs/kit';
+import { HttpStatusCode } from 'axios';
 import type { PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { loginSchema } from '$lib/validators/schemas/login.schema';
 import { ActionFailure, fail, redirect } from '@sveltejs/kit';
-import { ClientStatusCode, RedirectStatusCode, ServerStatusCode } from '$types/enums/HTTP';
 import { auth } from '$lib/server/lucia';
 import { USERNAME_AUTH_PROVIDER } from '$lib/data/constants';
 import { userStore } from '$lib/stores/user';
@@ -25,7 +25,7 @@ export const actions = {
 
 		if (!form.valid) {
 			form.data.password = '';
-			return fail(ClientStatusCode.BAD_REQUEST, { form });
+			return fail(HttpStatusCode.BadRequest, { form });
 		}
 
 		try {
@@ -40,12 +40,12 @@ export const actions = {
 			if (e instanceof LuciaError && (e.message === luciaErrors.invalid_key || e.message === luciaErrors.invalid_password)) {
 				form.errors.username = [errorMessages.login.invalid_username_or_password];
 
-				return fail(ClientStatusCode.BAD_REQUEST, { form });
+				return fail(HttpStatusCode.BadRequest, { form });
 			}
 
-			return fail(ServerStatusCode.INTERNAL_SERVER_ERROR, { form, errorMessage: errorMessages.unknown });
+			return fail(HttpStatusCode.InternalServerError, { form, errorMessage: errorMessages.unknown });
 		}
 
-		throw redirect(RedirectStatusCode.FOUND, Pages.HOME);
+		throw redirect(HttpStatusCode.Found, Pages.HOME);
 	}
 } satisfies Actions;
