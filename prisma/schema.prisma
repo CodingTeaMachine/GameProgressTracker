@@ -117,6 +117,7 @@ model Developer {
 model Platform {
     id   Int    @id @unique @default(autoincrement())
     name String @unique
+    shorthand String?
 
     deleted Boolean @default(false)
     deleted_at DateTime?

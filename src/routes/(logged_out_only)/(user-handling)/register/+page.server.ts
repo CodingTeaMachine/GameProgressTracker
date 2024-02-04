@@ -8,7 +8,7 @@ import { USERNAME_AUTH_PROVIDER } from '$lib/data/constants';
 import type { User } from 'lucia';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaErrors } from '$types/enums/prismaErrors';
-import { errorMessages } from '$lib/validators/errorMesages';
+import { errorMessages } from '$lib/validators/errorMessages';
 import { Pages } from '$types/enums/pages';
 import { userStore } from '$/lib/stores/user';
 import { userHandling } from '$lib/data/userHandling';
@@ -48,13 +48,15 @@ export const actions = {
 			await userHandling.loginUser(user, locals, cookies);
 
 			userStore.user.login(user);
-
 		} catch (e) {
 			console.error(e);
 			form.data.password = '';
 			form.data.confirmPassword = '';
 
-			if (e instanceof PrismaClientKnownRequestError && e.message.includes(PrismaErrors.UNIQUE_KEY_VIOLATION)) {
+			if (
+				e instanceof PrismaClientKnownRequestError &&
+				e.errorMessage.includes(PrismaErrors.UNIQUE_KEY_VIOLATION)
+			) {
 				const target = e.meta?.target as string[];
 
 				if (target.includes('email')) {

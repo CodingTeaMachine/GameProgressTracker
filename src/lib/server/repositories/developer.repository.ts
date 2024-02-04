@@ -6,7 +6,6 @@ import { DatabaseException } from '$types/exceptions/DatabaseException';
 import type { Repository } from '$types/serverTypes';
 
 export default class DeveloperRepository implements Repository {
-
 	readonly _service = LogService.DEVELOPER_REPOSITORY;
 
 	async getAllForDropdown(): Promise<DeveloperDropdownItem[]> {
@@ -17,7 +16,10 @@ export default class DeveloperRepository implements Repository {
 			});
 		} catch (error) {
 			if (error instanceof Error) {
-				logger.error('Error getting all developers for dropdown', { service: this._service, errors: error.message });
+				logger.error('Error getting all developers for dropdown', {
+					service: this._service,
+					errors: error.message
+				});
 			}
 
 			throw new DatabaseException('Error getting all developers for dropdown');

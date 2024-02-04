@@ -1,10 +1,8 @@
-import type { ErrorSeverity } from "$types/clientTypes";
+import type { ErrorSeverity } from '$types/clientTypes';
+import { GPTError } from '$types/exceptions/KnownError';
 
-export class DatabaseException extends Error {
-
-	severity: ErrorSeverity;
-	constructor(message: string, severity: ErrorSeverity = 'error') {
-		super(message);
-		this.severity = severity;
+export class DatabaseException extends GPTError {
+	constructor(public errorMessage: string, severity: ErrorSeverity = 'error') {
+		super(errorMessage, severity);
 	}
 }

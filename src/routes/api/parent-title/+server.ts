@@ -1,4 +1,5 @@
 import logger from '$lib/helpers/logger';
+import { jsonResponse } from '$lib/server/response';
 import GameService from '$lib/server/services/game.service';
 import { LogService } from '$types/enums/LogService';
 import { json } from '@sveltejs/kit';
@@ -13,5 +14,5 @@ export async function GET({ url }: RequestEvent): Promise<Response> {
 
 	const parentTitles = await new GameService().getParentTitles(searchText);
 
-	return json({data: parentTitles});
+	return jsonResponse(parentTitles);
 }

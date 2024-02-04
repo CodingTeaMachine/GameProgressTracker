@@ -72,15 +72,15 @@
 
 		value = (event.target as HTMLInputElement).value;
 
-		if(type === 'number') {
+		if (type === 'number') {
 			value = Number(value);
 		}
-		
+
 		dispatch('input', value);
 	}
-	
+
 	$: {
-		if(type === 'number') {
+		if (type === 'number') {
 			value = Number(value);
 		}
 	}
@@ -92,7 +92,7 @@
 	{#if label}
 		<span class:font-bold={boldTitle}>{label}</span>
 		{#if required}
-			<RequiredStar/>
+			<RequiredStar />
 		{/if}
 	{/if}
 	{#if hasPrefix}

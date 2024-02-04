@@ -27,9 +27,9 @@ export default class AchievementRepository implements Repository {
 	}
 
 	async bindAchievementToGradeAndStorefront(binding: {
-		achievement_id: number,
-		achievement_grade_id: number,
-		storefront_id: number
+		achievement_id: number;
+		achievement_grade_id: number;
+		storefront_id: number;
 	}) {
 		try {
 			await prisma.achievementGradeOnStorefrontOnAchievement.create({
@@ -37,14 +37,14 @@ export default class AchievementRepository implements Repository {
 			});
 		} catch (error) {
 			if (error instanceof Error) {
-				logger.error("Error bindig achievement to grade and store", {
+				logger.error('Error bindig achievement to grade and store', {
 					service: this._service,
 					data: binding,
 					errors: error.message
 				});
 			}
 
-			throw new DatabaseException("Error bindig achievement to grade and store");
+			throw new DatabaseException('Error bindig achievement to grade and store');
 		}
 	}
 }

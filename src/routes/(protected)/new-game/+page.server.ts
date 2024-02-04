@@ -1,5 +1,5 @@
 import FranchiseService from '$lib/server/services/franchise.service';
-import { errorMessages } from '$lib/validators/errorMesages';
+import { errorMessages } from '$lib/validators/errorMessages';
 import { ErrorSeverity, SuperValidateFormMessage } from '$types/enums/errors';
 import { DatabaseException } from '$types/exceptions/DatabaseException';
 import { fail } from '@sveltejs/kit';
@@ -22,6 +22,7 @@ import { LogService } from '$types/enums/LogService';
 
 import type { Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { GPTError } from '$/lib/types/exceptions/KnownError';
 
 export const load = (async () => {
 	return {
@@ -53,15 +54,15 @@ export const actions = {
 			logger.info('Successfully created game', { service: LogService.NEW_GAME_FORM_ACTION });
 			return message(form, SuperValidateFormMessage.SUCCESS);
 		} catch (error) {
-			if (error instanceof Error) {
+			if (error instanceof GPTError) {
 				logger.error('Error creating new game', {
 					service: LogService.NEW_GAME_FORM_ACTION,
-					errors: error.message as string,
+					errors: error.errorMessage as string,
 					trace: error.stack
 				});
 				return fail(HttpStatusCode.InternalServerError, {
 					form,
-					errorMessage: error.message,
+					errorMessage: error.errorMessage,
 					severity: error instanceof DatabaseException ? error.severity : ErrorSeverity.ERROR
 				});
 			}

@@ -16,7 +16,10 @@ export default class GenreRepository implements Repository {
 			});
 		} catch (error) {
 			if (error instanceof Error) {
-				logger.error('Error getting all genres for dropdown', { service: this._service, errors: error.message });
+				logger.error('Error getting all genres for dropdown', {
+					service: this._service,
+					errors: error.message
+				});
 			}
 
 			throw new DatabaseException('Error getting all genres for dropdown');

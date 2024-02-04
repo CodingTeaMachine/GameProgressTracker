@@ -26,7 +26,8 @@
 		"moduleResolution": "node",
 		"plugins": [
 			{
-				"name": "typescript-svelte-plugin"
+				"name": "typescript-svelte-plugin",
+				"enabled": true
 			}
 		],
 		"baseUrl": ".",
@@ -44,6 +45,6 @@
 		"tests/**/*.js",
 		"tests/**/*.ts",
 		"tests/**/*.svelte",
-		"prisma/*.ts"
+		"prisma/**/*.ts"
 	]
 }

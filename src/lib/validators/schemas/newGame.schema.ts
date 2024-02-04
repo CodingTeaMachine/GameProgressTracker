@@ -1,6 +1,6 @@
 import { FIRST_VIDEO_GAME_RELEASE_DATE, MIN_GAME_DESCRIPTION_LENGTH } from '$lib/data/constants';
 import { newGameDescriptionValidator } from '$lib/validators';
-import { errorMessages } from "$lib/validators/errorMesages";
+import { errorMessages } from "$lib/validators/errorMessages";
 import { AchievementSchema } from '$types/domain/achievement';
 import { AreaSchema } from "$types/domain/area";
 import { CollectibleSchema } from "$types/domain/collectible";

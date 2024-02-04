@@ -1,7 +1,9 @@
-import { createLogger, transports, format, Logger } from "winston";
+import { createLogger, transports, format, Logger } from 'winston';
 import { DateTime } from 'luxon';
+import { DEBUG_MODE } from '$env/static/private';
 
-const logger: Logger =  createLogger({
+const logger: Logger = createLogger({
+	level: DEBUG_MODE === 'true' ? 'debug' : undefined,
 	transports: [
 		new transports.Console({
 			format: format.combine(
@@ -9,36 +11,44 @@ const logger: Logger =  createLogger({
 				format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SS' }),
 				//@ts-expect-error The input is a destructured
 				format.printf(createLoggerFormat)
-			),
+			)
 		}),
 		new transports.File({
-			filename: `./logs/${DateTime.now().toFormat("yyyy-MM-dd-HH")}-log.log`,
+			filename: `./logs/${DateTime.now().toFormat('yyyy-MM-dd-HH')}-log.log`,
 			format: format.combine(
 				format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SS' }),
 				//@ts-expect-error The input is a destructured
 				format.printf(createLoggerFormat)
 			)
-		}),
+		})
 	],
 	defaultMeta: {
 		service: 'GPT'
 	}
 });
 
-function createLoggerFormat({ timestamp, level, message, service, data = null, errors = null, trace = null }: LoggerFields) {
+function createLoggerFormat({
+	timestamp,
+	level,
+	message,
+	service,
+	data = null,
+	errors = null,
+	trace = null
+}: LoggerFields) {
 	let logMessage = `[${timestamp}] ${service} [${level}]: ${message}`;
 
-	if(data) {
+	if (data) {
 		logMessage += `
 						data: ${typeof data === 'object' ? JSON.stringify(data) : data}`;
 	}
 
-	if(errors) {
+	if (errors) {
 		logMessage += `
 						errors: ${typeof errors === 'object' ? JSON.stringify(errors) : errors}`;
 	}
 
-	if(trace) {
+	if (trace) {
 		logMessage += `
 						errors: ${typeof trace === 'object' ? JSON.stringify(trace) : trace}`;
 	}
@@ -53,5 +63,5 @@ type LoggerFields = {
 	data: any;
 	errors: any;
 	trace: any;
-}
+};
 export default logger;

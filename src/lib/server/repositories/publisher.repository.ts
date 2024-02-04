@@ -15,12 +15,14 @@ export default class PublisherRepository implements Repository {
 				orderBy: { label: 'asc' }
 			});
 		} catch (error) {
-			if(error instanceof Error) {
-				logger.error('Error getting publishers for dropdown', { service: this._service, errors: error.message});
+			if (error instanceof Error) {
+				logger.error('Error getting publishers for dropdown', {
+					service: this._service,
+					errors: error.message
+				});
 			}
 
 			throw new DatabaseException('Error getting publishers for dropdown');
 		}
 	}
-
 }

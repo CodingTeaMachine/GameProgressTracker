@@ -31,8 +31,6 @@
 	export let data: PageData;
 	const toastStore = getToastStore();
 
-	// TODO: There is no error here, just phpstorm being dumb this update again...
-	// @ts-expect-error
 	const { form: newGameForm, enhance } = superForm(data.form, {
 		dataType: 'json',
 		taintedMessage: null,

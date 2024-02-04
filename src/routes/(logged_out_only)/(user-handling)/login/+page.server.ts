@@ -1,4 +1,4 @@
-import type { FailResponse } from "$types/clientTypes";
+import type { FailResponse } from '$types/clientTypes';
 import type { Actions } from '@sveltejs/kit';
 import { HttpStatusCode } from 'axios';
 import type { PageServerLoad } from './$types';
@@ -10,9 +10,8 @@ import { USERNAME_AUTH_PROVIDER } from '$lib/data/constants';
 import { userStore } from '$lib/stores/user';
 import { Pages } from '$types/enums/pages';
 import { LuciaError } from 'lucia';
-import { errorMessages, luciaErrors } from '$lib/validators/errorMesages';
+import { errorMessages, luciaErrors } from '$lib/validators/errorMessages';
 import { userHandling } from '$lib/data/userHandling';
-
 
 export const load = (async () => {
 	const form = await superValidate(loginSchema);
@@ -29,7 +28,11 @@ export const actions = {
 		}
 
 		try {
-			const user = await auth.useKey(USERNAME_AUTH_PROVIDER, form.data.username.toLowerCase(), form.data.password);
+			const user = await auth.useKey(
+				USERNAME_AUTH_PROVIDER,
+				form.data.username.toLowerCase(),
+				form.data.password
+			);
 			await userHandling.loginUser(user, locals, cookies);
 
 			userStore.user.login(user);
@@ -37,7 +40,10 @@ export const actions = {
 			console.log(e);
 			form.data.password = '';
 
-			if (e instanceof LuciaError && (e.message === luciaErrors.invalid_key || e.message === luciaErrors.invalid_password)) {
+			if (
+				e instanceof LuciaError &&
+				(e.errorMessage === luciaErrors.invalid_key || e.errorMessage === luciaErrors.invalid_password)
+			) {
 				form.errors.username = [errorMessages.login.invalid_username_or_password];
 
 				return fail(HttpStatusCode.BadRequest, { form });

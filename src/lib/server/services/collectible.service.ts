@@ -1,5 +1,5 @@
 import logger from '$lib/helpers/logger';
-import CollectibleServiceHelper from "$lib/helpers/serviceHelpers/collectibleServiceHelper";
+import CollectibleServiceHelper from "$/lib/helpers/serviceHelpers/CollectibleServiceHelper";
 import CollectibleRepository from "$lib/server/repositories/collectible.repository";
 import type { Area } from "$types/domain/area";
 import type { Collectible } from "$types/domain/collectible";

@@ -12,7 +12,12 @@ export async function GET({params}: RequestEvent)  {
 
 	const imageName  = params.imageName as string;
 
-	logger.debug("get image request with name: " + imageName, {service});
+	if(imageName === "null") {
+		logger.error("Get image request with null", {service});
+		return fail(HttpStatusCode.NotFound);
+	}
+
+	logger.debug("Get image request with name: " + imageName, {service});
 
 	const sanitizedImageName = normalize(imageName).replace(/^(\.\.[/\\])+/, '');
 	const imagePath = join('src', 'lib' , 'data', 'upload', GAME_COVER_IMAGE_FOLDER_NAME ,  sanitizedImageName);

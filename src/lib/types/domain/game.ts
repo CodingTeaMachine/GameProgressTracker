@@ -1,3 +1,4 @@
+import type { ExplorePagePlatform } from '$types/domain/platform';
 import type { z } from 'zod';
 import type { newGameSchema } from '$lib/validators/schemas/newGame.schema';
 import type Prisma from '@prisma/client';
@@ -32,4 +33,9 @@ export type GameToSave =
 
 export type GameDropdownItem = Pick<Prisma.Game, "id" | "title">
 
-export type ExplorePageGame = Pick<Prisma.Game, "id" | "title" | "cover"> & {platforms: string[]}
+export type ExplorePageGame = Pick<Prisma.Game, "id" | "title" | "cover"> & {Platforms: ExplorePagePlatform[]}
+
+export type ExplorePageLoad = {
+	games: ExplorePageGame[];
+	totalAmount: number;
+}
